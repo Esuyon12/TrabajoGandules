@@ -18,7 +18,7 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
     <div class="col-lg-12">
         <div class="d-flex justify-content-between align-items-center w-100">
             <div class="d-flex align-items-center">
-                <a href="#" onclick="addContrato(event);"><i class="bi bi-plus-lg"></i> Nuevo Registro</a>
+                <a href="#" onclick="addContrato();"><i class="bi bi-plus-lg"></i> Nuevo Registro</a>
             </div>
             <div class="d-flex">
                 <div class="form-floating shadow mb-4">
@@ -56,7 +56,7 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
                                     </div>
                                 </td>
                                 <td style="width: 5%;">
-                                    <a title="View" href="#" class="btn bg-success btn-outline-light btn-xs" onclick='viewContrato(<?= json_encode($result) ?>)'>
+                                    <a title="View" href="#" class="btn bg-success btn-outline-light btn-xs" onclick='editContrato(<?= json_encode($result) ?>)'>
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
                                 </td>
@@ -95,7 +95,7 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
         }
 
 
-        async function addContrato(event) {
+        async function addContrato() {
             event.preventDefault();
 
             head.innerHTML = "NUEVO CONTRATO";
@@ -108,9 +108,18 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
         </div>
         <input type="text" id="TIPOCONTRATO" name="TIPOCONTRATO" class="form-control" placeholder="..." autocomplete="off">
       </div>
-      <div class="form-floating mb-3">
-        <textarea id="summernoteEditor" name="CONTENIDO"></textarea>
-      </div>
+    
+      <div class="form-floating mb-4">
+        <div class="card border">
+            <div id="full" style="border: 1px solid #ced4da; border-radius: 0.25rem;">
+                <p>...</p>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="CONTENIDO" id="CONTENIDO">
+
+
     </form>
   `;
             foot.innerHTML = `
@@ -119,33 +128,30 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
     </button>
   `;
 
-            var options = {
-                toolbar: [
-                    ['style', ['bold', 'italic', 'underline']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['forecolor', 'backcolor']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['height', ['height']]
-                ],
-                placeholder: 'Escribe aquí tu mensaje...',
-                tabsize: 2,
-                height: 200,
-                fontSizes: ['8', '10', '12', '14', '18', '24', '36'] // Agrega los tamaños de fuente deseados
-            };
+            var quill = new Quill('#full', {
+                theme: 'snow'
+            });
 
-            var editor = $('#summernoteEditor');
-            editor.summernote(options);
+            document.getElementById('addContrato').addEventListener('submit', function() {
+                var tareaContent = quill.root.innerHTML;
+                document.getElementById('CONTENIDO').value = tareaContent;
+            });
+
 
             myModal.show();
 
             var modalDialog = document.querySelector(".modal-dialog");
             modalDialog.classList.add("modal-xl");
 
+            var quillOptions = document.querySelector('.ql-toolbar');
+            var quillContainer = document.querySelector('.ql-container');
+            quillContainer.appendChild(quillOptions);
+
+
             const form = document.getElementById("addContrato");
             const formFields = [
                 document.getElementById("TIPOCONTRATO"),
+                document.getElementById("CONTENIDO"),
             ];
 
             function validateForm() {
@@ -163,29 +169,21 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
 
             form.addEventListener("submit", async function(e) {
                 e.preventDefault();
+                // const formData = new FormData(form);
 
                 if (!validateForm()) {
-                    const errorElement = document.createElement("div");
-                    errorElement.classList.add("error-message");
-                    errorElement.innerText = "Todos los campos son obligatorios.";
-
-                    const existingErrorMessage = form.querySelector(".error-message");
-                    if (existingErrorMessage) {
-                        form.removeChild(existingErrorMessage);
-                    }
-
-                    form.appendChild(errorElement);
-
+                    Swal.fire({
+                        icon: "error",
+                        title: "Todos los campos son obligatorios.",
+                        showConfirmButton: false,
+                        timer: 1000,
+                    });
                     return;
                 }
 
-                const formData = new FormData(form);
+                const formData = new URLSearchParams(new FormData(form));
 
-                // Obtener el contenido del editor de texto
-                const contenidoContrato = editor.summernote("code");
 
-                // Asignar el contenido al campo "CONTENIDO" en el formulario
-                formData.append("CONTENIDO", contenidoContrato);
 
                 try {
                     let response = await fetch("<?php echo web_root ?>admin/tcontrato/controller.php?action=add", {
@@ -212,6 +210,7 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
                             icon: "error",
                             showConfirmButton: true,
                         });
+
                     }
                 } catch (error) {
                     Swal.fire({
@@ -224,101 +223,69 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
             });
         }
 
-        addContrato(event);
 
 
 
-        function viewContrato(result) {
+
+        function editContrato(a) {
             head.innerHTML = "Detalles de contrato";
             content.innerHTML = `
-                <form id="viewContrato">
-                    <input type="hidden" name="TCONTRATOID" value="${result.TCONTRATOID}">
+            <form action="controller.php?action=edit&id=${a['TCONTRATOID']}" method="POST" id="editContrato">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                         <span class="input-group-text">TITULO</span>
                         </div>
-                        <input type="text" id="asunto" name="TIPOCONTRATO" class="form-control" value="${result.TIPOCONTRATO}">
+                        <input type="text" id="TIPOCONTRATO" name="TIPOCONTRATO" class="form-control" value="${a['TIPOCONTRATO']}">
                     </div>
-                    <div class="form-floating mb-3">
-                        <div id="summernoteEditor">${result.CONTENIDO}</div>
+                    
+                 <div class="form-floating mb-4">
+                        <div class="card border">
+                            <div id="full" style="border: 1px solid #ced4da; border-radius: 0.25rem;"></div>
+                        </div>
                     </div>
+                    <input type="hidden" name="CONTENIDO" id="CONTENIDO">
+
                 </form>
             `;
             foot.innerHTML = `
-                <button form="viewContrato" class="btn bg-success text-white ml-1">
+                <button form="editContrato" class="btn bg-success text-white ml-1" name="save" onclick="updateContrato()">
                 <span class="d-none d-sm-block">Guardar</span>
                 </button>
             `;
 
-            var options = {
-                toolbar: [
-                    ['style', ['bold', 'italic', 'underline']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['forecolor', 'backcolor']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['height', ['height']]
-                ],
-                placeholder: 'Escribe aquí tu mensaje...',
-                tabsize: 2,
-                height: 200
-            };
+            var quill = new Quill('#full', {
+                theme: 'snow'
+            });
 
-            var editor = $('#summernoteEditor');
-            editor.summernote(options);
+            // Set the existing content in the editor
+            quill.clipboard.dangerouslyPasteHTML(a['CONTENIDO']);
+
+            // Update hidden input with Quill editor content on form submit
+            document.getElementById('editContrato').addEventListener('submit', function() {
+                var ContratoContent = quill.root.innerHTML;
+                document.getElementById('CONTENIDO').value = ContratoContent;
+            });
 
             myModal.show();
 
-            var modalDialog = document.querySelector(".modal-dialog");
-            modalDialog.classList.add("modal-xl");
+            // Mover las opciones del editor Quill a la parte inferior
+            var quillOptions = document.querySelector('.ql-toolbar');
+            var quillContainer = document.querySelector('.ql-container');
+            quillContainer.appendChild(quillOptions);
 
-            const viewForm = document.getElementById("viewContrato");
+        }
 
-            viewForm.addEventListener("submit", async function(e) {
-                e.preventDefault();
 
-                const formData = new FormData(viewForm);
+        function updateContrato() {
+            document.getElementById("editContrato").submit();
 
-                const nuevoContenidoContrato = editor.summernote("code");
-
-                formData.set("CONTENIDO", nuevoContenidoContrato);
-
-                try {
-                    let response = await fetch("<?php echo URL_WEB . web_root ?>admin/tcontrato/controller.php?action=update", {
-                        method: 'POST',
-                        body: formData
-                    });
-
-                    let data = await response.json()
-                    console.log(data);
-
-                    if (response.ok) {
-                        Swal.fire({
-                            title: "Éxito!",
-                            text: "Se actualizó correctamente.",
-                            icon: "success",
-                            showConfirmButton: true,
-                        });
-                        setTimeout(() => {
-                            location.reload();
-                        }, 1000);
-                    } else {
-                        Swal.fire({
-                            title: "Error!",
-                            text: "Error de actualización.",
-                            icon: "error",
-                            showConfirmButton: true,
-                        });
-                    }
-                } catch (error) {
-                    Swal.fire({
-                        title: "Error!",
-                        text: error.message,
-                        icon: "error",
-                        showConfirmButton: true,
-                    });
-                }
+            Swal.fire({
+                title: "Registro actualizado",
+                text: "El registro ha sido actualizado con éxito",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                timer: 5000,
+                timerProgressBar: true,
             });
         }
     </script>

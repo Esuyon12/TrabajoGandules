@@ -390,8 +390,7 @@ $cur = $mydb->loadResultList(); ?>
 		head.innerHTML = "Editar vacante de trabajo"
 		content.innerHTML = `
         <form id="editVacancy" >
-
-		
+	
 			<div class="form-floating mb-4">
 				<select class="form-control" id="COMPANYID" name="COMPANYID">
 					<option value="${a['COMPANYID']}">${a['COMPANYNAME']}</option>

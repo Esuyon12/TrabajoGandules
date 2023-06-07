@@ -255,7 +255,7 @@ $cur = $mydb->loadResultList(); ?>
     }
 
 
-    function updateIndicacion() {
+    function updateCorreo() {
         document.getElementById("editCorreo").submit();
 
         Swal.fire({

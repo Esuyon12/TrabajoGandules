@@ -44,18 +44,16 @@ function doInsert()
     try {
 
         if ($_POST['TIPOCONTRATO'] == "") {
-            throw new Exception("La categoría está vacía", 1);
+            throw new Exception("El resgitro está vacío", 400);
         }
 
         $sql = "SELECT * FROM tbltipocontrato WHERE TIPOCONTRATO LIKE '%" . trim($_POST['TIPOCONTRATO']) . "%'";
         $mydb->setQuery($sql);
         $cur = $mydb->executeQuery();
 
-        // print_r($cur);
-        // die();
 
         if ($cur->num_rows !== 0) {
-            throw new Exception("Ya existe este registro", 1);
+            throw new Exception("Ya existe este registro", 400);
         }
 
         $contrato = new Contrato();
@@ -64,10 +62,11 @@ function doInsert()
         $contrato->ESTADO = 1; // Cambia el estado a 1 (activo)
         $contrato->create();
 
+
         http_response_code(200);
 
         header('Content-Type: application/json');
-        echo json_encode(array("status" => "success", "message" => "Área agregada correctamente"));
+        echo json_encode(array("status" => "success", "message" => "Registro agregado correctamente"));
     } catch (Exception $e) {
         http_response_code(400);
         header('Content-Type: application/json');
@@ -92,32 +91,6 @@ function doEdit()
         $contrato->update($cod);
         echo json_encode(array("status" => "success", "message" => "Se actualizo"));
     } catch (Exception $e) {
-        echo json_encode(array("status" => "error", "message" => $e->getMessage()));
-    }
-}
-
-function doDelete()
-{
-    global $mydb;
-    try {
-        if (empty($_GET['id'])) {
-            throw new Exception("No existe ninguna id", 400);
-        }
-
-        $id = $_GET['id'];
-        $tcontrato = new Tcontrato();
-        $tcontrato->ESTADO = 0; //0 ES A INACTIVO
-
-        $tcontrato->update($_GET['id']);
-
-
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-        echo json_encode(array("status" => "success", "message" => "Se elimino correctamente"));
-    } catch (Exception $e) {
-        http_response_code(400);
-        header('Content-Type: application/json');
         echo json_encode(array("status" => "error", "message" => $e->getMessage()));
     }
 }

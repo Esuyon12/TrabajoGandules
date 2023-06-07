@@ -283,7 +283,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 				${tarea}
 			</div>
 			<div class="card bg-dark text-bg-dark" style="margin-bottom: 0px !important">
-				<div class="card-body text-center"
+				<div class="card-body text-letf"
 					${ata}
 				</div>
 			</div>
@@ -292,7 +292,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 			<button class="btn btn-primary" id="calc">Calificar</button>
 		`;
 
-			
+
 
 			document.getElementById("calc").addEventListener('click', async () => {
 				let formData = new FormData();
@@ -313,10 +313,12 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 				}
 			});
 
+			var modalDialog = myModal._element.querySelector('.modal-dialog');
+			modalDialog.classList.add('modal-xl');
 
 
 			myModal.show()
-			
+
 		}
 
 		function tmre(a, b) {

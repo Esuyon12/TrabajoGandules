@@ -56,7 +56,7 @@ $cur = $mydb->loadResultList(); ?>
                             </td>
 
                             <td style="width: 5%;">
-                                <a title="View" href="#" class="btn bg-success btn-outline-light btn-xs" onclick='viewEvaluacion(<?= json_encode($result) ?>)'>
+                                <a title="View" href="#" class="btn bg-success btn-outline-light btn-xs" onclick='editEvaluacion(<?= json_encode($result) ?>)'>
                                     <i class="bi bi-eye"></i></a>
                             </td>
                         </tr>
@@ -252,10 +252,10 @@ $cur = $mydb->loadResultList(); ?>
 
 
 
-    function viewEvaluacion(result) {
+    function editEvaluacion(result) {
         head.innerHTML = "Detalles de evaluación";
         content.innerHTML = `
-        <form id="viewEvaluacion">
+        <form id="editEvaluacion">
     <input type="hidden" name="IDEVALUACIONCREA" value="${result.IDEVALUACIONCREA}">
     <div class="form-group">
         <label for="ocupacion">Ocupación</label>
@@ -287,7 +287,7 @@ $cur = $mydb->loadResultList(); ?>
 
 `;
         foot.innerHTML = `
-<button form="viewEvaluacion" class="btn bg-success text-white ml-1">
+<button form="editEvaluacion" class="btn bg-success text-white ml-1">
     <span class="d-none d-sm-block">Guardar</span>
 </button>
 `;
@@ -298,7 +298,7 @@ $cur = $mydb->loadResultList(); ?>
         });
 
         // Update hidden input with Quill editor content on form submit
-        document.getElementById('viewEvaluacion').addEventListener('submit', function() {
+        document.getElementById('editEvaluacion').addEventListener('submit', function() {
             var tareaContent = quill.root.innerHTML;
             document.getElementById('TAREA').value = tareaContent;
         });
@@ -310,7 +310,7 @@ $cur = $mydb->loadResultList(); ?>
         var modalDialog = document.querySelector(".modal-dialog");
         modalDialog.classList.add("modal-lg");
 
-        const viewForm = document.getElementById("viewEvaluacion");
+        const viewForm = document.getElementById("editEvaluacion");
 
         viewForm.addEventListener("submit", async function(e) {
             e.preventDefault();

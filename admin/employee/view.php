@@ -192,7 +192,7 @@ $cur2 = $mydb->loadSingleResult();
 			${tarea}
 		</div>
 		<div class="card bg-dark text-bg-dark" style="margin-bottom: 0px !important">
-			<div class="card-body text-center"
+			<div class="card-body text-letf"
 				${ata}
 			</div>
 		</div>
