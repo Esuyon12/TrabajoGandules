@@ -125,12 +125,7 @@ require_once("include/initialize.php");
 
 $_POST['COMPANYID'] = $_SESSION['COMPANYID'];
 $_POST['JOBID'] = $_SESSION['JOBID'];
-// echo json_encode(array("post" => $_POST,"files" => $_FILES)); exit;
 
-// unset($_SESSION['COMPANYID']);
-// unset($_SESSION['JOBID']);
-
-// Obtener el archivo a subir
 $file = $_FILES['CVFILE'];
 
 // Crear un objeto CURLFile
@@ -146,7 +141,6 @@ $jobid = $_POST['JOBID'];
 
 $mydb->setQuery("SELECT * FROM tblapplicants a, tblocupaciones e WHERE a.DNI = '$dni' AND a.JOBID = '$jobid' AND a.JOBID = e.OCUPACIONID ");
 $search_corto = $mydb->loadResultList();
-
 
 if (count($search_corto) > 0) {
     $job = $search_corto[0]->OCUPACION;
@@ -175,8 +169,6 @@ if (count($search_corto) > 0) {
 
     echo $card;
 } else {
-
-
     // Inicializar la sesión CURL
     $ch = curl_init();
 
@@ -192,18 +184,9 @@ if (count($search_corto) > 0) {
     // Cerrar la sesión CURL
     curl_close($ch);
 
-    echo $response;
-    exit;
-
-    if ($response === false) {
-        $status = 'error';
-        $message = 'Ha ocurrido un error al enviar el formulario.';
-    } else {
-        $responseData = json_decode($response, true);
-        $status = isset($responseData['status']) ? $responseData['status'] : '';
-        $message = isset($responseData['message']) ? $responseData['message'] : '';
-    }
-
+    $responseData = json_decode($response, true);
+    $status = isset($responseData['status']) ? $responseData['status'] : '';
+    $message = isset($responseData['message']) ? $responseData['message'] : '';
 
     if ($status == 'success') {
         echo '<style>
@@ -259,28 +242,26 @@ if (count($search_corto) > 0) {
             }
         </style>';
 
-        if ($status == 'success') {
-            echo '<video class="video-background" autoplay loop muted>
-                <source src="assets/video/GandulesVideo.mp4" type="video/mp4">
-            </video>';
-            echo '<div class="card success-message">';
-            echo '<div class="message-content">';
-            echo '<i class="bi bi-emoji-laughing-fill"></i>';
-            echo '<p class="custom-message">Tu solicitud se procesó con éxito.</p>';
-            echo '</div>';
-            echo '<div class="tips">';
-            echo '<p>Espera la respuesta de nuestro personal de reclutamiento.</p>';
-            echo '<p>Te recomendamos seguir navegando en la web.</p>';
-            echo '<p><a href="index.php">Volver al inicio</a></p>';
-            echo '</div>';
-            echo '</div>';
-        } else {
-            echo '<div class="card error-message">';
-            echo '<div class="message-content">';
-            echo '<i class="bi bi-emoji-laughing-fill"></i>';
-            echo '<p>Error: ' . $message . '</p>';
-            echo '</div>';
-            echo '</div>';
-        }
+        echo '<video class="video-background" autoplay loop muted>
+            <source src="assets/video/GandulesVideo.mp4" type="video/mp4">
+        </video>';
+        echo '<div class="card success-message">';
+        echo '<div class="message-content">';
+        echo '<i class="bi bi-emoji-laughing-fill"></i>';
+        echo '<p class="custom-message">¡Tu solicitud se procesó con éxito!.</p>';
+        echo '</div>';
+        echo '<div class="tips">';
+        echo '<p>Espera la respuesta de nuestro personal de reclutamiento.</p>';
+        echo '<p>Te recomendamos seguir navegando en la web.</p>';
+        echo '<p><a href="index.php">Volver al inicio</a></p>';
+        echo '</div>';
+        echo '</div>';
+    } else {
+        echo '<div class="card error-message">';
+        echo '<div class="message-content">';
+        echo '<i class="bi bi-emoji-laughing-fill"></i>';
+        echo '<p>Error: ' . $message . '</p>';
+        echo '</div>';
+        echo '</div>';
     }
 }

@@ -166,37 +166,43 @@ if (!empty($_GET['TOKEN'])) {
     if (!empty($status)) { ?>
         <br>
         <br>
+
         <section class="blog-single">
             <div class=container>
                 <div class=row>
                     <div class="col-lg-9 col-md-12 col-12 mx-auto">
                         <div class=single-inner>
-                            <div class=post-details>
-                                <div class=detail-inner>
+                            <div class="post-details">
+                                <div class="detail-inner">
                                     <h2 class="card-title">
                                         <?php echo $status->OCUPACION ?>
                                     </h2>
-                                    <p style="margin-bottom: 2px !important;">Antes de comenzar tu examen, es importante tener en cuenta algunas instrucciones clave: </p>
-                                    <ul style="list-style-type: unset;" class="mx-4">
-                                        <li>Dispondrás de 60 minutos para completar esta evaluación.</li>
-                                        <li>Una vez que transcurran los 60 minutos, el examen se guardará automáticamente y será enviado para su evaluación.</li>
-                                        <li>Recomendamos encarecidamente que realices el examen en un entorno libre de distracciones y te enfoques por completo en la tarea.</li>
-                                        <li>Antes de iniciar, tómate un momento para relajarte y concentrarte. Respira profundamente y confía en tus habilidades.</li>
-                                        <li>Recuerda que este examen es una oportunidad para demostrar tus conocimientos y habilidades, así que da lo mejor de ti.</li>
-                                    </ul>
-                                    <p style="font-weight: 700;" class="text-end">¡Aprovecha cada minuto y buena suerte en tu evaluación!</p>
+                                    <?php
+                                    $sql = "SELECT * FROM `tblindicacioneseva`";
+                                    $mydb->setQuery($sql);
+                                    $cur = $mydb->loadResultList();
+                                    ?>
+
+                                    <div class="mx-4">
+                                        <?php foreach ($cur as $item) : ?>
+                                            <p><?php echo $item->DESCRIPCION ?></p>
+                                        <?php endforeach; ?>
+                                    </div>
+
                                     <form class="button text-end" action="" method="POST">
                                         <input type="hidden" name="test" value="start">
-                                        <button class="btn">Empezar evaluacion</button>
+                                        <button class="btn">Empezar evaluación</button>
                                     </form>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
                 </div>
             </div>
         </section>
+
     <?php } ?>
     <?php if (!empty($examen)) { ?>
         <div class=breadcrumbs>
@@ -222,6 +228,46 @@ if (!empty($_GET['TOKEN'])) {
         </div>
         <br>
         <br>
+
+        <style>
+            .alerta {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #D9AFD9;
+                background: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 20px;
+                text-align: center;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+                z-index: 9999;
+                width: 80%;
+                max-width: 600px;
+                height: auto;
+            }
+
+            .alerta-hidden {
+                display: none;
+            }
+
+            .mensaje {
+                font-size: 34px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: white;
+            }
+
+            .submensaje {
+                font-size: 18px;
+                color: #666;
+                color: white;
+            }
+        </style>
+
+
+
         <section class="blog-single mb-4">
             <div class=container>
                 <div class=row>
@@ -373,22 +419,35 @@ if (!empty($_GET['TOKEN'])) {
 
                 }
 
+
                 function finalizarExamen() {
-                    clearInterval(enviarRespuestaInterval); // Detener el envío automático cada 5 minutos
-                    // Aquí puedes agregar cualquier otra lógica adicional que desees realizar al finalizar el examen
-
-                    // Por ejemplo, puedes redirigir a otra página o mostrar un mensaje de finalización
-                    alert('Examen finalizado');
-
-                    // También puedes deshabilitar el botón de finalizar si no se desea que se pueda presionar nuevamente
+                    clearInterval(enviarRespuestaInterval);
                     botonFinalizar.disabled = true;
-                    respuesta.enable(false)
-
+                    respuesta.enable(false);
                     enviarRespuesta(formData.append('mood', "end"));
+
+                    var alerta = document.createElement("div");
+                    alerta.className = "alerta";
+
+                    var mensaje = document.createElement("div");
+                    mensaje.className = "mensaje";
+                    mensaje.textContent = "Felicitaciones";
+
+                    var submensaje = document.createElement("div");
+                    submensaje.className = "submensaje";
+                    submensaje.textContent = "Tu evaluación ha sido enviada";
+
+                    alerta.appendChild(mensaje);
+                    alerta.appendChild(submensaje);
+
+                    document.body.appendChild(alerta);
+
                     setTimeout(function() {
-                        location.reload()
-                    }, 3000)
+                        document.body.removeChild(alerta);
+                        location.reload();
+                    }, 13000);
                 }
+
 
 
                 botonFinalizar.addEventListener('click', finalizarExamen);

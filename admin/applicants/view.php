@@ -87,7 +87,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 						</div>
 					</div>
 					<div class="col-md-6">
-						<a class="d-flex px-5 py-2 justify-content-center rounded-3 btn btn-close-white text-bg-dark" onclick="mostrarPDF('<?php echo $appl->CVFILE; ?>')">
+						<a class="d-flex px-5 py-2 justify-content-center rounded-3 btn btn-grad " onclick="mostrarPDF('<?php echo $appl->CVFILE; ?>')">
 							<p>Visualizar</p>
 						</a>
 					</div>
@@ -100,7 +100,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 					<div class="d-flex align-items-center justify-content-between">
 						<h4 class="card-title">Desarrolo de evaluación</h4>
 						<?php if ($cur2->MSG == 0) { ?>
-							<div onclick="evalua()" class="btn btn-primary d-flex flex-column justify-content-center align-items-center">
+							<div onclick="evalua()" class="btn btn-cel d-flex flex-column justify-content-center align-items-center">
 								<ion-icon style="height: 25px;width: 25px;" name="send-outline"></ion-icon>
 								<p style="font-size: 10px;">Enviar</p>
 							</div>
@@ -189,25 +189,10 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 					<div class="value text-center" id="value" style="position: absolute;top: 60px;font-size: 30px; font-weight: bold;"></div>
 				</div>
 			</div>
-
-			<div class="card-header">
-				<h4>Keywords</h4>
-			</div>
-			<div class="card-body">
-				<div class="tags">
-					<?php if (empty($keyword)) { ?>
-						<span>No hay keywords relacionados</span>
-					<?php } else { ?>
-						<?php foreach ($keyword as $row) { ?>
-							<span class="badge bg-primary"><?php echo $row->keyword; ?></span>
-						<?php } ?>
-					<?php } ?>
-				</div>
-			</div>
-
 		</div>
 	</div>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Knob/1.2.13/jquery.knob.min.js"></script>
@@ -264,11 +249,11 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 		function viewEva(ata, tarea) {
 
 			// console.log(ata);
-			head.innerHTML = "Detalles de la evaluacion";
+			head.innerHTML = "";
 
 			content.innerHTML = `
 			<div class="d-flex justify-content-between">
-			<h2>TAREA</h2>
+			<h5 class="text-center text-uppercase"><?php echo $cur2->TITULO ?></h5>
 			<div class="d-flex align-items-center justify-content-end">
 				<a style="cursor:pointer;" class="d-flex p-2 rounded-start bg-body" onclick="tmre(1, 'RESULT')">
 					<ion-icon name="remove-outline"></ion-icon>
@@ -283,13 +268,13 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 				${tarea}
 			</div>
 			<div class="card bg-dark text-bg-dark" style="margin-bottom: 0px !important">
-				<div class="card-body text-letf"
+				<div class="card-body text-left"
 					${ata}
 				</div>
 			</div>
 		`
 			foot.innerHTML = `
-			<button class="btn btn-primary" id="calc">Calificar</button>
+			<button class="btn btn-grad" id="calc">Calificar</button>
 		`;
 
 
@@ -313,13 +298,11 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 				}
 			});
 
-			var modalDialog = myModal._element.querySelector('.modal-dialog');
+
 			modalDialog.classList.add('modal-xl');
-
-
-			myModal.show()
-
+			myModal.show();
 		}
+
 
 		function tmre(a, b) {
 			let RESULT = document.getElementById(b);
@@ -390,7 +373,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 				</form>
 			`;
 			foot.innerHTML = `
-				<button form="addEvaluacion" class="alert bg-success ml-1">
+				<button form="addEvaluacion" class="alert btn-grad ml-1">
 				<span class="d-none d-sm-block text-white">Registrar</span>
 				</button>
 			`;
@@ -538,6 +521,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 							</div>
 						`;
 						editor.clipboard.dangerouslyPasteHTML(text);
+
 
 						modalDialog.classList.remove('modal-lg');
 
@@ -841,9 +825,9 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
 				// Agregar el contenedor de botones al encabezado del modal
 				Mhead.innerHTML = `
-					<div class="d-flex gap-3">
+					<div class="d-flex gap-3 ">
 					<?php if (empty($cur2)) { ?>
-						<a href="#" class="d-flex gap-3 align-items-center btn btn-success" onclick="verMensaje(event);"><ion-icon name="checkmark-outline"></ion-icon>Aprobar</a>
+						<a href="#" class="d-flex gap-3 align-items-center btn btn-grad" onclick="verMensaje(event);"><ion-icon name="checkmark-outline"></ion-icon>Aprobar</a>
 					<?php } ?>
 					</div>`
 

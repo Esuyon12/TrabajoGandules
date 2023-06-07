@@ -144,8 +144,7 @@ $cur2 = $mydb->loadSingleResult();
 		});
 
 		// Establecer el contenido del contrato en el editor Quill
-		quill.root.innerHTML = "<?php echo $cur2->CONTENIDO; ?>";
-	}
+C	}
 
 	function guardarContrato() {
 		var contenidoModificado = quill.root.innerHTML;

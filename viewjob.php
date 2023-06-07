@@ -148,7 +148,7 @@ foreach ($cur as $result) {
         align-items: center; */
     }
 
-    
+
     .filepond-file-container.invalid {
         background-color: #ff6060;
         /* Fondo rojo */
@@ -373,7 +373,7 @@ foreach ($cur as $result) {
         var dni = document.getElementById("DNI");
         var contactno = document.getElementById("CONTACTNO");
         var email = document.getElementById("EMAILADDRESS");
-        var cvfile = document.getElementById("CVFILE");
+        var cvfile = document.getElementById("filepond");
 
         // Limpiar los estilos de validación previos
         clearValidationStyles();
@@ -381,78 +381,68 @@ foreach ($cur as $result) {
         // Verificar los campos obligatorios
         if (dni.value === "") {
             showErrorFeedback("dni-error", "Ingrese su DNI");
-            dni.classList.add("is-invalid");
             return false;
-        } else {
-            clearField("dni-error", dni);
         }
 
         if (contactno.value === "") {
             showErrorFeedback("contactno-error", "Ingrese su número de contacto");
-            contactno.classList.add("is-invalid");
             return false;
-        } else {
-            clearField("contactno-error", contactno);
         }
 
         // Verificar la longitud del número de contacto
         if (contactno.value.length !== 9) {
-            showErrorFeedback("contactno-error", "El número de telefono debe tener 9 dígitos");
-            contactno.classList.add("is-invalid");
+            showErrorFeedback("contactno-error", "El número de teléfono debe tener 9 dígitos");
             return false;
-        } else {
-            clearField("contactno-error", contactno);
         }
-
 
         if (email.value === "") {
             showErrorFeedback("email-error", "Ingrese su correo electrónico");
-            email.classList.add("is-invalid");
             return false;
-        } else {
-            clearField("email-error", email);
         }
 
         if (cvfile.value === "") {
             showErrorFeedback("cvfile-error", "Debe seleccionar un archivo para enviar");
-            cvfile.classList.add("is-invalid");
             return false;
-        } else {
-            clearField("cvfile-error", cvfile);
         }
 
         // Verificar el formato y longitud del DNI
         var numbersOnlyPattern = /^\d+$/;
         if (!numbersOnlyPattern.test(dni.value)) {
             showErrorFeedback("dni-error", "El DNI solo debe contener números");
-            dni.classList.add("is-invalid");
             return false;
-        } else {
-            clearField("dni-error", dni);
         }
 
         if (dni.value.length !== 8) {
             showErrorFeedback("dni-error", "El DNI debe tener 8 dígitos");
-            dni.classList.add("is-invalid");
             return false;
-        } else {
-            clearField("dni-error", dni);
-        }
-
-        // Verificar que el archivo sea un PDF
-        var allowedExtensions = /(\.pdf)$/i;
-        if (!allowedExtensions.exec(cvfile.value)) {
-            showErrorFeedback("cvfile-error", "El archivo debe ser un PDF");
-            cvfile.classList.add("is-invalid");
-            return false;
-        } else {
-            clearField("cvfile-error", cvfile);
         }
 
         // Mostrar mensaje de éxito
         showSuccessMessage("El formulario ha sido enviado correctamente");
         return true;
     }
+
+    function clearValidationStyles() {
+        var errorFeedbacks = document.querySelectorAll(".invalid-feedback");
+        for (var i = 0; i < errorFeedbacks.length; i++) {
+            errorFeedbacks[i].textContent = "";
+        }
+    }
+
+    function showErrorFeedback(id, message) {
+        var errorElement = document.getElementById(id);
+        errorElement.textContent = message;
+    }
+
+    function showSuccessMessage(message) {
+        var successMessage = document.createElement("div");
+        successMessage.className = "alert alert-success mt-3";
+        successMessage.textContent = message;
+
+        var form = document.getElementById("aplicant");
+        form.appendChild(successMessage);
+    }
+
 
     function clearValidationStyles() {
         var inputs = document.querySelectorAll("input");
