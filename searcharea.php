@@ -16,17 +16,6 @@ $cur = $mydb->loadResultList();
 
 <div class="container-md mt-5">
     <div class="row">
-        <!-- <div class="col-md-3">
-            <div class="card border">
-                <div class="card-body">
-                    <div class="container-fluid">
-                        <div class="d-flex flex-column mb-3">
-                            <h5>Fecha de publicación</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
 
         <div class="col-md-12 mb-5">
             <?php
@@ -58,9 +47,7 @@ $cur = $mydb->loadResultList();
                                             </div>
 
                                             <div class="d-flex mb-4">
-                                                <!-- <p> Descripcion</p> -->
                                                 <p class="text-muted"><?php echo $result->INFOJOB ?></p>
-
                                             </div>
 
                                             <div class="d-flex justify-content-between align-items-center">

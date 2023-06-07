@@ -24,60 +24,83 @@ $cur = $mydb->loadResultList();
 <div class="container-md mt-5">
     <div class="row">
         <div class="col-md-3 position-relative">
-            <div class="card fixed-col">
+            <div class="card border-0 shadow-sm fixed-col">
                 <div class="card-body">
-                    <div class="container-fluid">
-                        <div class="d-flex flex-column mb-2">
-                            <p class="text-muted"><b>Filtros</b></p>
-                        </div>
-
-                        <div id="filtro">
-                            <div class="form-floating mb-3">
-                                <div class="form-control bg-light text-left" style="min-height: 30px;">
-                                    <i class="bi bi-calendar2-week" style="color: green;"></i> <a href="#">Fecha de publicación</a>
-                                </div>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <div class="form-control bg-light text-left" style="min-height: 30px;">
-                                    <i class="bi bi-box" style="color: green;"></i> <a href="#">Area</a>
-                                </div>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <div class="form-control bg-light text-left" style="min-height: 30px;">
-                                    <i class="bi bi-geo-fill" style="color: green;"></i> <a href="#">Ubicación</a>
-                                </div>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <div class="form-control bg-light text-left" style="min-height: 30px;">
-                                    <i class="bi bi-briefcase" style="color: green;"></i> <a href="#"> Tipo de contrato</a>
-                                </div>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <div class="form-control bg-light text-left" style="min-height: 30px;">
-                                    <i class="bi bi-stopwatch" style="color: green;"></i> <a href="#">Modalidad de trabajo</a>
-                                </div>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <div class="form-control bg-light text-left" style="min-height: 30px;">
-                                    <i class="bi bi-gender-ambiguous" style="color: green;"></i> <a href="#">Genero</a>
-                                </div>
-                            </div>
-                        </div>
-
-
+                    <div class="d-flex flex-column mb-2">
+                        <p class="text-muted"><b>Filtros</b></p>
                     </div>
+
+                    <div id="filtro" class="">
+                        <a href="#collapseFecha" data-bs-toggle="collapse" role="button" class="bg-light d-flex gap-2 align-items-center p-2 rounded-pill">
+                            <i class="bi bi-calendar2-week" style="color: green;"></i>
+                            <p style="margin-bottom: 0 !important;">Fecha de publicación</p>
+                        </a>
+
+                        <div class="collapse" id="collapseFecha">
+                            <div class="card card-body  border-0">
+                                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                            </div>
+                        </div>
+
+                        <a href="#collapseArea" data-bs-toggle="collapse" role="button" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill">
+                            <i class="bi bi-box" style="color: green;"></i>
+                            <p style="margin-bottom: 0 !important;">Area</p>
+                        </a>
+
+                        <div class="collapse" id="collapseArea">
+                            <div class="card card-body  border-0">
+                                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                            </div>
+                        </div>
+
+                        <a href="#collapseUbi" data-bs-toggle="collapse" role="button" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill">
+                            <i class="bi bi-geo-fill" style="color: green;"></i>
+                            <p style="margin-bottom: 0 !important;">Ubicación</p>
+                        </a>
+
+                        <div class="collapse" id="collapseUbi">
+                            <div class="card card-body  border-0">
+                                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                            </div>
+                        </div>
+
+                        <a href="#collapseCon" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill" data-bs-toggle="collapse" role="button">
+                            <i class="bi bi-briefcase" style="color: green;"></i>
+                            <p style="margin-bottom: 0 !important;">Tipo de contrato</p>
+                        </a>
+
+                        <div class="collapse" id="collapseCon">
+                            <div class="card card-body  border-0">
+                                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                            </div>
+                        </div>
+
+                        <a href="#" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill">
+                            <i class="bi bi-stopwatch" style="color: green;"></i>
+                            <p style="margin-bottom: 0 !important;">Modalidad de trabajo</p>
+                        </a>
+
+                        <a href="#" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill">
+                            <i class="bi bi-gender-ambiguous" style="color: green;"></i>
+                            <p style="margin-bottom: 0 !important;">Genero</p>
+                        </a>
+                    </div>
+
+
                 </div>
+
+
             </div>
         </div>
 
         <div class="col-md-9 mb-5">
             <?php
-            $countAreas = count(array_filter($cur, function ($result) {
-                return $result->ESTADO == 1;
-            }));
+            $sql = "SELECT * FROM `tblareas` WHERE `ESTADO` = 1";
+            $mydb->setQuery($sql);
+            $cur = $mydb->loadResultList();
+            $countAreas = count($cur);
             ?>
             <p><b><?php echo $countAreas; ?></b> áreas disponibles </p>
-
             <div class="row">
                 <?php
                 foreach ($cur as $area) {
@@ -94,7 +117,6 @@ $cur = $mydb->loadResultList();
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="d-flex">
                                                 <p class="text-muted me-4">
@@ -112,5 +134,6 @@ $cur = $mydb->loadResultList();
                 ?>
             </div>
         </div>
+
     </div>
 </div>

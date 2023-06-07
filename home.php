@@ -69,7 +69,6 @@
             </div>
             <div class="ps-3">
               <h4>Compromiso con el desarrollo profesional</h4>
-              <!-- <span>Clita erat ipsum lorem sit sed stet duo justo</span> -->
             </div>
           </div>
         </div>
@@ -188,8 +187,6 @@
 </div>
 <!-- Facts End -->
 
-
-
 <!-- Service Start -->
 <div class="container-xxl py-5">
   <div class="container">
@@ -241,53 +238,6 @@
   </div>
 </div>
 <!-- Service End -->
-
-
-<!-- Quote Start -->
-<!-- <div class="container-fluid quote my-5 py-5" data-parallax="scroll" data-image-src="assets/img/carrosel1.PNG">
-  <div class="container py-5">
-    <div class="row justify-content-center">
-      <div class="col-lg-12">
-        <div class="row">
-          <div class="col-lg-12 mb-4">
-            <div class="bg-white rounded p-sm-4">
-              <h1 class="fs-5 fw-bold text-primary">Cultura de respeto y diversidad</h1>
-              <p class="mb-6"> En nuestra empresa, valoramos y celebramos la diversidad en todas sus formas.
-                Promovemos un ambiente de trabajo inclusivo y respetuoso, donde cada persona es valorada por
-                sus habilidades, experiencia y contribuciones únicas. No toleramos la discriminación y nos esforzamos
-                por crear un entorno donde todos los empleados se sientan bienvenidos, respetados y apoyados. Creemos
-                firmemente que al fomentar la diversidad, impulsamos la innovación y el éxito colectivo.</p>
-            </div>
-          </div>
-          <div class="col-lg-12 mb-4">
-            <div class="bg-white rounded p-5 p-sm-5 wow fadeIn">
-              <h1 class="fs-5 fw-bold text-primary">Prioridad en la inocuidad y bienestar</h1>
-              <p class="mb-4">Si trabajamos en la industria de alimentos o en cualquier otra donde la seguridad y la inocuidad sean
-                esenciales, queremos que sepas que la calidad y la seguridad son nuestras principales preocupaciones.
-                Implementamos rigurosos controles de calidad y nos adherimos a las normas y regulaciones más estrictas.
-                Nuestro compromiso con la inocuidad se extiende tanto a nuestros productos o servicios como a nuestros empleados
-                y clientes, garantizando un entorno de trabajo seguro y saludable. </p>
-            </div>
-          </div>
-          <div class="col-lg-12 mb-4">
-            <div class="bg-white rounded p-5 p-sm-5 wow fadeIn">
-              <h1 class="fs-5 fw-bold text-primary">Compromiso con tu desarrollo profesional</h1>
-              <p class="mb-4">
-                Valoramos a nuestros empleados y creemos en su crecimiento y desarrollo continuo.
-                Ofrecemos programas de capacitación y desarrollo personalizados, oportunidades de promoción interna
-                y proyectos desafiantes que te permitirán expandir tus habilidades y conocimientos. Estamos comprometidos
-                a ayudarte a alcanzar tus metas profesionales y brindarte el apoyo necesario en cada etapa de tu carrera.</p>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-<!-- Quote End -->
-
-
 
 <style>
   .about_area .about_exp {
@@ -375,9 +325,6 @@
 </div>
 <!-- about_area_emsnd  -->
 
-
-
-<!-- Service Start -->
 <div class="container-xxl py-5">
   <div class="container">
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
@@ -387,14 +334,15 @@
 
     <div class="row g-4">
       <?php
-      $sql = "SELECT * FROM `tblareas`";
+      $sql = "SELECT * FROM `tblareas` WHERE `ESTADO` = 1";
       $mydb->setQuery($sql);
       $cur = $mydb->loadResultList();
       $counter = 0;
 
       foreach ($cur as $result) {
         $counter++;
-        if ($counter <= 6) { ?>
+        if ($counter <= 6) {
+      ?>
 
           <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
             <div class="service-item rounded d-flex flex-column h-100">
@@ -406,7 +354,8 @@
             </div>
           </div>
 
-      <?php  }
+      <?php
+        }
       }
       ?>
 
@@ -421,65 +370,3 @@
 
   </div>
 </div>
-
-
-
-
-
-<!-- Projects Start -->
-<!-- <div class="container-xxl py-5">
-  <div class="container">
-    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-      <h1 class="display-5 mb-5">Areas</h1>
-    </div>
-    <div class="row wow fadeInUp" data-wow-delay="0.3s">
-      <div class="col-12 text-center">
-        <ul class="list-inline rounded mb-5" id="portfolio-flters">
-          <li class="mx-2 active" data-filter="*">Todo</li>
-          <li class="mx-2" data-filter=".first">Por sede</li>
-          <li class="mx-2" data-filter=".second">Por ocupacion</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="row g-4 portfolio-container">
-      <div class="col-lg-4 col-md-6 portfolio-item first wow fadeInUp" data-wow-delay="0.1s">
-        <div class="portfolio-inner rounded">
-          <img class="img-fluid" src="assets/img/service-1.jpg" alt="">
-          <div class="portfolio-text">
-            <h4 class="text-white mb-4">Landscaping</h4>
-            <div class="d-flex">
-              <a class="btn btn-lg-square rounded-circle mx-2" href="assets/img/service-1.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-              <a class="btn btn-lg-square rounded-circle mx-2" href=""><i class="fa fa-link"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 portfolio-item second wow fadeInUp" data-wow-delay="0.3s">
-        <div class="portfolio-inner rounded">
-          <img class="img-fluid" src="assets/img/service-2.jpg" alt="">
-          <div class="portfolio-text">
-            <h4 class="text-white mb-4">Pruning plants</h4>
-            <div class="d-flex">
-              <a class="btn btn-lg-square rounded-circle mx-2" href="assets/img/service-2.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-              <a class="btn btn-lg-square rounded-circle mx-2" href=""><i class="fa fa-link"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 portfolio-item first wow fadeInUp" data-wow-delay="0.5s">
-        <div class="portfolio-inner rounded">
-          <img class="img-fluid" src="assets/img/service-3.jpg" alt="">
-          <div class="portfolio-text">
-            <h4 class="text-white mb-4">Irrigation & Drainage</h4>
-            <div class="d-flex">
-              <a class="btn btn-lg-square rounded-circle mx-2" href="assets/img/service-3.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-              <a class="btn btn-lg-square rounded-circle mx-2" href=""><i class="fa fa-link"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-<!-- Projects End -->

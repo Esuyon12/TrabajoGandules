@@ -71,13 +71,24 @@
                             $searchParam = isset($_GET['search']) ? $_GET['search'] : '';
                             $isActive = $searchParam === $area ? 'active' : '';
                             $link = web_root . "index.php?q=searcharea&search=$area";
+
+                            // Check if the area is active
+                            $areaIsActive = $result->ESTADO == 1;
+
+                            // Only display active areas
+                            if ($areaIsActive) {
                         ?>
-                            <li>
-                                <a href="<?= $link ?>" class="dropdown-item text-truncate <?= $isActive ?>"><?= $area ?></a>
-                            </li>
-                        <?php } ?>
+                                <li>
+                                    <a href="<?= $link ?>" class="dropdown-item text-truncate <?= $isActive ?>"><?= $area ?></a>
+                                </li>
+                        <?php
+                            }
+                        }
+                        ?>
                     </ul>
                 </li>
+
+
                 <li class="nav-item">
                     <a href="<?php echo web_root; ?>index.php?q=trabajos" class="nav-link">Trabajos</a>
                 </li>

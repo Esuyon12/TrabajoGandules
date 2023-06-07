@@ -23,7 +23,7 @@
           <div class="col-lg-3 col-md-3">
             <h4 class="text-white mb-4">Sedes</h4>
             <?php
-            $sql = "SELECT * FROM `tblcompany`";
+            $sql = "SELECT * FROM `tblcompany`  WHERE `COMPANYSTATUS` = 1";
             $mydb->setQuery($sql);
             $comp = $mydb->loadResultList();
             ?>
@@ -47,7 +47,7 @@
           <div class="col-lg-3 col-md-6">
             <h4 class="text-white mb-4">Areas</h4>
             <?php
-            $sql = "SELECT * FROM `tblareas`";
+            $sql = "SELECT * FROM `tblareas` WHERE `ESTADO` = 1";
             $mydb->setQuery($sql);
             $cur = $mydb->loadResultList();
             $counter = 0;
@@ -80,11 +80,9 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-            &copy; <a class="border-bottom" href="#">Empleos Gandules</a>, todos los derechos reservados..
+            &copy; <a class="border-bottom" href="Index.php">Trabaja con nosotros Gandules</a>, todos los derechos son reservados.
           </div>
           <div class="col-md-6 text-center text-md-end">
-            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-            <!-- Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a href="https://themewagon.com">ThemeWagon</a> -->
           </div>
         </div>
       </div>
@@ -108,7 +106,6 @@
     <script src="assets/lib/isotope/isotope.pkgd.min.js"></script>
     <script src="assets/lib/lightbox/js/lightbox.min.js"></script>
 
-    <!-- Template Javascript -->
     <script src="assets/js/main.js"></script>
     </body>
 
