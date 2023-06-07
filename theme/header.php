@@ -23,6 +23,40 @@
     <!-- Template Stylesheet -->
     <link href="assets/css/style.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://use.typekit.net/idd0zbe.css" />
+
+
+    <link rel="stylesheet" type="text/css" href="assets/dist/base.98fd6c19.css" />
+
+    <script>
+        document.documentElement.className = "js";
+
+        var supportsCssVars = function supportsCssVars() {
+            var e,
+                t = document.createElement("style");
+            return (
+                (t.innerHTML = "root: { --tmp-var: bold; }"),
+                document.head.appendChild(t),
+                (e = !!(
+                    window.CSS &&
+                    window.CSS.supports &&
+                    window.CSS.supports("font-weight", "var(--tmp-var)")
+                )),
+                t.parentNode.removeChild(t),
+                e
+            );
+        };
+
+        supportsCssVars() ||
+            alert(
+                "Please view this demo in a modern browser that supports CSS Variables."
+            );
+    </script>
+
+
+
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-...Tu-valor-de-integridad-aquí..." crossorigin="anonymous">
     <style>
         .navbar .dropstart .dropdown-menu[data-bs-popper] {

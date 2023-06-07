@@ -2,7 +2,7 @@
   <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img class="w-100" src="assets/img/carousel-1.jpg" alt="Image">
+        <img class="w-100" src="assets/images/about/personal.jpg" alt="Image">
         <div class="carousel-caption">
           <div class="container">
             <div class="row justify-content-center">
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="carousel-item">
-        <img class="w-100" src="assets/img/carousel-2.jpg" alt="Image">
+        <img class="w-100" src="assets/images/about/personal.jpg" alt="Image">
         <div class="carousel-caption">
           <div class="container">
             <div class="row justify-content-center">
@@ -40,6 +40,66 @@
   </div>
 </div>
 
+<!-- <main class="intro" style="background-color: #2fa14c;
+background-image: linear-gradient(132deg, #2fa14c 0%, #a1af31 100%);
+;">
+  <div class="content">
+    <div class="grid">
+      <div class="grid__item grid__item--a" style="background-image: url(assets/dist/3.a433b89d.jpg)"></div>
+      <div class="grid__item grid__item--b" style="background-image: url(assets/dist/2.3ca6bb44.jpg)"></div>
+      <div class="grid__item grid__item--c" style="background-image: url(assets/dist/10.5e22fdc3.jpg)"></div>
+      <div class="grid__item grid__item--d" style="background-image: url(assets/dist/5.689b68fd.jpg)"></div>
+      <div class="grid__item grid__item--e" style="background-image: url(assets/dist/8.f4323fe0.jpg)"></div>
+      <div class="grid__item grid__item--f" style="background-image: url(assets/dist/6.e96dcfff.jpg)"></div>
+    </div>
+    <nav class="menu">
+      <a class="menu__item"> -->
+<!-- <h2 class="menu__item-title">Gandules</h2> -->
+<!-- </a>
+      <a class="menu__item menu__item--current">
+        <h2 class="menu__item-title" style="font-size: 50px;">Lo mejor de nuestros campos
+          para todo el mundo</h2>
+        <p class="menu__item-subtitle" style="color: #000;">Trabaja con nosotros</p>
+      </a>
+      <a class="menu__item"> -->
+<!-- <h2 class="menu__item-title">Gandules</h2> -->
+<!-- </a>
+    </nav>
+  </div>
+  <div class="layers">
+    <div class="layers__item">
+      <div class="layers__item-img" style="background-image: url(assets/dist/1.dc197a9a.jpg)"></div>
+    </div>
+    <div class="layers__item">
+      <div class="layers__item-img" style="background-image: url(assets/dist/2.3ca6bb44.jpg)"></div>
+    </div>
+    <div class="layers__item">
+      <div class="layers__item-img" style="background-image: url(assets/dist/3.a433b89d.jpg)"></div>
+    </div>
+    <div class="layers__item">
+      <div class="layers__item-img" style="background-image: url(assets/dist/4.c6d96be5.jpg)"></div>
+    </div>
+    <div class="layers__item">
+      <div class="layers__item-img" style="background-image: url(assets/dist/9.c9233dac.jpg)"></div>
+    </div>
+    <div class="layers__item">
+      <div class="layers__item-img" style="background-image: url(assets/dist/6.e96dcfff.jpg)"></div>
+    </div>
+    <div class="layers__item">
+      <div class="layers__item-img" style="background-image: url(assets/dist/7.2d66e3ed.jpg)"></div>
+    </div>
+    <div class="layers__item">
+      <div class="layers__item-img" style="background-image: url(assets/dist/8.f4323fe0.jpg)"></div>
+    </div>
+    <div class="layers__item">
+      <div class="layers__item-img" style="background-image: url(assets/dist/5.689b68fd.jpg)"></div>
+    </div>
+    <div class="layers__item">
+      <div class="layers__item-img" style="background-image: url(assets/dist/10.5e22fdc3.jpg)"></div>
+    </div>
+  </div>
+</main> -->
+
 
 
 <style>
@@ -55,7 +115,6 @@
     object-fit: cover;
   }
 </style>
-
 
 <!-- Top Feature Start -->
 <div class="container-fluid top-feature py-5 pt-lg-0">

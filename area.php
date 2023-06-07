@@ -120,7 +120,7 @@ $cur = $mydb->loadResultList();
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="d-flex">
                                                 <p class="text-muted me-4">
-                                                    <i class="bi bi-building"></i> <?php echo $area->COMPANYNAME ?>
+                                                    <!-- <i class="bi bi-building"></i> <?php echo $area->COMPANYNAME ?> -->
                                                 </p>
                                             </div>
                                         </div>
