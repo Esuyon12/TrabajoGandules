@@ -41,7 +41,7 @@
                                 'Saturday' => 'Sábado'
                             );
 
-                            // Obtener los nombres de los días de la semana y del mes en español
+                            // Obtener los nombress de los días de la semana y del mes en español
                             $fecha_formateada = $dias_semana[date('l', strtotime($fecha))] . ', ' . date('d', strtotime($fecha)) . ' de ' . $meses[date('F', strtotime($fecha))] . ' de ' . date('Y', strtotime($fecha));
 
                             echo $fecha_formateada;
