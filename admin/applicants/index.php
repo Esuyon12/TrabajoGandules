@@ -1,0 +1,31 @@
+<?php
+require_once("../../include/initialize.php");
+if (!isset($_SESSION['ADMIN_USERID'])) {
+	redirect(web_root . "admin/index.php");
+}
+$mydb->setQuery("SELECT count(*) FROM  tblapplicants");
+$count = $mydb->loadResultList();
+
+$view = (isset($_GET['view']) && $_GET['view'] != '') ? $_GET['view'] : '';
+$title = "Solicitantes | Gandules";
+$header = $view;
+switch ($view) {
+	case 'list':
+		$content    = 'list.php';
+		break;
+
+	case 'add':
+		$content    = 'add.php';
+		break;
+
+	case 'edit':
+		$content    = 'edit.php';
+		break;
+	case 'view':
+		$content    = 'view.php';
+		break;
+
+	default:
+		$content    = 'list.php';
+}
+require "../theme/template.php";
