@@ -13,27 +13,6 @@ $cur = $mydb->loadResultList();
 
 <div class="container-md mt-5">
     <div class="row">
-        <!-- <div class="col-md-3 position-relative">
-            <div class="card fixed-col">
-                <div class="card-body">
-                    <div class="container-fluid">
-                        <div class="d-flex flex-column mb-2">
-                            <p class="text-muted"><b>Filtros</b></p>
-                        </div>
-
-                        <div id="filtro">
-                            <div class="form-floating mb-3">
-                                <div class="form-control bg-light text-left" style="min-height: 30px;">
-                                    <i class="bi bi-calendar2-week" style="color: green;"></i> <a href="#">Volver</a>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <div class="col-md-12 mb-5">
             <div class="col-lg-12">
                 <?php if (!empty($cur)) { ?>

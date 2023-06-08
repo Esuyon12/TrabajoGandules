@@ -22,6 +22,8 @@
 
     <!-- Template Stylesheet -->
     <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/styles.css" rel="stylesheet">
+
 
     <link rel="stylesheet" href="https://use.typekit.net/idd0zbe.css" />
 
@@ -92,7 +94,7 @@
                     <a href="<?php echo web_root; ?>index.php?q=company" class="nav-link">Sedes</a>
                 </li>
                 <li class="btn-group dropstart">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" ondblclick="window.location.href='<?php echo URL_WEB . web_root; ?>index.php?q=area'">
                         Areas
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">

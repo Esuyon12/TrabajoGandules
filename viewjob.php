@@ -373,7 +373,6 @@ foreach ($cur as $result) {
         var dni = document.getElementById("DNI");
         var contactno = document.getElementById("CONTACTNO");
         var email = document.getElementById("EMAILADDRESS");
-        var cvfile = document.getElementById("filepond");
 
         // Limpiar los estilos de validación previos
         clearValidationStyles();
@@ -381,27 +380,26 @@ foreach ($cur as $result) {
         // Verificar los campos obligatorios
         if (dni.value === "") {
             showErrorFeedback("dni-error", "Ingrese su DNI");
+            dni.classList.add("is-invalid");
             return false;
         }
 
         if (contactno.value === "") {
             showErrorFeedback("contactno-error", "Ingrese su número de contacto");
+            contactno.classList.add("is-invalid");
             return false;
         }
 
         // Verificar la longitud del número de contacto
         if (contactno.value.length !== 9) {
             showErrorFeedback("contactno-error", "El número de teléfono debe tener 9 dígitos");
+            contactno.classList.add("is-invalid");
             return false;
         }
 
         if (email.value === "") {
             showErrorFeedback("email-error", "Ingrese su correo electrónico");
-            return false;
-        }
-
-        if (cvfile.value === "") {
-            showErrorFeedback("cvfile-error", "Debe seleccionar un archivo para enviar");
+            email.classList.add("is-invalid");
             return false;
         }
 
@@ -409,11 +407,13 @@ foreach ($cur as $result) {
         var numbersOnlyPattern = /^\d+$/;
         if (!numbersOnlyPattern.test(dni.value)) {
             showErrorFeedback("dni-error", "El DNI solo debe contener números");
+            dni.classList.add("is-invalid");
             return false;
         }
 
         if (dni.value.length !== 8) {
             showErrorFeedback("dni-error", "El DNI debe tener 8 dígitos");
+            dni.classList.add("is-invalid");
             return false;
         }
 
@@ -423,10 +423,15 @@ foreach ($cur as $result) {
     }
 
     function clearValidationStyles() {
-        var errorFeedbacks = document.querySelectorAll(".invalid-feedback");
-        for (var i = 0; i < errorFeedbacks.length; i++) {
-            errorFeedbacks[i].textContent = "";
-        }
+        var inputs = document.querySelectorAll("input");
+        inputs.forEach(function(input) {
+            input.classList.remove("is-invalid");
+        });
+
+        var errorElements = document.querySelectorAll(".invalid-feedback");
+        errorElements.forEach(function(errorElement) {
+            errorElement.textContent = "";
+        });
     }
 
     function showErrorFeedback(id, message) {
@@ -441,42 +446,5 @@ foreach ($cur as $result) {
 
         var form = document.getElementById("aplicant");
         form.appendChild(successMessage);
-    }
-
-
-    function clearValidationStyles() {
-        var inputs = document.querySelectorAll("input");
-        inputs.forEach(function(input) {
-            input.classList.remove("is-invalid");
-        });
-
-        var errorElements = document.querySelectorAll(".error-feedback");
-        errorElements.forEach(function(errorElement) {
-            errorElement.style.display = "none";
-        });
-    }
-
-    function clearField(elementId, field) {
-        var errorElement = document.getElementById(elementId);
-        errorElement.innerText = "";
-        field.classList.remove("is-invalid");
-    }
-
-    function showErrorFeedback(elementId, errorMessage) {
-        var errorElement = document.getElementById(elementId);
-        errorElement.innerText = errorMessage;
-        errorElement.style.display = "block";
-    }
-
-    function showSuccessMessage(successMessage) {
-        Toastify({
-            text: successMessage,
-            duration: 3000,
-            gravity: "bottom",
-            position: "right",
-            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-            stopOnFocus: true,
-            className: "success-toast",
-        }).showToast();
     }
 </script>

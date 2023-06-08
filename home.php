@@ -1,27 +1,36 @@
+<style>
+
+
+</style>
+
 <div class="container-fluid p-0 wow fadeIn" data-wow-delay="0.1s">
   <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img class="w-100" src="assets/images/about/personal.jpg" alt="Image">
+        <img class="w-100" src="assets/images/hero/2.png" alt="Image">
         <div class="carousel-caption">
           <div class="container">
             <div class="row justify-content-center">
               <div class="col-lg-8">
-                <h1 class="display-1 text-white mb-5 animated slideInDown">Bienvenido a Gandules</h1>
-                <p class="wow fadeInUp" data-wow-delay=".5s">Lo mejor de nuestros serviciós para todo el mundo.</p>
+                <h1 class="text-white mb-5 animated slideInDown" style="font-size: 40px;">¡TRABAJA CON NOSOTROS EN GANDULES!</h1>
+                <p class="wow fadeInUp" data-wow-delay=".5s" style="font-size: 21px; "> "El éxito de una empresa se construye
+                  sobre los cimientos del trabajo en equipo, la innovación constante y el compromiso con
+                  la excelencia. Juntos, podemos alcanzar grandes logros y dejar una huella imborrable en el mundo"</p>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="carousel-item">
-        <img class="w-100" src="assets/images/about/personal.jpg" alt="Image">
+        <img class="w-100" src="assets/images/hero/2.png" alt="Image">
         <div class="carousel-caption">
           <div class="container">
             <div class="row justify-content-center">
-              <div class="col-lg-7">
-                <h1 class="display-1 text-white mb-5 animated slideInDown">Bienvenido a Gandules</h1>
-                <p class="wow fadeInUp" data-wow-delay=".5s">Lo mejor de nuestros serviciós para todo el mundo.</p>
+              <div class="col-lg-8">
+                <h1 class="text-white mb-5 animated slideInDown" style="font-size: 40px;">¡TRABAJA CON NOSOTROS EN GANDULES!</h1>
+                <p class="wow fadeInUp" data-wow-delay=".5s" style="font-size: 21px;"> "El éxito de una empresa se construye
+                  sobre los cimientos del trabajo en equipo, la innovación constante y el compromiso con
+                  la excelencia. Juntos, podemos alcanzar grandes logros y dejar una huella imborrable en el mundo"</p>
               </div>
             </div>
           </div>
@@ -117,49 +126,45 @@ background-image: linear-gradient(132deg, #2fa14c 0%, #a1af31 100%);
 </style>
 
 <!-- Top Feature Start -->
-<div class="container-fluid top-feature py-5 pt-lg-0">
-  <div class="container py-5 pt-lg-0">
-    <div class="row gx-0">
-      <div class="col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-        <div class="bg-white shadow d-flex align-items-center h-100 px-5" style="min-height: 160px;">
-          <div class="d-flex">
-            <div class="flex-shrink-0 btn-lg-square rounded-circle bg-light">
-              <i class="fa fa-times text-primary"></i>
-            </div>
-            <div class="ps-3">
-              <h4>Compromiso con el desarrollo profesional</h4>
-            </div>
+<div class="container-fluid top-feature py-3 pt-lg-0">
+  <div class="container py-3 pt-lg-0">
+    <div class="row gx-4">
+
+      <div class="col-lg-4 wow fadeIn mb-2" data-wow-delay="0.1s">
+        <div class="bg-white shadow d-flex flex-column align-items-center justify-content-center h-100" style="min-height: 160px; padding: 10px; border-radius: 10px;">
+          <div class="flex-shrink-0 btn-lg-square rounded-circle bg-light">
+            <i class="bi bi-bar-chart-fill text-success"></i>
+          </div>
+          <div class="ps-3 mt-3">
+            <h4 class="text-center">Conciencia social</h4>
           </div>
         </div>
       </div>
-      <div class="col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-        <div class="bg-white shadow d-flex align-items-center h-100 px-5" style="min-height: 160px;">
-          <div class="d-flex">
-            <div class="flex-shrink-0 btn-lg-square rounded-circle bg-light">
-              <i class="fa fa-users text-primary"></i>
-            </div>
-            <div class="ps-3">
-              <h4>Inocuidad y bienestar</h4>
-              <!-- <span>Clita erat ipsum lorem sit sed stet duo justo</span> -->
-            </div>
+
+      <div class="col-lg-4 wow fadeIn mb-2" data-wow-delay="0.3s">
+        <div class="bg-white shadow d-flex flex-column align-items-center justify-content-center h-100" style="min-height: 160px; padding: 10px; border-radius: 10px;">
+          <div class="flex-shrink-0 btn-lg-square rounded-circle bg-light">
+            <i class="bi bi-people text-success"></i>
+          </div>
+          <div class="ps-3 mt-3">
+            <h4 class="text-center">Inocuidad y bienestar</h4>
           </div>
         </div>
       </div>
-      <div class="col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-        <div class="bg-white shadow d-flex align-items-center h-100 px-5" style="min-height: 160px;">
-          <div class="d-flex">
-            <div class="flex-shrink-0 btn-lg-square rounded-circle bg-light">
-              <i class="fa fa-phone text-primary"></i>
-            </div>
-            <div class="ps-3">
-              <h4>Respeto y diversidad</h4>
-            </div>
+      <div class="col-lg-4 wow fadeIn mb-2" data-wow-delay="0.5s">
+        <div class="bg-white shadow d-flex flex-column align-items-center justify-content-center h-100" style="min-height: 160px; padding: 10px; border-radius: 10px;">
+          <div class="flex-shrink-0 btn-lg-square rounded-circle bg-light">
+            <i class="bi bi-bounding-box text-success"></i>
+          </div>
+          <div class="ps-3 mt-3">
+            <h4 class="text-center">Respeto y diversidad</h4>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <!-- Top Feature End -->
 
 <!-- About Start -->
@@ -250,30 +255,32 @@ background-image: linear-gradient(132deg, #2fa14c 0%, #a1af31 100%);
 <div class="container-xxl py-5">
   <div class="container">
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-      <p class="fs-5 fw-bold text-primary">Conocenos</p>
       <h1 class="display-5 mb-5">Nuestras sedes</h1>
     </div>
-
     <div class="row g-4">
 
       <?php
       $sql = "SELECT * FROM `tblcompany`";
       $mydb->setQuery($sql);
       $comp = $mydb->loadResultList();
-      ?>
 
-      <?php foreach ($comp as $company) {
+      $counter = 0; // Contador para controlar el número de sedes mostradas
+
+      foreach ($comp as $company) {
         $companyUrl = web_root . 'index.php?q=hiring&search=' . $company->COMPANYNAME;
 
         $status = $company->COMPANYSTATUS;
         if ($status == '0') {
           continue; // Si la sede está inactiva, salta a la siguiente iteración del bucle
         }
-
         $cardClass = ($status == '0') ? 'bg-danger' : '';
+
+        $counter++; // Incrementa el contador
+
+        if ($counter > 3) {
+          break; // Si se han mostrado tres sedes, detiene el bucle
+        }
       ?>
-
-
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
           <div class="service-item rounded d-flex flex-column h-100">
             <div class="service-img rounded flex-grow-1">
@@ -285,17 +292,25 @@ background-image: linear-gradient(132deg, #2fa14c 0%, #a1af31 100%);
                   <img class="img-fluid" src="assets/img/icon/icon-3.png" alt="Icon">
                 </div>
                 <h4 class="mb-3"><?php echo $company->COMPANYNAME; ?></h4>
-                <p class="mb-4"><?php echo $company->COMPANYNAME; ?></p>
+                <p class="mb-4"><?php echo $company->COMPANYADDRESS; ?></p>
               </a>
             </div>
           </div>
         </div>
-
       <?php } ?>
-
     </div>
+
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <a class="center text-dark" href="<?php echo web_root; ?>index.php?q=company">
+        <br>
+        <p class="text-center"><b>¡Visita y explora más sobre nuestras sedes!</b> <i class="bi bi-arrow-right-circle-fill"></i></p>
+      </a>
+    </div>
+
+
   </div>
 </div>
+
 <!-- Service End -->
 
 <style>
@@ -344,7 +359,7 @@ background-image: linear-gradient(132deg, #2fa14c 0%, #a1af31 100%);
 </style>
 
 <!-- about_area_start  -->
-<div class="about_area mb-5">
+<!-- <div class="about_area mb-5">
   <div class="container">
     <div class="row">
       <div class="col-lg-5">
@@ -363,13 +378,11 @@ background-image: linear-gradient(132deg, #2fa14c 0%, #a1af31 100%);
           <div class="col-lg-12 mb-4">
             <h1 class="fs-5 fw-bold text-primary">Si buscas trabajo ¡Gandules tu mejor aliado!
               Miles de ofertas de empleo están esperándote</h1>
-            <!-- <h2 class="fs-5 fw-bold text-primary">Te ayudamos a encontrar un empleo mejor</h2> -->
 
             <p class="mb-6">Haz que tu currículum sea visible para miles de empresas en nuestra bolsa de trabajo</p>
             <ul>
               <li>Registro gratuito. Encuentra tu próximo trabajo hoy.</li>
               <li>Ofertas cada día. Empleos que se ajustan a tu perfil.</li>
-              <!-- <li> Alertas personalizadas. Tú crea alertas de empleo y nosotros te avisaremos.</li> -->
               <li> Completa tu perfil. Muéstrate profesional y ganarás visibilidad.</li>
             </ul>
           </div>
@@ -381,26 +394,50 @@ background-image: linear-gradient(132deg, #2fa14c 0%, #a1af31 100%);
 
   </div>
 
-</div>
+</div> -->
 <!-- about_area_emsnd  -->
+
+
+
+<div class="container-fluid facts my-5 py-5" data-parallax="scroll" data-image-src="assets/img/carrosel.PNG">
+  <div class="container py-5">
+    <div class="row g-5">
+      <div class="col-lg-12 wow fadeIn">
+        <div class="bg-white shadow d-flex align-items-center h-100 px-5" style="min-height: 140px;">
+          <div class="d-flex">
+            <div class="flex-shrink-0 btn-lg-square rounded-circle bg-light">
+              <i class="fa fa-users text-primary"></i>
+            </div>
+            <div class="ps-3">
+              <h4>Inocuidad y bienestar</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div class="container-xxl py-5">
   <div class="container">
     <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-      <p class="fs-5 fw-bold text-primary">Conocenos</p>
       <h1 class="display-5 mb-5">Nuestras Areas</h1>
     </div>
 
     <div class="row g-4">
       <?php
-      $sql = "SELECT * FROM `tblareas` WHERE `ESTADO` = 1";
+      $sql = "SELECT DISTINCT a.AREAID, a.AREA
+          FROM `tblareas` a
+          INNER JOIN `tbljob` j ON a.AREAID = j.AREAID
+          WHERE a.ESTADO = 1 AND j.JOBSTATUS = 'Activa'";
       $mydb->setQuery($sql);
       $cur = $mydb->loadResultList();
       $counter = 0;
 
       foreach ($cur as $result) {
         $counter++;
-        if ($counter <= 6) {
+        if ($counter <= 9) {
       ?>
 
           <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">

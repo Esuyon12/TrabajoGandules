@@ -98,42 +98,59 @@ $cur = $mydb->loadResultList();
             $sql = "SELECT * FROM `tblareas` WHERE `ESTADO` = 1";
             $mydb->setQuery($sql);
             $cur = $mydb->loadResultList();
-            $countAreas = count($cur);
+            $countAreas = 0; // Inicializar el contador de áreas disponibles en 0
             ?>
-            <p><b><?php echo $countAreas; ?></b> áreas disponibles </p>
             <div class="row">
                 <?php
                 foreach ($cur as $area) {
+                    $areaId = $area->AREAID;
+
+                    // Verificar si hay vacantes activas o inactivas
+                    $sql_vacancies = "SELECT COUNT(*) AS total FROM `tbljob` WHERE `AREAID` = '$areaId' AND `JOBSTATUS` = 'Activa'";
+                    $mydb->setQuery($sql_vacancies);
+                    $activeVacancies = $mydb->loadSingleResult();
+
+                    if ($activeVacancies->total > 0) {
+                        $countAreas++; // Incrementar el contador de áreas disponibles
+                        $vacancy_text = "Vacantes disponibles";
                 ?>
-                    <div class="col-md-4 mb-4">
-                        <a href="<?php echo web_root . 'index.php?q=searcharea&search=' . $area->AREA; ?>" class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-6">
-                                    <div class="d-flex flex-column w-100">
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <div class="d-flex align-items-center gap-4">
-                                                <div class="d-flex flex-column">
-                                                    <p class="text-muted"><?php echo $area->AREA ?></p>
+                        <div class="col-md-4 mb-4">
+                            <a href="<?php echo web_root . 'index.php?q=searcharea&search=' . $area->AREA; ?>" class="card" style="border: none;">
+                                <div class="card-body shadow-sm">
+                                    <div class="d-flex align-items-center mb-6">
+                                        <div class="d-flex flex-column w-100">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <div class="d-flex align-items-center gap-4">
+                                                    <div class="d-flex flex-column" style="text-align: center;">
+                                                        <p class="text-muted"><?php echo $area->AREA ?></p>
+                                                        <!-- <p><?php echo $vacancy_text ?></p> -->
+                                                        <!-- <p class="mb-0 badge btn-grad"><?php echo $vacancy_text ?></p> -->
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex">
-                                                <p class="text-muted me-4">
-                                                    <!-- <i class="bi bi-building"></i> <?php echo $area->COMPANYNAME ?> -->
-                                                </p>
-                                            </div>
+                                            <!-- <div class="d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <p class="text-muted me-4">
+                                                        <i class="bi bi-building"></i> <?php echo $area->COMPANYNAME ?>
+                                                    </p>
+                                                </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
+                            </a>
+                        </div>
+
                 <?php
+                    }
                 }
                 ?>
             </div>
+            <?php echo "<p><b>$countAreas</b> áreas disponibles</p>"; ?>
         </div>
+
+
+
 
     </div>
 </div>

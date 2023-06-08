@@ -23,48 +23,46 @@
           <div class="col-lg-3 col-md-3">
             <h4 class="text-white mb-4">Sedes</h4>
             <?php
-            $sql = "SELECT * FROM `tblcompany`  WHERE `COMPANYSTATUS` = 1";
+            $sql = "SELECT * FROM `tblcompany` WHERE `COMPANYSTATUS` = 1 LIMIT 3";
             $mydb->setQuery($sql);
             $comp = $mydb->loadResultList();
             ?>
             <?php foreach ($comp as $company) {
               $companyUrl = web_root . 'index.php?q=hiring&search=' . $company->COMPANYNAME;
-
-              $status = $company->COMPANYSTATUS;
-              if ($status == '0') {
-                continue; // Ignorar sedes inactivas
-              }
             ?>
               <div class="single-grid wow fadeInUp w-100">
-                <a class="btn btn-link" href="<?php echo ($status == '1') ? $companyUrl : '#'; ?>"><?php echo $company->COMPANYNAME; ?></a>
+                <a class="btn btn-link" href="<?php echo $companyUrl; ?>"><?php echo $company->COMPANYNAME; ?></a>
               </div>
             <?php } ?>
-            <a href="#" class="btn btn-link">Más detalles</a>
+            <a href="<?php echo web_root; ?>index.php?q=company" class="btn btn-link">Más detalles</a>
           </div>
+
 
 
 
           <div class="col-lg-3 col-md-6">
             <h4 class="text-white mb-4">Areas</h4>
             <?php
-            $sql = "SELECT * FROM `tblareas` WHERE `ESTADO` = 1";
+            $sql = "SELECT *
+          FROM `tblareas`
+          WHERE `ESTADO` = 1 AND `AREAID` IN (SELECT DISTINCT `AREAID` FROM `tbljob` WHERE `JOBSTATUS` = 'Disponible')
+          LIMIT 3";
             $mydb->setQuery($sql);
             $cur = $mydb->loadResultList();
-            $counter = 0;
 
             foreach ($cur as $result) {
-              $counter++;
-              if ($counter <= 3) { ?>
-                <div class="single-grid wow fadeInUp w-100">
-                  <a class="btn btn-link" href="<?php echo URL_WEB . web_root; ?>index.php?q=area&search=<?php echo $result->AREA ?>">
-                    <?php echo $result->AREA ?>
-                  </a>
-                </div>
-            <?php }
+            ?>
+              <div class="single-grid wow fadeInUp w-100">
+                <a class="btn btn-link" href="<?php echo URL_WEB . web_root; ?>index.php?q=area&search=<?php echo $result->AREA ?>">
+                  <?php echo $result->AREA ?>
+                </a>
+              </div>
+            <?php
             }
             ?>
-            <a href="#" class="btn btn-link">Más detalles</a>
+            <a href="<?php echo URL_WEB . web_root; ?>index.php?q=area&search=<?php echo $result->AREA ?>" class="btn btn-link">Más detalles</a>
           </div>
+
 
         </div>
       </div>
