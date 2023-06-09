@@ -36,7 +36,6 @@ $cur = $mydb->loadResultList();
                                             </div>
 
                                             <div class="d-flex mb-4">
-                                                <!-- <p> Descripcion</p> -->
                                                 <p class="text-muted"><?php echo substr($result->INFOJOB, 0, 205) . '...'; ?></p>
 
                                             </div>
