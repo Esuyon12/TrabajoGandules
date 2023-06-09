@@ -542,7 +542,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
 						var contenidoMSG = editor.root.innerHTML;
 
-						message('verMensaje')
+						message('verMensaje', contenidoMSG)
 
 					}, 400)
 				}
@@ -640,9 +640,9 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
 			myModal.show();
 
-			// var contenidoMSG = editor.root.innerHTML;
+			var contenidoMSG = editor.root.innerHTML;
 
-			message('verMensaje')
+			message('verMensaje', contenidoMSG)
 		<?php } ?>
 
 	}
@@ -737,13 +737,12 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
 			var contenidoMSG = editor.root.innerHTML;
 
-			message('verMensaje')
+			message('verMensaje', contenidoMSG)
 		}
 	<?php } ?>
 
-	function message(id) {
+	function message(id, contenidoMSG) {
 
-		var contenidoMSG = editor.root.innerHTML;
 		document.getElementById(id).addEventListener('submit', async function(e) {
 			e.preventDefault();
 
