@@ -17,6 +17,12 @@ $appl = $cur[0];
 $mydb->setQuery("SELECT * FROM `tblevaluaciones` e, `tblapplicants` a, `tblcreaevaluaciones` c WHERE e.`APPLICANTID` = a.`APPLICANTID` AND e.`IDEVALUACIONCREA` = c.`IDEVALUACIONCREA` AND a.`APPLICANTID` = " . $_GET['id'] . " AND e.`OCUPACIONID` = " . $appl->OCUPACIONID . " AND e.`AREAID` = " . $appl->AREAID);
 $cur2 = $mydb->loadSingleResult();
 
+
+
+
+$mydb->setQuery("SELECT * FROM `tblcorreo` WHERE `CORREOID`");
+$cur3 = $mydb->loadSingleResult();
+
 // print_r($cur2); exit;
 
 $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
@@ -506,21 +512,23 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 						var editor = new Quill('#editor', options);
 						var text = `
 							<div class="form-floating mb-3">
-								Estimado/a <p class="text-uppercase mb-3"> <?= $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?></p>
-								Nos complace informarle que su solicitud de trabajo para el puesto de <a><?php echo $appl->OCUPACION; ?></b></a>
-								ha sido recibida y revisada por nuestro equipo de reclutamiento.</p>
-								<p>Le comunicamos que su Curriculum cumple con la gran mayoría de requisitos establecidos para el puesto y estamos interesados en continuar con el proceso de selección.
-								Para avanzar al siguiente paso del proceso, solicitamos que confirme su interés ingresando al siguiente enlace</p>
-								<a target="_blank" href="<?php echo URL_WEB . web_root ?>evaluaciones/?TOKEN=${data.message}">Dar evaluación</a>
-								<br>
-								<p>Si confirma su interés en el puesto, le brindaremos un nombre de usuario y token para que pueda realizar su evaluación de desempeño.</p>
-								<p>Si tiene alguna pregunta o inquietud, no dude en ponerse en contacto con nosotros.
-								Agradecemos su interés en nuestra empresa y esperamos tener la oportunidad de conocerlo/a en persona.</p>
-								<br>
-								<p>Att. <?php echo $appl->COMPANYNAME; ?></p>
+							<div style="background-color: #aee1ff; padding: 10px;">
+						<p><b>DATOS PARA MODIFICAR EL CORREO</b></p>
+						<p>Aplicante: <?= $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?></p>
+						<p>Ocupación: <?php echo $appl->OCUPACION; ?></p>
+						<p>Sede: <?php echo $appl->COMPANYNAME; ?></p>
+					</div>
+
+					<br>
+					<br>
+
+					<p><?php echo $cur3->CONTENIDO ?></p>
+
+																
 							</div>
 						`;
 						editor.clipboard.dangerouslyPasteHTML(text);
+
 
 
 						modalDialog.classList.remove('modal-lg');
@@ -534,7 +542,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
 						var contenidoMSG = editor.root.innerHTML;
 
-						message('verMensaje', contenidoMSG)
+						message('verMensaje')
 
 					}, 400)
 				}
@@ -561,6 +569,8 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 						<input type="text" id="asunto" name="ASUNTO" class="form-control" value="PROCESO DE EVALUACION GANDULES" placeholder="Asunto">
 						</div>
 					</div>
+
+					
 					<div class="form-group">
 						<div class="google-compose-body-container">
 							<div class="google-compose-body" id="editor"></div>
@@ -602,23 +612,26 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 			var editor = new Quill('#editor', options);
 			var text = `
 				<div class="form-floating mb-3">
-					Estimado/a <p class="text-uppercase mb-3"> <?= $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?></p>
-					Nos complace informarle que su solicitud de trabajo para el puesto de <a><?php echo $appl->OCUPACION; ?></b></a>
-					ha sido recibida y revisada por nuestro equipo de reclutamiento.</p>
-					<p>Le comunicamos que su Curriculum cumple con la gran mayoría de requisitos establecidos para el puesto y estamos interesados en continuar con el proceso de selección.
-					Para avanzar al siguiente paso del proceso, solicitamos que confirme su interés ingresando al siguiente enlace</p>
-					<a target="_blank" href="<?php echo URL_WEB . web_root ?>evaluaciones/?TOKEN=<?php echo $cur2->TOKEN ?>">Dar evaluación</a>
+					<div style="background-color: #aee1ff; padding: 10px;">
+						<p><b>DATOS PARA MODIFICAR EL CORREO</b></p>
+						<p>Aplicante: <?= $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?></p>
+						<p>Ocupación: <?php echo $appl->OCUPACION; ?></p>
+						<p>Sede: <?php echo $appl->COMPANYNAME; ?></p>
+					</div>
+
 					<br>
-					<p>Si confirma su interés en el puesto, le brindaremos un nombre de usuario y token para que pueda realizar su evaluación de desempeño.</p>
-					<p>Si tiene alguna pregunta o inquietud, no dude en ponerse en contacto con nosotros.
-					Agradecemos su interés en nuestra empresa y esperamos tener la oportunidad de conocerlo/a en persona.</p>
 					<br>
-					<p>Att. <?php echo $appl->COMPANYNAME; ?></p>
+
+					<p><?php echo $cur3->CONTENIDO ?></p>
+
 				</div>
 			`;
 			editor.clipboard.dangerouslyPasteHTML(text);
 
-			modalDialog.classList.remove('modal-lg');
+			// <p><a target="_blank" href="<?php echo URL_WEB . web_root ?>evaluaciones/?TOKEN=${data.message}">Dar evaluación</a></p>
+
+
+			modalDialog.classList.remove('modal-xl');
 
 			// Mover las opciones del editor Quill a la parte inferior
 			var quillOptions = document.querySelector('.ql-toolbar');
@@ -627,9 +640,9 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
 			myModal.show();
 
-			var contenidoMSG = editor.root.innerHTML;
+			// var contenidoMSG = editor.root.innerHTML;
 
-			message('verMensaje', contenidoMSG)
+			message('verMensaje')
 		<?php } ?>
 
 	}
@@ -699,17 +712,18 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 			var editor = new Quill('#mail', options);
 			var text = `
 				<div class="form-floating mb-3">
-					<p>Estimado/a <?php echo $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?>,</p>
-					<p>Me complace informarte que has superado con éxito el examen que realizaste como parte del proceso de selección para el puesto de <a><?php echo $appl->OCUPACION; ?></a> en nuestra empresa. </p>
-					<p>¡Felicitaciones! Tus resultados demuestran un alto nivel de conocimiento y habilidades en el área, lo cual nos ha impresionado positivamente.</p>
-					<p>Queremos destacar que tu desempeño fue excelente y cumples con los requisitos necesarios para seguir avanzando en el proceso de selección.</p>
-					<p>En este sentido, nos gustaría invitarte a una entrevista personal en nuestras instalaciones, donde tendrás la oportunidad de conocer más sobre nuestra empresa, equipo de trabajo y los detalles específicos del puesto al que estás aplicando.</p>
-					<p>Te proponemos las siguientes fechas y horarios disponibles para tu presentación:</p>
-					<p>Fecha: [Fecha de la presentación] </p>
-					<p>Hora: [Hora de la presentación] </p>
-					<p>Lugar: [Dirección de nuestra empresa] </p>
-					<p>Si tienes alguna pregunta o necesitas más información, no dudes en contactarnos. </p>
-					<p><strong>¡Nos vemos pronto y te esperamos!</strong></p>
+				<div style="background-color: #aee1ff; padding: 10px;">
+						<p><b>DATOS PARA MODIFICAR EL CORREO</b></p>
+						<p>Aplicante: <?= $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?></p>
+						<p>Ocupación: <?php echo $appl->OCUPACION; ?></p>
+						<p>Sede: <?php echo $appl->COMPANYNAME; ?></p>
+					</div>
+
+					<br>
+					<br>
+
+					<p><?php echo $cur3->CONTENIDO ?></p>
+
 				</div>
 			`;
 
@@ -723,12 +737,13 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
 			var contenidoMSG = editor.root.innerHTML;
 
-			message('verMensaje', contenidoMSG)
+			message('verMensaje')
 		}
 	<?php } ?>
 
-	function message(id, contenidoMSG) {
+	function message(id) {
 
+		var contenidoMSG = editor.root.innerHTML;
 		document.getElementById(id).addEventListener('submit', async function(e) {
 			e.preventDefault();
 
