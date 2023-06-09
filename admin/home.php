@@ -15,6 +15,7 @@ FROM tblapplicants a
 INNER JOIN tblevaluaciones e ON a.APPLICANTID = e.APPLICANTID 
 WHERE MONTH(DATEADD) = 6 AND e.RESPUESTA IS NOT NULL AND e.RESPUESTA <> ''");
 $rev = $mydb->loadSingleResult();
+
 ?>
 
 <div class="container">
