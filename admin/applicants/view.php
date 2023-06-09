@@ -17,12 +17,6 @@ $appl = $cur[0];
 $mydb->setQuery("SELECT * FROM `tblevaluaciones` e, `tblapplicants` a, `tblcreaevaluaciones` c WHERE e.`APPLICANTID` = a.`APPLICANTID` AND e.`IDEVALUACIONCREA` = c.`IDEVALUACIONCREA` AND a.`APPLICANTID` = " . $_GET['id'] . " AND e.`OCUPACIONID` = " . $appl->OCUPACIONID . " AND e.`AREAID` = " . $appl->AREAID);
 $cur2 = $mydb->loadSingleResult();
 
-
-
-
-$mydb->setQuery("SELECT * FROM `tblcorreo` WHERE `CORREOID`");
-$cur3 = $mydb->loadSingleResult();
-
 // print_r($cur2); exit;
 
 $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
@@ -93,7 +87,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 						</div>
 					</div>
 					<div class="col-md-6">
-						<a class="d-flex px-5 py-2 justify-content-center rounded-3 btn btn-grad " onclick="mostrarPDF('<?php echo $appl->CVFILE; ?>')">
+						<a class="d-flex px-5 py-2 justify-content-center rounded-3 btn btn-grad" onclick="mostrarPDF('<?php echo $appl->CVFILE; ?>')">
 							<p>Visualizar</p>
 						</a>
 					</div>
@@ -106,7 +100,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 					<div class="d-flex align-items-center justify-content-between">
 						<h4 class="card-title">Desarrolo de evaluación</h4>
 						<?php if ($cur2->MSG == 0) { ?>
-							<div onclick="evalua()" class="btn btn-cel d-flex flex-column justify-content-center align-items-center">
+							<div onclick="evalua()" class="btn btn-primary d-flex flex-column justify-content-center align-items-center">
 								<ion-icon style="height: 25px;width: 25px;" name="send-outline"></ion-icon>
 								<p style="font-size: 10px;">Enviar</p>
 							</div>
@@ -195,10 +189,25 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 					<div class="value text-center" id="value" style="position: absolute;top: 60px;font-size: 30px; font-weight: bold;"></div>
 				</div>
 			</div>
+
+			<div class="card-header">
+				<h4>Keywords</h4>
+			</div>
+			<div class="card-body">
+				<div class="tags">
+					<?php if (empty($keyword)) { ?>
+						<span>No hay keywords relacionados</span>
+					<?php } else { ?>
+						<?php foreach ($keyword as $row) { ?>
+							<span class="badge bg-primary"><?php echo $row->keyword; ?></span>
+						<?php } ?>
+					<?php } ?>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Knob/1.2.13/jquery.knob.min.js"></script>
@@ -255,11 +264,11 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 		function viewEva(ata, tarea) {
 
 			// console.log(ata);
-			head.innerHTML = "";
+			head.innerHTML = "Detalles de la evaluacion";
 
 			content.innerHTML = `
 			<div class="d-flex justify-content-between">
-			<h5 class="text-center text-uppercase"><?php echo $cur2->TITULO ?></h5>
+			<h2>TAREA</h2>
 			<div class="d-flex align-items-center justify-content-end">
 				<a style="cursor:pointer;" class="d-flex p-2 rounded-start bg-body" onclick="tmre(1, 'RESULT')">
 					<ion-icon name="remove-outline"></ion-icon>
@@ -274,13 +283,13 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 				${tarea}
 			</div>
 			<div class="card bg-dark text-bg-dark" style="margin-bottom: 0px !important">
-				<div class="card-body text-left"
+				<div class="card-body text-center"
 					${ata}
 				</div>
 			</div>
 		`
 			foot.innerHTML = `
-			<button class="btn btn-grad" id="calc">Calificar</button>
+			<button class="btn btn-primary" id="calc">Calificar</button>
 		`;
 
 
@@ -305,10 +314,10 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 			});
 
 
-			modalDialog.classList.add('modal-xl');
-			myModal.show();
-		}
 
+			myModal.show()
+
+		}
 
 		function tmre(a, b) {
 			let RESULT = document.getElementById(b);
@@ -379,7 +388,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 				</form>
 			`;
 			foot.innerHTML = `
-				<button form="addEvaluacion" class="alert btn-grad ml-1">
+				<button form="addEvaluacion" class="alert bg-success ml-1">
 				<span class="d-none d-sm-block text-white">Registrar</span>
 				</button>
 			`;
@@ -512,24 +521,21 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 						var editor = new Quill('#editor', options);
 						var text = `
 							<div class="form-floating mb-3">
-							<div style="background-color: #aee1ff; padding: 10px;">
-						<p><b>DATOS PARA MODIFICAR EL CORREO</b></p>
-						<p>Aplicante: <?= $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?></p>
-						<p>Ocupación: <?php echo $appl->OCUPACION; ?></p>
-						<p>Sede: <?php echo $appl->COMPANYNAME; ?></p>
-					</div>
-
-					<br>
-					<br>
-
-					<p><?php echo $cur3->CONTENIDO ?></p>
-
-																
+								Estimado/a <p class="text-uppercase mb-3"> <?= $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?></p>
+								Nos complace informarle que su solicitud de trabajo para el puesto de <a><?php echo $appl->OCUPACION; ?></b></a>
+								ha sido recibida y revisada por nuestro equipo de reclutamiento.</p>
+								<p>Le comunicamos que su Curriculum cumple con la gran mayoría de requisitos establecidos para el puesto y estamos interesados en continuar con el proceso de selección.
+								Para avanzar al siguiente paso del proceso, solicitamos que confirme su interés ingresando al siguiente enlace</p>
+								<a target="_blank" href="<?php echo URL_WEB . web_root ?>evaluaciones/?TOKEN=${data.message}">Dar evaluación</a>
+								<br>
+								<p>Si confirma su interés en el puesto, le brindaremos un nombre de usuario y token para que pueda realizar su evaluación de desempeño.</p>
+								<p>Si tiene alguna pregunta o inquietud, no dude en ponerse en contacto con nosotros.
+								Agradecemos su interés en nuestra empresa y esperamos tener la oportunidad de conocerlo/a en persona.</p>
+								<br>
+								<p>Att. <?php echo $appl->COMPANYNAME; ?></p>
 							</div>
 						`;
 						editor.clipboard.dangerouslyPasteHTML(text);
-
-
 
 						modalDialog.classList.remove('modal-lg');
 
@@ -569,8 +575,6 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 						<input type="text" id="asunto" name="ASUNTO" class="form-control" value="PROCESO DE EVALUACION GANDULES" placeholder="Asunto">
 						</div>
 					</div>
-
-					
 					<div class="form-group">
 						<div class="google-compose-body-container">
 							<div class="google-compose-body" id="editor"></div>
@@ -612,26 +616,23 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 			var editor = new Quill('#editor', options);
 			var text = `
 				<div class="form-floating mb-3">
-					<div style="background-color: #aee1ff; padding: 10px;">
-						<p><b>DATOS PARA MODIFICAR EL CORREO</b></p>
-						<p>Aplicante: <?= $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?></p>
-						<p>Ocupación: <?php echo $appl->OCUPACION; ?></p>
-						<p>Sede: <?php echo $appl->COMPANYNAME; ?></p>
-					</div>
-
+					Estimado/a <p class="text-uppercase mb-3"> <?= $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?></p>
+					Nos complace informarle que su solicitud de trabajo para el puesto de <a><?php echo $appl->OCUPACION; ?></b></a>
+					ha sido recibida y revisada por nuestro equipo de reclutamiento.</p>
+					<p>Le comunicamos que su Curriculum cumple con la gran mayoría de requisitos establecidos para el puesto y estamos interesados en continuar con el proceso de selección.
+					Para avanzar al siguiente paso del proceso, solicitamos que confirme su interés ingresando al siguiente enlace</p>
+					<a target="_blank" href="<?php echo URL_WEB . web_root ?>evaluaciones/?TOKEN=<?php echo $cur2->TOKEN ?>">Dar evaluación</a>
 					<br>
+					<p>Si confirma su interés en el puesto, le brindaremos un nombre de usuario y token para que pueda realizar su evaluación de desempeño.</p>
+					<p>Si tiene alguna pregunta o inquietud, no dude en ponerse en contacto con nosotros.
+					Agradecemos su interés en nuestra empresa y esperamos tener la oportunidad de conocerlo/a en persona.</p>
 					<br>
-
-					<p><?php echo $cur3->CONTENIDO ?></p>
-
+					<p>Att. <?php echo $appl->COMPANYNAME; ?></p>
 				</div>
 			`;
 			editor.clipboard.dangerouslyPasteHTML(text);
 
-			// <p><a target="_blank" href="<?php echo URL_WEB . web_root ?>evaluaciones/?TOKEN=${data.message}">Dar evaluación</a></p>
-
-
-			modalDialog.classList.remove('modal-xl');
+			modalDialog.classList.remove('modal-lg');
 
 			// Mover las opciones del editor Quill a la parte inferior
 			var quillOptions = document.querySelector('.ql-toolbar');
@@ -712,18 +713,17 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 			var editor = new Quill('#mail', options);
 			var text = `
 				<div class="form-floating mb-3">
-				<div style="background-color: #aee1ff; padding: 10px;">
-						<p><b>DATOS PARA MODIFICAR EL CORREO</b></p>
-						<p>Aplicante: <?= $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?></p>
-						<p>Ocupación: <?php echo $appl->OCUPACION; ?></p>
-						<p>Sede: <?php echo $appl->COMPANYNAME; ?></p>
-					</div>
-
-					<br>
-					<br>
-
-					<p><?php echo $cur3->CONTENIDO ?></p>
-
+					<p>Estimado/a <?php echo $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?>,</p>
+					<p>Me complace informarte que has superado con éxito el examen que realizaste como parte del proceso de selección para el puesto de <a><?php echo $appl->OCUPACION; ?></a> en nuestra empresa. </p>
+					<p>¡Felicitaciones! Tus resultados demuestran un alto nivel de conocimiento y habilidades en el área, lo cual nos ha impresionado positivamente.</p>
+					<p>Queremos destacar que tu desempeño fue excelente y cumples con los requisitos necesarios para seguir avanzando en el proceso de selección.</p>
+					<p>En este sentido, nos gustaría invitarte a una entrevista personal en nuestras instalaciones, donde tendrás la oportunidad de conocer más sobre nuestra empresa, equipo de trabajo y los detalles específicos del puesto al que estás aplicando.</p>
+					<p>Te proponemos las siguientes fechas y horarios disponibles para tu presentación:</p>
+					<p>Fecha: [Fecha de la presentación] </p>
+					<p>Hora: [Hora de la presentación] </p>
+					<p>Lugar: [Dirección de nuestra empresa] </p>
+					<p>Si tienes alguna pregunta o necesitas más información, no dudes en contactarnos. </p>
+					<p><strong>¡Nos vemos pronto y te esperamos!</strong></p>
 				</div>
 			`;
 
@@ -839,7 +839,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
 				// Agregar el contenedor de botones al encabezado del modal
 				Mhead.innerHTML = `
-					<div class="d-flex gap-3 ">
+					<div class="d-flex gap-3">
 					<?php if (empty($cur2)) { ?>
 						<a href="#" class="d-flex gap-3 align-items-center btn btn-grad" onclick="verMensaje(event);"><ion-icon name="checkmark-outline"></ion-icon>Aprobar</a>
 					<?php } ?>

@@ -16,7 +16,51 @@ INNER JOIN tblevaluaciones e ON a.APPLICANTID = e.APPLICANTID
 WHERE MONTH(DATEADD) = 6 AND e.RESPUESTA IS NOT NULL AND e.RESPUESTA <> ''");
 $rev = $mydb->loadSingleResult();
 
+
+
+$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tbljob WHERE JOBSTATUS = 0");
+$totalVacantesActivas = $mydb->loadSingleResult();
+
+
+$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblemployees WHERE ESTADO = 1");
+$totalempleados = $mydb->loadSingleResult();
+
+$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblusers");
+$totalusers = $mydb->loadSingleResult();
+
+$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblapplicants");
+$totalaplicantes = $mydb->loadSingleResult();
 ?>
+
+
+
+<style>
+    .btn-gris {
+        background-image: linear-gradient(to right,
+                #606c88 0%,
+                #3f4c6b 51%,
+                #606c88 100%);
+        margin: 10px;
+        padding: 9px 45px;
+        text-align: center;
+        text-transform: uppercase;
+        transition: 0.5s;
+        background-size: 200% auto;
+        color: white;
+        box-shadow: 0 0 20px #eee;
+        border-radius: 10px;
+        display: block;
+    }
+
+    .btn-gris:hover {
+        background-position: right center;
+        /* change the direction of the change here */
+        color: #fff;
+        text-decoration: none;
+    }
+</style>
+
+
 
 <div class="container">
     <div class=" page-heading">
@@ -28,16 +72,20 @@ $rev = $mydb->loadSingleResult();
             <div class="row">
                 <div class="col-md-3">
                     <div class="card" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
-                        <div class="card-body px-3 py-4">
+                        <div class="card-body px-3 py-4" ondblclick="window.location.href = '<?= web_root ?>admin/vacancy/';">
                             <div class="row">
-                                <div class="d-flex justify-content-start ">
+                                <div class="d-flex justify-content-start">
                                     <div class="stats-icon purple mb-2">
                                         <i class="bi-people-fill"></i>
                                     </div>
                                 </div>
                                 <div class="">
-                                    <h6 class="text-muted font-semibold">Vacantes disponibles</h6>
-                                    <h6 class="font-extrabold mb-0">112</h6>
+                                    <h6 class="text-muted font-semibold">Vacantes Activas</h6>
+                                    <?php if (isset($totalVacantesActivas->TOTAL)) : ?>
+                                        <h6 class="font-extrabold mb-0"><?php echo $totalVacantesActivas->TOTAL; ?></h6>
+                                    <?php else : ?>
+                                        <h6 class="font-extrabold mb-0">0</h6>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -46,50 +94,64 @@ $rev = $mydb->loadSingleResult();
 
                 <div class="col-md-3">
                     <div class="card" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
-                        <div class="card-body px-4 py-4">
+                        <div class="card-body px-3 py-4" ondblclick="window.location.href = '<?= web_root ?>admin/applicants/';">
                             <div class="row">
-                                <div class="d-flex justify-content-start ">
-                                    <div class="stats-icon red mb-2">
-                                        <i class="bi-person"></i>
-                                    </div>
-                                </div>
-                                <div class="">
-                                    <h6 class="text-muted font-semibold">Vacantes ocupadas</h6>
-                                    <h6 class="font-extrabold mb-0">80</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
-                        <div class="card-body px-3 py-4">
-                            <div class="row">
-                                <div class="d-flex">
-                                    <div class="stats-icon blue mb-2">
-                                        <i class="bi-person-check-fill"></i>
-                                    </div>
-                                </div>
-                                <div class="">
-                                    <h6 class="text-muted font-semibold">Postulantes contratados</h6>
-                                    <h6 class="font-extrabold mb-0">183</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
-                        <div class="card-body px-4 py-4">
-                            <div class="row">
-                                <div class="d-flex justify-content-start ">
+                                <div class="d-flex justify-content-start">
                                     <div class="stats-icon red mb-2">
                                         <i class="bi-person-dash-fill"></i>
                                     </div>
                                 </div>
                                 <div class="">
-                                    <h6 class="text-muted font-semibold">Postulantes rechazados</h6>
-                                    <h6 class="font-extrabold mb-0">112</h6>
+                                    <h6 class="text-muted font-semibold">Aplicantes</h6>
+                                    <?php if (isset($totalaplicantes->TOTAL)) : ?>
+                                        <h6 class="font-extrabold mb-0"><?php echo $totalaplicantes->TOTAL; ?></h6>
+                                    <?php else : ?>
+                                        <h6 class="font-extrabold mb-0">0</h6>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
+                        <div class="card-body px-3 py-4" ondblclick="window.location.href = '<?= web_root ?>admin/employee/';">
+                            <div class="row">
+                                <div class="d-flex justify-content-start">
+                                    <div class="stats-icon red mb-2">
+                                        <i class="bi-person"></i>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <h6 class="text-muted font-semibold">Empleados</h6>
+                                    <?php if (isset($totalempleados->TOTAL)) : ?>
+                                        <h6 class="font-extrabold mb-0"><?php echo $totalempleados->TOTAL; ?></h6>
+                                    <?php else : ?>
+                                        <h6 class="font-extrabold mb-0">0</h6>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
+                        <div class="card-body px-3 py-4" ondblclick="window.location.href = '<?= web_root ?>admin/user/';">
+                            <div class="row">
+                                <div class="d-flex justify-content-start">
+                                    <div class="stats-icon blue mb-2">
+                                        <i class="bi-person-check-fill"></i>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <h6 class="text-muted font-semibold">Usuarios</h6>
+                                    <?php if (isset($totalusers->TOTAL)) : ?>
+                                        <h6 class="font-extrabold mb-0"><?php echo $totalusers->TOTAL; ?></h6>
+                                    <?php else : ?>
+                                        <h6 class="font-extrabold mb-0">0</h6>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -98,13 +160,56 @@ $rev = $mydb->loadSingleResult();
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <div id="chart"></div>
+        <div class="col-12 col-lg-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="chart"></div>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <p><b> Lista de principales Ocupaciónes </b></p>
+                            <br>
+                            <div class="row g-4">
+                                <?php
+                                $sql = "SELECT DISTINCT a.OCUPACIONID, a.OCUPACION
+                                    FROM `tblocupaciones` a
+                                    INNER JOIN `tbljob` j ON a.OCUPACIONID = j.OCUPACIONID
+                                    WHERE a.OCUPACIONSTATUS = 1 AND j.JOBSTATUS = 'Activa'";
+                                $mydb->setQuery($sql);
+                                $cur = $mydb->loadResultList();
+                                $counter = 0;
+
+                                foreach ($cur as $result) {
+                                    $counter++;
+                                    if ($counter <= 6) {
+                                ?>
+                                        <div class="col-lg-12">
+                                            <div class="btn-gris">
+                                                <a href="<?php echo URL_WEB . web_root; ?>index.php?q=area&search=<?php echo $result->OCUPACION ?>">
+                                                    <p style="color:#fff"><?php echo $result->OCUPACION ?></p>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                <?php
+                                    }
+                                }
+                                ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
+
 
     </div>
 

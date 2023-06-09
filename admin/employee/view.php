@@ -76,12 +76,18 @@ $cur2 = $mydb->loadSingleResult();
 			</div>
 		</div>
 
+
+
+
 		<div class="col-md-6">
 			<div class="card">
 				<div class="card-header">
 					<p class="text-muted">Detalles de trabajo</p>
 					<h4 class="text-uppercase mb-3"><?php echo $appl->OCUPACION; ?></h4>
 				</div>
+
+					
+
 				<div class="card-body">
 					<ul>
 						<li><i class="fp-ht-tv"></i>Sede contratante: <?php echo $appl->COMPANYNAME; ?></li>
@@ -144,7 +150,8 @@ $cur2 = $mydb->loadSingleResult();
 		});
 
 		// Establecer el contenido del contrato en el editor Quill
-C	}
+		C
+	}
 
 	function guardarContrato() {
 		var contenidoModificado = quill.root.innerHTML;

@@ -56,9 +56,16 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
 								<td style="width: 7%;">
 									<div class="badges text-center"><span style="cursor:pointer;" ondblclick="state(<?php echo $result->ESTADO ?>, <?php echo $result->INCID ?>)" class="badge bg-<?= ($result->ESTADO == 1) ? 'success' : 'danger' ?>"><?= ($result->ESTADO == 1) ? 'Activo' : 'Inactivo' ?></span></div>
 								</td>
-								<td style="width: 5%;">
+								<!-- <td style="width: 5%;">
 									<a class="btn bg-success" onclick='viewEmployee(<?php echo json_encode($result) ?>)'><i class="bi bi-eye"></i></a>
+								</td> -->
+
+								<td>
+									<a title="View" href="index.php?view=view&id=<?php echo $result->INCID ?>" class="btn bg-success btn-outline-light btn-xs">
+										<i class="bi bi-eye"></i>
+									</a>
 								</td>
+
 							</tr>
 						<?php } ?>
 					</tbody>

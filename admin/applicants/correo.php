@@ -62,7 +62,13 @@ Atentamente,
 [Nombre de la empresa]
 
 
-PROCESO DE EVALUACIÓN GANDULES / RECHAZO DE EVALUACION
 
 
-PROCESO DE EVALUACIÓN GANDULES / RECHAZO DE CV
+
+
+
+
+
+
+
+

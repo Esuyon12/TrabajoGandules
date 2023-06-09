@@ -1173,11 +1173,11 @@ progress {
 }
 .g-4,
 .gx-4 {
-  --bs-gutter-x: 1.5rem;
+  --bs-gutter-x: 0rem;
 }
 .g-4,
 .gy-4 {
-  --bs-gutter-y: 1.5rem;
+  --bs-gutter-y: 0rem;
 }
 .g-5,
 .gx-5 {
@@ -18089,7 +18089,7 @@ body.theme-dark .btn-accion {
   font-weight: 900;
 }
 
-#addbtn ion-icon{
+#addbtn ion-icon {
   font-size: 20px;
 }
 
@@ -18152,14 +18152,14 @@ body.theme-dark .google-compose-body-container {
   border-radius: 10px !important;
 }
 
-.user-card{
+.user-card {
   display: flex;
   align-items: center;
   width: 100%;
   overflow: hidden;
 }
 
-.img-user{
+.img-user {
   width: 130px;
   max-width: 90px;
   max-height: 90px;
@@ -18169,22 +18169,22 @@ body.theme-dark .google-compose-body-container {
   padding: 10px;
 }
 
-.user-list{
-  margin-left:10px;
+.user-list {
+  margin-left: 10px;
   width: 55%;
 }
 
-.btndetails{
+.btndetails {
   height: 90px !important;
   width: 20%;
 }
 
-.btndetails ion-icon{
+.btndetails ion-icon {
   font-size: 35px;
   color: #fff;
 }
 
-#imagenPreview{
+#imagenPreview {
   display: flex;
   justify-content: center;
   /* width: 100%; */
@@ -18196,6 +18196,6 @@ body.theme-dark .google-compose-body-container {
   align-items: center;
 }
 
-#imgBackup{
+#imgBackup {
   display: none;
 }

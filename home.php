@@ -225,27 +225,66 @@ background-image: linear-gradient(132deg, #2fa14c 0%, #a1af31 100%);
 <!-- About End -->
 
 
+<?php
+
+$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tbljob WHERE JOBSTATUS = 0");
+$totalVacantesActivas = $mydb->loadSingleResult();
+
+$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblareas WHERE ESTADO = 1");
+$areas = $mydb->loadSingleResult();
+
+$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblocupaciones WHERE OCUPACIONSTATUS = 1");
+$ocupaciones = $mydb->loadSingleResult();
+
+$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblemployees WHERE ESTADO = 1");
+$totalempleados = $mydb->loadSingleResult();
+
+
+?>
+
 
 
 <div class="container-fluid facts my-5 py-5" data-parallax="scroll" data-image-src="assets/img/carrosel.PNG">
   <div class="container py-5">
     <div class="row g-5">
-      <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.1s">
-        <h1 class="display-4 text-white" data-toggle="counter-up">123</h1>
-        <span class="fs-5 fw-semi-bold text-light">Postulanciones al mes</span>
-      </div>
+
       <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.3s">
-        <h1 class="display-4 text-white" data-toggle="counter-up">134</h1>
-        <span class="fs-5 fw-semi-bold text-light">Vacantes disponibles</span>
+        <?php if (isset($totalVacantesActivas->TOTAL)) : ?>
+          <h1 class="display-4 text-white" data-toggle="counter-up"><?php echo $totalVacantesActivas->TOTAL; ?></h1>
+        <?php else : ?>
+          <h1 class="display-4 text-white" data-toggle="counter-up">0</h1>
+        <?php endif; ?>
+        <span class="fs-5 fw-semi-bold text-light">Vacantes</span>
       </div>
-      <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.5s">
-        <h1 class="display-4 text-white" data-toggle="counter-up">123</h1>
-        <span class="fs-5 fw-semi-bold text-light">Areas</span>
+
+      <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.3s">
+        <?php if (isset($areas->TOTAL)) : ?>
+          <h1 class="display-4 text-white" data-toggle="counter-up"><?php echo $areas->TOTAL; ?></h1>
+        <?php else : ?>
+          <h1 class="display-4 text-white" data-toggle="counter-up">0</h1>
+        <?php endif; ?>
+        <span class="fs-5 fw-semi-bold text-light">Áreas</span>
       </div>
-      <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.7s">
-        <h1 class="display-4 text-white" data-toggle="counter-up">124</h1>
+
+      <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.3s">
+        <?php if (isset($ocupaciones->TOTAL)) : ?>
+          <h1 class="display-4 text-white" data-toggle="counter-up"><?php echo $ocupaciones->TOTAL; ?></h1>
+        <?php else : ?>
+          <h1 class="display-4 text-white" data-toggle="counter-up">0</h1>
+        <?php endif; ?>
         <span class="fs-5 fw-semi-bold text-light">Ocupaciónes</span>
       </div>
+
+
+      <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.3s">
+        <?php if (isset($totalempleados->TOTAL)) : ?>
+          <h1 class="display-4 text-white" data-toggle="counter-up"><?php echo $totalempleados->TOTAL; ?></h1>
+        <?php else : ?>
+          <h1 class="display-4 text-white" data-toggle="counter-up">0</h1>
+        <?php endif; ?>
+        <span class="fs-5 fw-semi-bold text-light">Empleados</span>
+      </div>
+
     </div>
   </div>
 </div>
@@ -401,20 +440,7 @@ background-image: linear-gradient(132deg, #2fa14c 0%, #a1af31 100%);
 
 <div class="container-fluid facts my-5 py-5" data-parallax="scroll" data-image-src="assets/img/carrosel.PNG">
   <div class="container py-5">
-    <div class="row g-5">
-      <div class="col-lg-12 wow fadeIn">
-        <div class="bg-white shadow d-flex align-items-center h-100 px-5" style="min-height: 140px;">
-          <div class="d-flex">
-            <div class="flex-shrink-0 btn-lg-square rounded-circle bg-light">
-              <i class="fa fa-users text-primary"></i>
-            </div>
-            <div class="ps-3">
-              <h4>Inocuidad y bienestar</h4>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
   </div>
 </div>
 
