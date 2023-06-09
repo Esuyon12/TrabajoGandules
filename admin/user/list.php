@@ -75,12 +75,12 @@ $res = $autonum->set_autonumber('userid');
 								<td style="width: 7%;">
 									<span class="badge <?= ($result->ROLE == 'Administrador') ? 'bg-blue' : 'bg-success'; ?>"><?= $result->ROLE ?></span>
 								</td>
-
+								<!-- 
 								<td style="width: 5%;">
 									<a title="edit" href="#" class="btn bg-success btn-outline-light btn-xs" onclick='editUser(<?= json_encode($result) ?>)'>
 										<i class="bi bi-arrow-right"></i>
 									</a>
-								</td>
+								</td> -->
 
 							</tr>
 						<?php } ?>

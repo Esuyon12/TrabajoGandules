@@ -65,8 +65,8 @@ $cur = $mydb->loadResultList(); ?>
 								<div class="badges text-center"><span style="cursor:pointer;" ondblclick="state(<?php echo $result->JOBSTATUS ?>, <?php echo $result->JOBID ?>)" class="badge bg-<?= ($result->JOBSTATUS == 1) ? 'danger' : 'success' ?>"><?= ($result->JOBSTATUS == 1) ? 'Inactivo' : 'Activo' ?></span></div>
 							</td>
 
-							<td style="width: 5%;">
-								<a title="Edit" href="#" class="btn bg-success btn-outline-light btn-xs" onclick='editVacancy(<?php echo json_encode($result) ?>)'>
+							<td>
+								<a title="Edit" href="#" class="btn btn-grads btn-outline-light btn-xs" onclick='editVacancy(<?php echo json_encode($result) ?>)'>
 									<i class="bi bi-pencil-square text-white"></i>
 								</a>
 							</td>

@@ -190,21 +190,6 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 				</div>
 			</div>
 
-			<div class="card-header">
-				<h4>Keywords</h4>
-			</div>
-			<div class="card-body">
-				<div class="tags">
-					<?php if (empty($keyword)) { ?>
-						<span>No hay keywords relacionados</span>
-					<?php } else { ?>
-						<?php foreach ($keyword as $row) { ?>
-							<span class="badge bg-primary"><?php echo $row->keyword; ?></span>
-						<?php } ?>
-					<?php } ?>
-				</div>
-			</div>
-
 		</div>
 	</div>
 </div>
@@ -268,7 +253,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
 			content.innerHTML = `
 			<div class="d-flex justify-content-between">
-			<h2>TAREA</h2>
+			<h2></h2>
 			<div class="d-flex align-items-center justify-content-end">
 				<a style="cursor:pointer;" class="d-flex p-2 rounded-start bg-body" onclick="tmre(1, 'RESULT')">
 					<ion-icon name="remove-outline"></ion-icon>
@@ -283,7 +268,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 				${tarea}
 			</div>
 			<div class="card bg-dark text-bg-dark" style="margin-bottom: 0px !important">
-				<div class="card-body text-center"
+				<div class="card-body text-left"
 					${ata}
 				</div>
 			</div>

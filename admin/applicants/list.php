@@ -19,16 +19,39 @@ $fechaHoraActual = date('Y-m-d H:i:s');
 
 ?>
 
-
+<!-- 
 <div class="page-title">
 	<div class="row">
 		<div class="col-12 col-md-6 order-md-1 order-last">
 			<h1>Aplicantes</h1>
 		</div>
 	</div>
+</div> -->
+
+
+<div class="page-heading">
+
+
+	<div class="col-lg-12">
+		<div class="d-flex justify-content-between align-items-center w-100">
+			<div class="page-title">
+				<div class="row">
+					<div class="col-12 col-md-6 order-md-1 order-last">
+						<h1>Solicitudes</h1>
+					</div>
+				</div>
+			</div>
+			<div class="d-flex">
+				<div class="form-floating mb-4">
+					<input type="text" id="tableSearch" class="form-control shadow" placeholder="Escriba su búsqueda aquí...">
+					<label for="tableSearch">Buscar registros</label>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
-<div class="row d-flex align-items-center">
+<!-- <div class="row d-flex align-items-center">
 	<div class="col-md-12">
 		<div class="card bg-white">
 			<div class="card-body">
@@ -71,7 +94,7 @@ $fechaHoraActual = date('Y-m-d H:i:s');
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
 <div class="col-lg-12">
 	<div class="card">

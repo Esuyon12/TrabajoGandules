@@ -47,7 +47,7 @@ $mydb->setQuery("SELECT * FROM `tblkeywords` o, `tblocupaciones` a WHERE o.`OCUP
 $cur = $mydb->loadResultList();
 ?>
 
-<!-- <div class="col-lg-12">
+<div class="col-lg-12">
 	<div class="card shadow">
 		<div class="card-body">
 			<table id="myTable" class="table table-striped table-bordered">
@@ -72,9 +72,9 @@ $cur = $mydb->loadResultList();
 			</table>
 		</div>
 	</div>
-</div> -->
+</div>
 
-<div class="col-lg-12 mt-5">
+<!-- <div class="col-lg-12 mt-5">
 
 	<div class="container">
 		<div class="row">
@@ -123,7 +123,7 @@ $cur = $mydb->loadResultList();
 
 		</div>
 	</div>
-</div>
+</div> -->
 
 
 <script>

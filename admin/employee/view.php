@@ -3,14 +3,19 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
 	redirect(web_root . "admin/index.php");
 }
 
-$mydb->setQuery("SELECT * FROM  `tblemployees` e, `tblapplicants`a, `tblareas` r, `tblcompany` c, `tblocupaciones` o WHERE e.`APLICANTID` = a.`APPLICANTID` AND e.`AREAID` = r.`AREAID` AND e.`OCUPACIONID` = o.`OCUPACIONID` AND e.`COMPANYID` = c.`COMPANYID`");
-$cur = $mydb->loadResultList();
+$mydb->setQuery("SELECT * FROM  `tblemployees` e, `tblapplicants`a, `tblareas` r, `tblcompany` c, `tblocupaciones` o WHERE e.`APLICANTID` = " . $_GET['id'] . " AND e.`AREAID` = r.`AREAID` AND e.`OCUPACIONID` = o.`OCUPACIONID` AND e.`COMPANYID` = c.`COMPANYID`");
+$cur = $mydb->loadSingleResult();
 
-$appl = $cur[0];
+$appl = $cur;
 
 
 $mydb->setQuery("SELECT * FROM `tblevaluaciones` e, `tblapplicants` a, `tblcreaevaluaciones` c , `tbljob` j , `tbltipocontrato` r WHERE e.`APPLICANTID` = a.`APPLICANTID` AND e.`IDEVALUACIONCREA` = c.`IDEVALUACIONCREA` AND a.`JOBID` = j.`JOBID` AND j.`TCONTRATOID` = r.`TCONTRATOID` AND a.`APPLICANTID` = " . $_GET['id'] . " AND e.`OCUPACIONID` = " . $appl->OCUPACIONID . " AND e.`AREAID` = " . $appl->AREAID);
 $cur2 = $mydb->loadSingleResult();
+
+// echo ("SELECT * FROM `tblevaluaciones` e, `tblapplicants` a, `tblcreaevaluaciones` c , `tbljob` j , `tbltipocontrato` r WHERE e.`APPLICANTID` = a.`APPLICANTID` AND e.`IDEVALUACIONCREA` = c.`IDEVALUACIONCREA` AND a.`JOBID` = j.`JOBID` AND j.`TCONTRATOID` = r.`TCONTRATOID` AND a.`APPLICANTID` = " . $_GET['id'] . " AND e.`OCUPACIONID` = " . $appl->OCUPACIONID . " AND e.`AREAID` = " . $appl->AREAID);
+
+// print_r($cur2);
+// exit;
 
 ?>
 
@@ -18,7 +23,7 @@ $cur2 = $mydb->loadSingleResult();
 
 	<div class="row">
 		<div class="col-md-8">
-			<h3 class="text-uppercase mb-3">Detalles de <?= $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?></h3>
+			<h3 class="text-uppercase mb-3">Detalles de <?= $cur2->FNAME . ' ' . $cur2->LNAME . ' ' . $cur2->MNAME; ?></h3>
 		</div>
 	</div>
 
@@ -34,18 +39,18 @@ $cur2 = $mydb->loadSingleResult();
 			<div class="card shadow-sm">
 				<div class="card-header">
 					<p class="text-muted">Informacion del aplicante</h4>
-					<h4 class="text-uppercase"><?php echo $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?></h3>
+					<h4 class="text-uppercase"><?php echo $cur2->FNAME . ' ' . $cur2->LNAME . ' ' . $cur2->MNAME; ?></h3>
 				</div>
 				<div class="card-body">
 					<ul>
-						<li>DNI: <?php echo $appl->DNI; ?></li>
-						<li>Correo electronico: <?php echo $appl->EMAILADDRESS; ?></li>
-						<li>Telefono: <?php echo $appl->CONTACTNO; ?></li>
-						<li>Fecha de contrato: <?php echo fechaespañol($appl->DATEHIRED) ?></li>
+						<li>DNI: <?php echo $cur2->DNI; ?></li>
+						<li>Correo electronico: <?php echo $cur2->EMAILADDRESS; ?></li>
+						<li>Telefono: <?php echo $cur2->CONTACTNO; ?></li>
+						<li>Fecha de contrato: <?php echo fechaespañol($cur2->DATEADD) ?></li>
 					</ul>
 					<div class="row">
 						<div class="col-md-12">
-							<a class="d-flex px-5 py-2 justify-content-center rounded-3 btn bg-success text-light" onclick="mostrarPDF('<?php echo $appl->CVFILE; ?>')">
+							<a class="d-flex px-5 py-2 justify-content-center rounded-3 btn btn-grad text-light" onclick="mostrarPDF('<?php echo $cur2->CVFILE; ?>')">
 								<p>VER CURRICULUM VITAE</p>
 							</a>
 						</div>
@@ -66,7 +71,7 @@ $cur2 = $mydb->loadSingleResult();
 					<div class="row">
 						<div class="col-md-12">
 							<?php if (!empty($cur2->RESULT)) { ?>
-								<a class="d-flex px-5 py-2 justify-content-center rounded-3 btn bg-success text-light" href="#" onclick="viewEva('<?php echo isset($cur2->RESPUESTA) ? $cur2->RESPUESTA : '' ?>', '<?php echo isset($cur2->TAREA) ? $cur2->TAREA : '' ?>')">
+								<a class="d-flex px-5 py-2 justify-content-center rounded-3 btn btn-grad text-light" href="#" onclick="viewEva('<?php echo isset($cur2->RESPUESTA) ? $cur2->RESPUESTA : '' ?>', '<?php echo isset($cur2->TAREA) ? $cur2->TAREA : '' ?>')">
 									<p>VER EVALUACIÓN</p>
 								</a>
 							<?php } ?>
@@ -76,34 +81,33 @@ $cur2 = $mydb->loadSingleResult();
 			</div>
 		</div>
 
-
-
-
 		<div class="col-md-6">
-			<div class="card">
-				<div class="card-header">
-					<p class="text-muted">Detalles de trabajo</p>
-					<h4 class="text-uppercase mb-3"><?php echo $appl->OCUPACION; ?></h4>
-				</div>
+			<div class="card shadow-sm">
 
-					
+				<div class="card">
+					<div class="card-header">
+						<p class="text-muted">Detalles de trabajo</p>
+						<h4 class="text-uppercase mb-3"><?php echo $appl->OCUPACION; ?></h4>
+					</div>
 
-				<div class="card-body">
-					<ul>
-						<li><i class="fp-ht-tv"></i>Sede contratante: <?php echo $appl->COMPANYNAME; ?></li>
-						<li><i class="fp-ht-computer"></i>Lugar de trabajo : <?php echo $appl->COMPANYADDRESS; ?></li>
-						<li><i class="fp-ht-food"></i>Sueldo : S/. <?php echo number_format($cur2->SUELDO, 2);  ?> (Mensual)</li>
+					<div class="card-body">
+						<ul>
+							<li><i class="fp-ht-tv"></i>Sede contratante: <?php echo $appl->COMPANYNAME; ?></li>
+							<li><i class="fp-ht-computer"></i>Lugar de trabajo: <?php echo $appl->COMPANYADDRESS; ?></li>
+							<?php if (isset($cur2->SUELDO)) { ?>
+								<li><i class="fp-ht-food"></i>Sueldo: S/. <?php echo number_format($cur2->SUELDO, 2); ?> (Mensual)</li>
+							<?php } ?>
+						</ul>
+						<ul>
+							<li><i class="fp-ht-tv"></i>Modalidad: <?php echo $cur2->MODALIDAD; ?></li>
+							<li><i class="fp-ht-tv"></i>Tipo de contrato: <?php echo $cur2->TIPOCONTRATO; ?></li>
+						</ul>
 
-					</ul>
-					<ul>
-						<li><i class="fp-ht-tv"></i>Modalidad: <?php echo $cur2->MODALIDAD; ?></li>
-						<li><i class="fp-ht-tv"></i>Tipo de contrato: <?php echo $cur2->TIPOCONTRATO; ?></li>
-					</ul>
-
-					<div class="col-md-12">
-						<a class="d-flex px-5 py-2 justify-content-center rounded-3 btn bg-success text-light" onclick="mostrarContrato('<?php echo $cur2->TCONTRATOID; ?>')">
-							<p>VER CONTRATO</p>
-						</a>
+						<div class="col-md-12">
+							<a class="d-flex px-5 py-2 justify-content-center rounded-3 btn btn-grad text-light" onclick="mostrarContrato('<?php echo $cur2->TCONTRATOID; ?>')">
+								<p>VER CONTRATO</p>
+							</a>
+						</div>
 					</div>
 
 				</div>
@@ -127,15 +131,14 @@ $cur2 = $mydb->loadSingleResult();
 	let quill; // Declarar quill como variable global
 
 	function mostrarContrato(e) {
-		head.innerHTML = "";
+		head.innerHTML = "<p style='text-transform: uppercase; text-align: center;'><?php echo $cur2->TIPOCONTRATO; ?></p>";
 		content.innerHTML = `
             <div class="container-fluid mb-3">
-                <div id="editor"></div>
+                <div id="editor"><?php echo $cur2->CONTENIDO; ?></div>
             </div>
             `;
 		foot.innerHTML = `
-		<button class="btn btn-success text-light ml-1" onclick="guardarContrato()">Guardar</button>
-	<button class="btn btn-primary text-light ml-1" onclick="descargarContrato()">Descargar PDF</button>
+		<button class="btn btn-grad text-light ml-1" onclick="guardarContrato()">Aceptar</button>
 
             `;
 

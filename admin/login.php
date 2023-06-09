@@ -10,7 +10,7 @@ try {
 
 
   $max_attempts = 3; // Número máximo de intentos fallidos permitidos
-  $max_time = 120; // Tiempo máximo permitido en segundos
+  $max_time = 60; // Tiempo máximo permitido en segundos
 
 
   // Comprobar si ha pasado el tiempo límite
@@ -185,9 +185,9 @@ try {
             </div>
 
             <div class="text-center p-t-12">
-              <a class="txt2" href="#" data-toggle="modal" data-target="#resetModal">
+              <!-- <a class="txt2" href="#" data-toggle="modal" data-target="#resetModal">
                 ¿Olvidó su nombre de usuario/contraseña?
-              </a>
+              </a> -->
             </div>
             <div class="text-center p-t-50">
               <!-- <a class="txt2" href="#">

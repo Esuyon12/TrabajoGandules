@@ -61,7 +61,7 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
 								</td> -->
 
 								<td>
-									<a title="View" href="index.php?view=view&id=<?php echo $result->INCID ?>" class="btn bg-success btn-outline-light btn-xs">
+									<a title="View" href="index.php?view=view&id=<?php echo $result->APPLICANTID ?>" class="btn-grads ">
 										<i class="bi bi-eye"></i>
 									</a>
 								</td>

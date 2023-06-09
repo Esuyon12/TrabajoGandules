@@ -70,8 +70,8 @@ $cur = $mydb->loadResultList(); ?>
                             <td>
                                 <div class="badges text-center"><span style="cursor:pointer;" ondblclick="state(<?php echo $result->OCUPACIONSTATUS ?>, <?php echo $result->OCUPACIONID  ?>)" class="badge bg-<?= ($result->OCUPACIONSTATUS == 1) ? 'success' : 'danger' ?>"><?= ($result->OCUPACIONSTATUS == 1) ? 'Activo' : 'Inactivo' ?></span></div>
                             </td>
-                            <td class="center">
-                                <a title="Edit" href="#" class="btn bg-success btn-outline-light btn-xs" onclick='editOcupacion(<?= json_encode($result) ?>)'><i class="bi bi-pencil-fill"></i></a>
+                            <td>
+                                <a title="Edit" href="#" class="btn btn-grads btn-outline-light btn-xs" onclick='editOcupacion(<?= json_encode($result) ?>)'><i class="bi bi-pencil-fill"></i></a>
                             </td>
                             <!-- <td class="center">
                                 <a title="Delete" onclick='deleteOcupacion(<?= json_encode($result) ?>)' class="btn btn-danger btn-xs"><i class="bi bi-trash-fill"></i></a>

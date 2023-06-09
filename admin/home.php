@@ -22,7 +22,7 @@ $mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tbljob WHERE JOBSTATUS = 0");
 $totalVacantesActivas = $mydb->loadSingleResult();
 
 
-$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblemployees WHERE ESTADO = 1");
+$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblemployees WHERE ESTADO = 0");
 $totalempleados = $mydb->loadSingleResult();
 
 $mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblusers");
@@ -173,7 +173,7 @@ $totalaplicantes = $mydb->loadSingleResult();
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
-                            <p><b> Lista de principales Ocupaciónes </b></p>
+                            <p><b>OCUPACIONES CON VACANTES </b></p>
                             <br>
                             <div class="row g-4">
                                 <?php
@@ -191,7 +191,7 @@ $totalaplicantes = $mydb->loadSingleResult();
                                 ?>
                                         <div class="col-lg-12">
                                             <div class="btn-gris">
-                                                <a href="<?php echo URL_WEB . web_root; ?>index.php?q=area&search=<?php echo $result->OCUPACION ?>">
+                                                <a href="<?= web_root ?>admin/ocupaciones/">
                                                     <p style="color:#fff"><?php echo $result->OCUPACION ?></p>
                                                 </a>
                                             </div>
