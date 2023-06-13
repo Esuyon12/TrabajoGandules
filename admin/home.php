@@ -22,7 +22,7 @@ $mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tbljob WHERE JOBSTATUS = 0");
 $totalVacantesActivas = $mydb->loadSingleResult();
 
 
-$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblemployees WHERE ESTADO = 0");
+$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblemployees WHERE ESTADO = 1");
 $totalempleados = $mydb->loadSingleResult();
 
 $mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblusers");
