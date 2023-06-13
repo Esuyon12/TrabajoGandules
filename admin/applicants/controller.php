@@ -28,6 +28,8 @@ function doSubmitApplication()
 		// echo json_encode(array("post" => $_POST,"files" => $_FILES)); exit;
 
 		$dni = $_POST['DNI'];
+		$ocup = $_POST['OCUPACIONID'];
+		unset($_POST['OCUPACIONID']);
 
 		$curl = curl_init();
 
@@ -55,7 +57,7 @@ function doSubmitApplication()
 		$_POST['LNAME'] = $response->apellidoPaterno;
 		$_POST['FNAME'] = $response->nombres;
 
-		$points = verifyPoints();
+		$points = verifyPoints($ocup);
 		$_POST['POINTS'] = $points;
 		$picture = UploadImage();
 
@@ -125,8 +127,13 @@ function GetUploadErrorMessage($error_code)
 	}
 }
 
-function verifyPoints()
+function verifyPoints($ocup)
 {
+
+	global $mydb;
+
+	// $ocup
+
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		// Verificar que se haya subido un archivo PDF
 		if (!empty($_FILES['CVFILE']['name']) && $_FILES['CVFILE']['type'] == 'application/pdf') {
@@ -145,8 +152,12 @@ function verifyPoints()
 				// Limpiar el texto
 				$text = clean_text($text);
 
+				$sql = "SELECT keyword FROM `tblkeywords` WHERE OCUPACIONID = " . $ocup;
+				$mydb->setQuery($sql);
+				$cur = $mydb->loadResultList();
+
 				// Definir las palabras clave relevantes para la evaluación sssa
-				$palabras_clave = array('proyecto', 'innovación', 'mejora', 'input', 'excel'); //Aqui sera la BD 
+				$palabras_clave = array_column($cur, 'keyword'); //Aqui sera la BD 
 
 
 				// Evaluar la relevancia del documento en base a las palabras clave

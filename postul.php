@@ -1,3 +1,4 @@
+
 <head>
     <title>Solicitud | Gandules.</title>
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo-gandules.png" />
@@ -125,6 +126,9 @@ require_once("include/initialize.php");
 
 $_POST['COMPANYID'] = $_SESSION['COMPANYID'];
 $_POST['JOBID'] = $_SESSION['JOBID'];
+$_POST['OCUPACIONID'] = $_SESSION['OCUPACIONID'];
+echo json_encode($_POST);
+die;
 
 $file = $_FILES['CVFILE'];
 
