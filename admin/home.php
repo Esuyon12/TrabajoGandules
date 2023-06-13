@@ -1,19 +1,19 @@
 <?php
 
-$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblapplicants WHERE MONTH(DATEADD) = 6 AND STATE = 0");
+$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblapplicants WHERE MONTH(DATEADD) = MONTH(CURRENT_DATE()) AND STATE = 0");
 $total = $mydb->loadSingleResult();
 
 $mydb->setQuery("SELECT COUNT(*) AS TOTAL
 FROM tblapplicants a
 INNER JOIN tblevaluaciones e ON a.APPLICANTID = e.APPLICANTID
-WHERE MONTH(DATEADD) = 6 AND e.RESPUESTA IS NULL;
+WHERE MONTH(DATEADD) = MONTH(CURRENT_DATE()) AND e.RESPUESTA IS NULL;
 ");
 $pent = $mydb->loadSingleResult();
 
 $mydb->setQuery("SELECT COUNT(*) AS TOTAL 
 FROM tblapplicants a 
 INNER JOIN tblevaluaciones e ON a.APPLICANTID = e.APPLICANTID 
-WHERE MONTH(DATEADD) = 6 AND e.RESPUESTA IS NOT NULL AND e.RESPUESTA <> ''");
+WHERE MONTH(DATEADD) = MONTH(CURRENT_DATE()) AND e.RESPUESTA IS NOT NULL AND e.RESPUESTA <> ''");
 $rev = $mydb->loadSingleResult();
 
 
@@ -22,7 +22,7 @@ $mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tbljob WHERE JOBSTATUS = 0");
 $totalVacantesActivas = $mydb->loadSingleResult();
 
 
-$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblemployees WHERE ESTADO = 1");
+$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblemployees WHERE ESTADO = 1 AND MONTH(fecha_columna) = MONTH(CURRENT_DATE())");
 $totalempleados = $mydb->loadSingleResult();
 
 $mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblusers");
