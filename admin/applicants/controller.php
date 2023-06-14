@@ -157,7 +157,11 @@ function verifyPoints($ocup)
 				$cur = $mydb->loadResultList();
 
 				// Definir las palabras clave relevantes para la evaluación sssa
-				$palabras_clave = array_column($cur, 'keyword'); //Aqui sera la BD 
+				// $palabras_clave = array('hola', 'como', 'estas', 'esto', 'prueba', 'palabras', 'cazzu');
+				// $palabras_clave = array('ingeniero', 'sistemas', 'php', 'javascript', 'datos', 'software');
+				// $palabras_clave = array('tecnico','prevencion', 'riesgo');
+
+				$palabras_clave = array_column($cur, 'keyword');
 
 
 				// Evaluar la relevancia del documento en base a las palabras clave

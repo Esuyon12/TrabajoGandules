@@ -12,6 +12,7 @@ $sql = "SELECT * FROM `tblcompany` c,`tbltipocontrato` t, `tblocupaciones`o,`tbl
 $mydb->setQuery($sql);
 $cur = $mydb->loadResultList();
 
+// print_r($cur[0]);
 $_SESSION['COMPANYID'] = $cur[0]->COMPANYID;
 $_SESSION['JOBID'] = $cur[0]->JOBID;
 $_SESSION['OCUPACIONID'] = $cur[0]->OCUPACIONID;

@@ -18,17 +18,19 @@ $search = $mydb->loadResultList(); ?>
 	<div class="col-md-6">
 		<div class="row">
 			<div class="col-md-6">
+
 				<div class="form-floating shadow mb-3">
-					<select class="form-select" id="floatingSelect" onchange="valuechange(this)" aria-label="Floating label select example">
-						<option selected value="">Todos</option>
-						<?php foreach ($search as $key) { ?>
+				<select class="form-select" id="floatingSelect" onchange="valuechange(this)" aria-label="Floating label select example">
+					<option selected value="">Todos</option>
+					<?php foreach ($search as $key) {
+						if ($key->OCUPACIONSTATUS == 1) { ?>
 							<option value="<?php echo $key->OCUPACION ?>"><?php echo $key->OCUPACION ?></option>
+					<?php }
+					} ?>
+				</select>
+				<label for="floatingSelect"> <i class="bi bi-search"></i> Filtrar por ocupación</label>
+			</div>
 
-
-						<?php } ?>
-					</select>
-					<label for="floatingSelect"> <i class="bi bi-search"></i> Filtrar por ocupación</label>
-				</div>
 
 			</div>
 			<div class="col-md-6">
@@ -47,7 +49,7 @@ $mydb->setQuery("SELECT * FROM `tblkeywords` o, `tblocupaciones` a WHERE o.`OCUP
 $cur = $mydb->loadResultList();
 ?>
 
-<div class="col-lg-12">
+<!-- <div class="col-lg-12">
 	<div class="card shadow">
 		<div class="card-body">
 			<table id="myTable" class="table table-striped table-bordered">
@@ -72,9 +74,9 @@ $cur = $mydb->loadResultList();
 			</table>
 		</div>
 	</div>
-</div>
+</div> -->
 
-<!-- <div class="col-lg-12 mt-5">
+<div class="col-lg-12 mt-5">
 
 	<div class="container">
 		<div class="row">
@@ -123,7 +125,7 @@ $cur = $mydb->loadResultList();
 
 		</div>
 	</div>
-</div> -->
+</div>
 
 
 <script>
