@@ -48,34 +48,36 @@ $search = $mydb->loadResultList(); ?>
 $mydb->setQuery("SELECT * FROM `tblkeywords` o, `tblocupaciones` a WHERE o.`OCUPACIONID` = a.`OCUPACIONID` AND a.`OCUPACIONSTATUS` = 1");
 $cur = $mydb->loadResultList();
 ?>
+<?php
+	foreach ($cur as $result) { ?>
+<?php } ?>
 
-<!-- <div class="col-lg-12">
-	<div class="card shadow">
-		<div class="card-body">
-			<table id="myTable" class="table table-striped table-bordered">
-				<thead>
+<style>
+	.keyword {
+		background-image: linear-gradient(
+    to right,
+    #56ab2f 0%,
+    #61a80a 51%,
+    #56ab2f 100%
+  );
+  margin: 2px;
+  padding: 2px 5px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  display: block;
+}
 
-					<tr>
-						<th>Ocupación</th>
-						<th>keyword</th>
-					</tr>
-				</thead>
+.keyword-row {
+	display: flex;
+	flex-wrap: wrap;
+}
 
-				<tbody>
-					<?php
-					foreach ($cur as $result) { ?>
-						<tr>
-							<td><?= $result->OCUPACION ?></td>
-							<td><?= $result->keyword ?></td>
-						</tr>
-					<?php } ?>
-				</tbody>
 
-			</table>
-		</div>
-	</div>
-</div> -->
-
+</style>
 <div class="col-lg-12 mt-5">
 
 	<div class="container">
@@ -103,7 +105,7 @@ $cur = $mydb->loadResultList();
 			?>
 			<?php foreach ($ocupaciones as $ocupacion => $keywords) { ?>
 
-				<div class="col-lg-3 col-md-6 col-12">
+				<div class="col-lg-4 col-md-6 col-12">
 					<div class="card shadow-sm">
 						<div class="card-header">
 							<div class="d-flex align-items-center w-100">
@@ -115,10 +117,36 @@ $cur = $mydb->loadResultList();
 
 						</div>
 						<div class="card-body">
-							<?php foreach ($keywords as $keyword) { ?>
-								<p class="text-muted"><?php echo $keyword; ?></p>
-							<?php } ?>
-						</div>
+	<?php
+	$counter = 0; // Contador para controlar el número de keywords por fila
+	foreach ($keywords as $keyword) {
+		if ($counter % 3 == 0) {
+			// Iniciar una nueva fila de keywords
+			echo '<div class="keyword-row">';
+		}
+		?>
+		<p class="text-muted">
+			<?php
+			$keywords = explode(" ", $keyword); // Suponiendo que $keyword es una cadena con varias palabras separadas por espacio
+			foreach ($keywords as $kw) {
+				echo '<span class="keyword">' . $kw . '</span> ';
+			}
+			?>
+		</p>
+		<?php
+		$counter++;
+		if ($counter % 3 == 0) {
+			// Cerrar la fila de keywords
+			echo '</div>';
+		}
+	}
+	// Comprobar si la última fila no está cerrada
+	if ($counter % 3 != 0) {
+		echo '</div>';
+	}
+	?>
+</div>
+
 					</div>
 				</div>
 			<?php } ?>

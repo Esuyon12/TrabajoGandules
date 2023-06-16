@@ -5,10 +5,26 @@ if (isset($_GET['search'])) {
     $COMPANYNAME = '';
 }
 
-$sql = "SELECT * FROM `tblcompany` c,`tblocupaciones` o,`tbljob` j, `tblareas` a WHERE c.`COMPANYID`=j.`COMPANYID` AND j.`AREAID`=a.`AREAID` AND JOBSTATUS = 0 AND j.`OCUPACIONID`=o.`OCUPACIONID` AND COMPANYNAME LIKE '%" . $COMPANYNAME . "%' AND c.`COMPANYSTATUS` = 1 ORDER BY DATEPOSTED DESC ";
+$sql = "SELECT * FROM `tblcompany` c,`tblocupaciones` o, `tbltipocontrato` t, `tbljob` j, `tblareas` a WHERE c.`COMPANYID`=j.`COMPANYID` AND j.`AREAID`=a.`AREAID` AND JOBSTATUS = 0 AND j.`OCUPACIONID`=o.`OCUPACIONID` AND  j.`TCONTRATOID`=t.`TCONTRATOID` AND COMPANYNAME LIKE '%" . $COMPANYNAME . "%' AND c.`COMPANYSTATUS` = 1 ORDER BY DATEPOSTED DESC ";
 
 $mydb->setQuery($sql);
 $cur = $mydb->loadResultList();
+
+
+// Obtener las áreas
+$areas = array();
+foreach ($cur as $result) {
+    $areas[] = $result->AREA;
+}
+$areas = array_unique($areas);
+
+// Obtener las ubicaciones
+$companys = array();
+foreach ($cur as $result) {
+    $companys[] = $result->COMPANYADDRESS;
+}
+$companys = array_unique($companys);
+
 ?>
 
 
@@ -37,21 +53,46 @@ $cur = $mydb->loadResultList();
                     </div>
 
                     <div id="filtro" class="">
-                        <a href="#" class="bg-light d-flex gap-2 align-items-center p-2 rounded-pill">
-                            <i class="bi bi-calendar2-week" style="color: green;"></i>
-                            <p style="margin-bottom: 0 !important;">Fecha de publicación</p>
+                      <a href="#collapsePubli" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill" data-bs-toggle="collapse" role="button">
+                        <i class="bi bi-calendar2-week" style="color: green;"></i>
+                          <p style="margin-bottom: 0 !important;">Fecha de publicación</p>
                         </a>
+
+                        <div class="collapse" id="collapsePubli">
+    <div class="card card-body border-0">
+            <?php
+            $fechasPublicacion = array();
+            foreach ($cur as $result) {
+                $fechasPublicacion[] = $result->DATEPOSTED;
+            }
+            $fechasPublicacion = array_unique($fechasPublicacion);
+
+            foreach ($fechasPublicacion as $fechaPublicacion) {
+                echo '<p class="bg-light d-flex gap-2 mt-1 align-items-center p-1 rounded-pill"><a href="#" class="fecha.publicacion-filter">' . $fechaPublicacion . '</a></p>';
+            }
+            ?>
+    </div>
+</div>
+
+
 
                         <a href="#collapseArea" data-bs-toggle="collapse" role="button" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill">
-                            <i class="bi bi-box" style="color: green;"></i>
-                            <p style="margin-bottom: 0 !important;">Area</p>
-                        </a>
+            <i class="bi bi-box" style="color: green;"></i>
+            <p style="margin-bottom: 0 !important;">Área</p>
+        </a>
 
-                        <div class="collapse" id="collapseArea">
-                            <div class="card card-body  border-0">
-                                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-                            </div>
-                        </div>
+        <div class="collapse" id="collapseArea">
+    <div class="card card-body border-0">
+        <ul class="list-unstyled">
+            <?php
+            foreach ($areas as $area) {
+                echo '<p class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill"><a href="#" class="area-filter">' . $area . '</a></p>';
+            }
+            ?>
+        </ul>
+    </div>
+</div>
+
 
                         <a href="#collapseUbi" data-bs-toggle="collapse" role="button" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill">
                             <i class="bi bi-geo-fill" style="color: green;"></i>
@@ -60,8 +101,11 @@ $cur = $mydb->loadResultList();
 
                         <div class="collapse" id="collapseUbi">
                             <div class="card card-body  border-0">
-                                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-                            </div>
+                            <?php
+            foreach ($companys as $company) {
+                echo '<p class="bg-light d-flex gap-2 mt-1 align-items-center p-1 rounded-pill"><a href="#" class="ubi-filter">' . $company . '</a></p>';
+            }
+            ?>                            </div>
                         </div>
 
                         <a href="#collapseCon" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill" data-bs-toggle="collapse" role="button">
@@ -70,20 +114,22 @@ $cur = $mydb->loadResultList();
                         </a>
 
                         <div class="collapse" id="collapseCon">
-                            <div class="card card-body  border-0">
-                                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-                            </div>
-                        </div>
+    <div class="card card-body border-0">
+            <?php
+            // Obtener los tipos de contrato únicos de los resultados obtenidos
+            $tiposContrato = array();
+            foreach ($cur as $result) {
+                $tiposContrato[] = $result->TIPOCONTRATO;
+            }
+            $tiposContrato = array_unique($tiposContrato);
 
-                        <a href="#" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill">
-                            <i class="bi bi-stopwatch" style="color: green;"></i>
-                            <p style="margin-bottom: 0 !important;">Modalidad de trabajo</p>
-                        </a>
+            foreach ($tiposContrato as $tipoContrato) {
+                echo '<p class="bg-light d-flex gap-2 mt-1 align-items-center p-1 rounded-pill">' . $tipoContrato . '</a></p>';
+            }
+            ?>
+    </div>
+</div>
 
-                        <a href="#" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill">
-                            <i class="bi bi-gender-ambiguous" style="color: green;"></i>
-                            <p style="margin-bottom: 0 !important;">Genero</p>
-                        </a>
                     </div>
 
 
@@ -157,3 +203,24 @@ $cur = $mydb->loadResultList();
         </div>
     </div>
 </div>
+
+
+
+
+
+
+                    <!--<a href="#collapseMod" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill" data-bs-toggle="collapse" role="button">
+                            <i class="bi bi-briefcase" style="color: green;"></i>
+                            <p style="margin-bottom: 0 !important;">Modalidad de trabajo</p>
+                        </a>
+                                            
+                        <div class="collapse" id="collapseMod">
+                            <div class="card card-body border-0">
+                                <p class="bg-light d-flex gap-2 mt-1 align-items-center p-1 rounded-pill">Presencial</p>
+                            </div>
+                        </div>
+
+                        <a href="#" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill">
+                            <i class="bi bi-gender-ambiguous" style="color: green;"></i>
+                            <p style="margin-bottom: 0 !important;">Genero</p>
+                        </a> -->

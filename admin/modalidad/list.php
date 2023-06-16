@@ -10,7 +10,7 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h1>Áreas</h1>
+                <h1>Modalidad</h1>
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
         </div>
     </div>
 
-    <?php $mydb->setQuery("SELECT * FROM  `tblareas`");
+    <?php $mydb->setQuery("SELECT * FROM  `tblmodalidad`");
     $cur = $mydb->loadResultList(); ?>
     <div class="col-lg-12">
         <div class="card shadow-sm  ">
@@ -39,21 +39,15 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
                 <table id="myTable" class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>Área</th>
-                            <th></th>
+                            <th>Modalidad</th>
                             <th></th>
                         </tr>
                     </thead>
 
-
                     <tbody>
                         <?php foreach ($cur as $result) { ?>
                             <tr>
-                                <td><?= $result->AREA ?></td>
-                                <td style="width: 7%;">
-                                    <div class="badges text-center"><span style="cursor:pointer;" ondblclick="state(<?php echo $result->ESTADO ?>, <?php echo $result->AREAID ?>)" class="badge bg-<?= ($result->ESTADO == 1) ? 'success' : 'danger' ?>"><?= ($result->ESTADO == 1) ? 'Activo' : 'Inactivo' ?></span></div>
-                                </td>
-
+                                <td><?= $result->MODALIDAD ?></td>
                                 <td style="width: 5%;">
                                     <a title="Edit" href="#" class="btn btn-grads btn-outline-light btn-xs" onclick='editArea(<?= json_encode($result) ?>)'><i class="bi bi-pencil-square"></i></a>
                                 </td>

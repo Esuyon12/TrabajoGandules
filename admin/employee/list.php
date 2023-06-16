@@ -8,7 +8,6 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
 ?>
 
 <div class="page-heading">
-
 	<div class="col-lg-12">
 		<div class="d-flex justify-content-between align-items-center w-100">
 			<div class="d-flex">
@@ -22,6 +21,7 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
 			</div>
 		</div>
 	</div>
+</div>
 
 	<?php $mydb->setQuery("SELECT * FROM  `tblemployees` e, `tblapplicants`a, `tblareas` r, `tblcompany` c, `tblocupaciones` o WHERE e.`APLICANTID` = a.`APPLICANTID` AND e.`AREAID` = r.`AREAID` AND e.`OCUPACIONID` = o.`OCUPACIONID` AND e.`COMPANYID` = c.`COMPANYID`");
 	$cur = $mydb->loadResultList();
@@ -37,6 +37,8 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
 							<th>Dni</th>
 							<th>Telefono</th>
 							<th></th>
+							<th></th>
+
 						</tr>
 					</thead>
 					<tbody>
@@ -45,7 +47,6 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
 							unset($result->DESCRIPCION);
 							unset($result->COMPANYADDRESS);
 							unset($result->AREA)
-							// unset($result->OCUPACION)
 						?>
 
 							<tr>
@@ -56,12 +57,8 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
 								<td style="width: 7%;">
 									<div class="badges text-center"><span style="cursor:pointer;" ondblclick="state(<?php echo $result->ESTADO ?>, <?php echo $result->INCID ?>)" class="badge bg-<?= ($result->ESTADO == 1) ? 'success' : 'danger' ?>"><?= ($result->ESTADO == 1) ? 'Activo' : 'Inactivo' ?></span></div>
 								</td>
-								<!-- <td style="width: 5%;">
-									<a class="btn bg-success" onclick='viewEmployee(<?php echo json_encode($result) ?>)'><i class="bi bi-eye"></i></a>
-								</td> -->
-
-								<td>
-									<a title="View" href="index.php?view=view&id=<?php echo $result->APPLICANTID ?>" class="btn-grads ">
+																<td>
+									<a title="View" href="index.php?view=view&id=<?php echo $result->APPLICANTID ?>" class="btn-grads">
 										<i class="bi bi-eye"></i>
 									</a>
 								</td>

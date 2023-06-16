@@ -27,6 +27,15 @@
             </li>
 
             <li class="sidebar-item">
+              <a href="<?= web_root ?>admin/mantenimiento/" class="sidebar-link">
+                <i class="bi bi-grid-fill"></i>
+                <span>Mantenimiento</span>
+              </a>
+            </li>
+
+
+
+            <li class="sidebar-item">
               <a href="<?= web_root ?>admin/user/" class="sidebar-link">
                 <i class="bi bi-person-fill"></i> <span>Usuarios</span>
               </a>
@@ -68,6 +77,14 @@
                 <span>Correos</span>
               </a>
             </li>
+
+            <li class="sidebar-item">
+              <a href="<?= web_root ?>admin/modalidad/" class="sidebar-link">
+                <ion-icon name="send"></ion-icon>
+                <span>Modalidad</span>
+              </a>
+            </li>
+
 
             <li class="sidebar-item">
               <a href="<?= web_root ?>admin/indicaciones/" class="sidebar-link">

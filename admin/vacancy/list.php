@@ -66,7 +66,7 @@ $cur = $mydb->loadResultList(); ?>
 							</td>
 
 							<td>
-								<a title="Edit" href="#" class="btn btn-grads btn-outline-light btn-xs" onclick='editVacancy(<?php echo json_encode($result) ?>)'>
+								<a title="Edit" href="#" class="btn bg-success btn-outline-light btn-xs" onclick='editVacancy(<?php echo json_encode($result) ?>)'>
 									<i class="bi bi-pencil-square text-white"></i>
 								</a>
 							</td>

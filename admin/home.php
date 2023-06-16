@@ -65,7 +65,6 @@ $totalaplicantes = $mydb->loadSingleResult();
 <div class="container">
     <div class=" page-heading">
         <h3><b>PANEL DE ADMINISTRACIÓN</b></h3>
-
     </div>
     <div class="page-content">
         <div class="col-12 col-lg-12">

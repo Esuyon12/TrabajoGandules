@@ -84,17 +84,73 @@
   text-decoration: none;
 }
 
+
+/* Colores para texto */
 .btn-grads {
   background-image: linear-gradient(
     to right,
     #56ab2f 0%,
-    #a8e063 51%,
+    #68ac15 51%,
     #56ab2f 100%
   );
-  margin: 10px;
-  padding: 7px 6px;
+  margin: 5px;
+  padding: 4px 10px;
   text-align: center;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  display: block;
+}
+
+.btn-grads:hover {
+  background-position: right center;
+  /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+
+
+.btn-blue {
+  background-image: linear-gradient(
+    to right,
+    #36d1dc 0%,
+    #1548b4 51%,
+    #36d1dc 100%
+  );
+  margin: 5px;
+  padding: 4px 10px;
+  text-align: center;
+  /* text-transform: uppercase; */
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  display: block;
+}
+
+.btn-cel:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+
+.btn-red {
+  background-image: linear-gradient(
+    to right,
+    #ce1d11 0%,
+    #d83a3a 51%,
+    #ca1407 100%
+  );
+  margin: 5px;
+  padding: 4px 10px;
+  text-align: center;
+  /* text-transform: uppercase; */
   transition: 0.5s;
   background-size: 200% auto;
   color: white;

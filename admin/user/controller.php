@@ -23,7 +23,21 @@ switch ($action) {
 	case 'photos':
 		doupdateimage();
 		break;
-}
+
+		case 'state':
+			updatestate();
+			break;
+	}
+	
+	
+	function updatestate()
+	{
+		$user = new User();
+		$user->ESTADO = $_GET['code'];
+		$user->update($_GET['id']);
+		echo json_encode(array("status" => "success", "msge" => "Cambio de estado", "location" => "index.php"));
+	}
+	
 
 function doInsert()
 {
@@ -66,8 +80,6 @@ function doInsert()
 		foreach ($_POST as $key => $value) {
 			@$user->$key = $value;
 		}
-
-		// print_r($user); die;
 
 		@$user->create();
 		echo json_encode(array("status" => "success", "message" => "Se creo correctamente"));

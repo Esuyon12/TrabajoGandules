@@ -9,7 +9,7 @@ if (isset($_SESSION['ADMIN_USERID'])) {
 try {
 
 
-  $max_attempts = 3; // Número máximo de intentos fallidos permitidos
+  $max_attempts = 2; // Número máximo de intentos fallidos permitidos
   $max_time = 60; // Tiempo máximo permitido en segundos
 
 
