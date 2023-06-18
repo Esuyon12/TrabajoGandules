@@ -54,23 +54,19 @@ if (isset($_GET['contrato'])) {
     $sql2 .= " AND TIPOCONTRATO LIKE '%" . $contrato . "%'";
 }
 
-if (isset($_GET['fecha'])) {
-    $url = $_SERVER['REQUEST_URI'];
-    $params = $_GET;
-    $orderBy = ($_GET['fecha'] == "ASC") ? "ASC" : "DESC";
-    $params['fecha'] = $orderBy;
-    $newUrl = strtok($url, '?') . '?' . http_build_query($params);
-}
+$mydb->setQuery($sql2);
+$cur2 = $mydb->loadResultList();
+
+$page = isset($_GET['page']) ? intval($_GET['page']) : 1; // Página actual
+$perPage = 10; // Número de elementos por página
+$totalPages = ceil(count($cur2) / $perPage); // Total de páginas
+
+$offset = ($page - 1) * $perPage;
+$sql2 .= " LIMIT $offset, $perPage";
 
 $mydb->setQuery($sql2);
 $cur2 = $mydb->loadResultList();
 
-// var_dump($cur2);
-
-// echo $_SERVER['REQUEST_URI'];
-
-$url = $_SERVER['REQUEST_URI'];
-$urlWithoutQuery = strstr($url, '&fecha', true);
 
 // Obtener las áreas
 $areas = array();
@@ -106,6 +102,13 @@ function replacetxt($cadena, $patron, $reemplazo)
     return $nueva_cadena;
 }
 
+function generatePageUrl($page)
+{
+    $url = $_SERVER['REQUEST_URI'];
+    $url = preg_replace('/(\?|&)page=\d+/', '', $url); // Eliminar parámetro 'page' actual
+    $url .= (strpos($url, '?') !== false ? '&' : '?') . 'page=' . $page;
+    return $url;
+}
 
 ?>
 
@@ -138,11 +141,11 @@ function replacetxt($cadena, $patron, $reemplazo)
                         <?php $i = 0;
                         foreach ($_GET as $key => $value) {
                             $i++;
-                            if ($i == 1) {
+                            if ($i == 1 || $key == "page") {
                                 continue;
                             } ?>
                             <div class="col-auto mb-1">
-                                <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&".$key."=", "&" ) ?>" class="d-flex justify-content-between align-items-center badge text-bg-success">
+                                <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&" . $key . "=", "&") ?>" class="d-flex justify-content-between align-items-center badge text-bg-success">
                                     <p><?php echo $value ?></p>
                                     <ion-icon name="close-outline"></ion-icon>
                                 </a>
@@ -305,6 +308,39 @@ function replacetxt($cadena, $patron, $reemplazo)
                     <h2 class="text-center text-muted">No hay vacantes disponibles</h2>
                 <?php } ?>
             </div>
+            <div class="col-lg-12">
+                <?php if ($totalPages > 1) : ?>
+                    <div class="d-flex justify-content-center align-items-center gap-2">
+                        <?php if ($page > 1) : ?>
+                            <a href="<?php echo generatePageUrl(1) ?>" class="pag-item">&laquo;</a>
+                            <a href="<?php echo generatePageUrl($page - 1) ?>" class="pag-item"><ion-icon name="chevron-back-outline"></ion-icon></a>
+                        <?php endif; ?>
+
+                        <?php
+                        $maxVisiblePages = 5;
+                        $startPage = max(1, $page - floor($maxVisiblePages / 2));
+                        $endPage = min($startPage + $maxVisiblePages - 1, $totalPages);
+
+                        if ($endPage - $startPage + 1 < $maxVisiblePages) {
+                            $startPage = max(1, $endPage - $maxVisiblePages + 1);
+                        }
+
+                        for ($i = $startPage; $i <= $endPage; $i++) :
+                            if ($i == $page) : ?>
+                                <span class="current pag-item"><?php echo $i ?></span>
+                            <?php else : ?>
+                                <a href="<?php echo generatePageUrl($i) ?>" class="pag-item"><?php echo $i ?></a>
+                        <?php endif;
+                        endfor; ?>
+
+                        <?php if ($page < $totalPages) : ?>
+                            <a href="<?php echo generatePageUrl($page + 1) ?>" class="pag-item"><ion-icon name="chevron-forward-outline"></ion-icon></a>
+                            <a href="<?php echo generatePageUrl($totalPages) ?>" class="pag-item">&raquo;</a>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+
         </div>
     </div>
 </div>
