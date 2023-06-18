@@ -572,3 +572,51 @@ p {
   overflow: hidden !important;
   font-family: "Poppins", sans-serif !important;
 }
+
+.badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.text-bg-primary {
+  color: #fff;
+  background-color: #007bff;
+}
+
+.text-bg-secondary {
+  color: #fff;
+  background-color: #6c757d;
+}
+
+.text-bg-success {
+  color: #fff;
+  background-color: #28a745;
+}
+
+.text-bg-danger {
+  color: #fff;
+  background-color: #dc3545;
+}
+
+.text-bg-warning {
+  color: #fff;
+  background-color: #ffc107;
+}
+
+.text-bg-info {
+  color: #fff;
+  background-color: #17a2b8;
+}
+
+.text-bg-light {
+  color: #212529;
+  background-color: #f8f9fa;
+}
+
+.text-bg-dark {
+  color: #fff;
+  background-color: #343a40;
+}
