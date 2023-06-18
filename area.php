@@ -18,8 +18,6 @@ $mydb->setQuery($sql);
 $cur = $mydb->loadResultList();
 ?>
 
-
-<!-- Page Header Start -->
 <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
     <div class="container text-left py-5">
         <h1 class="text-uppercase" style="color: white;">Todos las áreas</h1>
@@ -99,54 +97,6 @@ $cur = $mydb->loadResultList();
 
 
 
-<!-- Team Start -->
-<!-- <div class="container-xxl py-3">
-    <div class="container">
-        <?php
-        $sql = "SELECT DISTINCT AREA FROM tblareas a, tbljob j WHERE a.ESTADO = 1 AND a.AREAID = j.AREAID";
-        $mydb->setQuery($sql);
-        $cur = $mydb->loadResultList();
-        $countAreas = count($cur);
-        $areasPerPage = 12;
-        $totalPages = ceil($countAreas / $areasPerPage);
-        $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
-        $start = ($currentPage - 1) * $areasPerPage;
-        $areasToShow = array_slice($cur, $start, $areasPerPage);
-        ?>
-        <div class="row g-4">
-            <?php
-            $i = 0;
-            foreach ($areasToShow as $area) {
-                $i++;
-            ?>
-                <div class="col-lg-4 col-md-6 wow fadeInUp">
-                    <a href="<?php echo web_root . 'index.php?q=searcharea&search=' . $area->AREA; ?>" class="card" style="border: none;">
-                        <div class="team-item rounded">
-                            <img class="img-fluid" src="assets/images/hero/gren.png" alt="">
-                            <div class="team-text">
-                                <h4 class="mb-0"><?php echo $area->AREA ?></h4>
-                                <p class="text-primary">Landscape Designer</p>
-                                <div class="team-social d-flex">
-                                    <a class="btn btn-square rounded-circle me-2" href=""><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-square rounded-circle me-2" href=""><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-square rounded-circle me-2" href=""><i class="fab fa-instagram"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            <?php
-            }
-            ?>
-        </div>
-        <p><b><?php echo $i; ?></b> áreas mostradas de <b><?php echo $countAreas; ?></b> áreas disponibles</p>
-
-    </div>
-</div>
-</div> -->
-<!-- Team End -->
-
-
 <!-- Service Start -->
 <div class="container-xxl py-5">
     <div class="container">
@@ -167,23 +117,20 @@ $cur = $mydb->loadResultList();
             foreach ($areasToShow as $area) {
                 $i++;
             ?>
-<div class="col-lg-4 col-md-6 wow fadeInUp" style="height: 200px; width: 500px;" data-wow-delay="0.5s">
-                    <a href="<?php echo web_root . 'index.php?q=searcharea&search=' . $area->AREA; ?>">
 
-                        <div class="service-item rounded d-flex h-100">
-                            <div class="service-img rounded">
-                                <img class="img-fluid" src="assets/images/hero/gren.png" alt="">
-                            </div>
-                            <div class="service-text rounded p-5">
-                                <div class="btn-square rounded-circle mx-auto mb-3">
-                                    <img class="img-fluid" src="assets/img/icon/icon-5.png" alt="Icon">
-                                </div>
-                                <h4 class="mb-3"><?php echo $area->AREA ?></h4>
-                                <p class="mb-4">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet.</p>
-                                <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                            </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item rounded d-flex flex-column h-100">
+                        <div class="service-img rounded flex-grow-1">
+                            <img class="img-fluid w-100 h-100" src="assets/images/hero/gren.png" alt="">
                         </div>
-                    </a>
+                        <div class="service-text rounded p-5">
+                            <div class="btn-square rounded-circle mx-auto mb-3">
+                                <img class="img-fluid" src="assets/images/logo-gandules.png" alt="Icon">
+                            </div>
+                            <h4 class="mb-3"><?php echo $area->AREA ?></h4>
+                            <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Ver vacantes</a>
+                        </div>
+                    </div>
                 </div>
             <?php
             }
@@ -191,7 +138,6 @@ $cur = $mydb->loadResultList();
         </div>
         <p><b><?php echo $i; ?></b> áreas mostradas de <b><?php echo $countAreas; ?></b> áreas disponibles</p>
 
-        <!-- Paginación -->
         <?php if ($totalPages > 1) : ?>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
