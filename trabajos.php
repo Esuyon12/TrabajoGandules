@@ -2,6 +2,10 @@
     .fixed-col {
         top: 90px !important;
     }
+
+    a.badge ion-icon {
+        font-size: 25px;
+    }
 </style>
 <?php
 
@@ -97,6 +101,7 @@ function replacetxt($cadena, $patron, $reemplazo)
     } else {
         $nueva_cadena = $cadena . $reemplazo;
     }
+    $nueva_cadena = preg_replace('/&+/', '&', $nueva_cadena);
     return $nueva_cadena;
 }
 
@@ -116,9 +121,9 @@ function replacetxt($cadena, $patron, $reemplazo)
 </div>
 <!-- Page Header End -->
 
-<div class="container-md mt-5">
+<div class="container-fluid mt-5">
     <div class="row">
-        <div class="col-md-3 position-relative">
+        <div class="col-md-12 col-sm-12 col-lg-3 col-xl-3 position-relative">
             <div class="card fixed-col border-0">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -127,7 +132,22 @@ function replacetxt($cadena, $patron, $reemplazo)
                             <ion-icon name="filter-circle-outline"></ion-icon>
                         </div>
                     </div>
-                    <div class="accordion" id="accordionExample">
+                    <div class="row mb-3 d-lg-inline-flex d-none d-xl-inline-flex delete_GET">
+                        <?php $i = 0;
+                        foreach ($_GET as $key => $value) {
+                            $i++;
+                            if ($i == 1) {
+                                continue;
+                            } ?>
+                            <div class="col-auto mb-1">
+                                <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&".$key."=", "&" ) ?>" class="d-flex justify-content-between align-items-center badge text-bg-success">
+                                    <p><?php echo $value ?></p>
+                                    <ion-icon name="close-outline"></ion-icon>
+                                </a>
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <div class="accordion d-lg-block d-none d-xl-block" id="accordionExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fecha" aria-expanded="true" aria-controls="fecha">
@@ -221,13 +241,16 @@ function replacetxt($cadena, $patron, $reemplazo)
             </div>
         </div>
 
-        <div class="col-md-9 mb-5">
+        <div class="col-md-12 col-sm-12 col-lg-9 col-xl-9 mb-5">
             <?php
             $countVacantes = count(array_filter($cur2, function ($result) {
                 return $result->COMPANYSTATUS == 1;
             }));
             ?>
-            <p><b><?php echo $countVacantes; ?></b> vacantes disponibles</p>
+            <div class="d-flex align-items-center justify-content-end w-100 mb-3">
+                <p class="text-right"><b><?php echo $countVacantes; ?></b> vacantes disponibles</p>
+
+            </div>
             <div class="col-lg-12">
                 <?php if (!empty($cur)) { ?>
                     <?php foreach ($cur2 as $result) { ?>
