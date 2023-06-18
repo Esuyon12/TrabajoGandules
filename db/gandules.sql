@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-06-2023 a las 02:10:45
+-- Tiempo de generación: 18-06-2023 a las 22:21:55
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -72,40 +72,40 @@ CREATE TABLE `tblareas` (
 --
 
 INSERT INTO `tblareas` (`AREAID`, `AREA`, `FECHAREGISTRO`, `ESTADO`) VALUES
-(1, 'Área de Operaciones\n', '2023-05-05 00:00:00', 1),
-(2, 'Área de Ventas y Comercialización\n', '2023-05-05 00:00:00', 0),
-(3, 'Área de Servicio al Cliente\n', '2023-05-05 00:00:00', 1),
-(4, 'Área de Investigación y Desarrollo (I+D)\n', '2023-05-05 00:00:00', 1),
+(1, 'Operaciones', '2023-05-05 00:00:00', 1),
+(2, 'Área de Ventas y Comercialización\n', '2023-05-05 00:00:00', 1),
+(3, 'Servicio al Cliente', '2023-05-05 00:00:00', 1),
+(4, 'Investigación y Desarrollo (ID)', '2023-05-05 00:00:00', 1),
 (5, 'Área de Marketing y Publicidad\n', '2023-05-05 00:00:00', 0),
 (6, 'Área de Recursos Humanos y Gestión del Talento\n', '2023-05-05 00:00:00', 0),
 (7, 'Área de Finanzas y Contabilidad\n', '2023-05-05 00:00:00', 0),
 (8, 'Área Legal y Cumplimiento\n', '2023-05-05 00:00:00', 0),
-(9, 'Área de Tecnología de la Información (TI) o Sistemas\n', '2023-05-05 00:00:00', 0),
-(10, 'Área de Calidad y Mejora Continua\n', '2023-05-05 00:00:00', 0),
-(11, 'Área de Compras y Abastecimiento\n', '2023-05-05 00:00:00', 0),
+(9, 'Área de Tecnología de la Información (TI) o Sistemas\n', '2023-05-05 00:00:00', 1),
+(10, 'Calidad y Mejora Continua', '2023-05-05 00:00:00', 0),
+(11, 'Área de Compras y Abastecimiento\n', '2023-05-05 00:00:00', 1),
 (12, 'Área de Producción y Operaciones\n', '2023-05-05 00:00:00', 0),
 (13, 'Área de Logística y Distribución\n', '2023-05-05 00:00:00', 0),
-(14, 'Área de Desarrollo de Negocios y Expansión\n', '2023-05-08 00:00:00', 1),
+(14, 'Desarrollo de Negocios y Expansión', '2023-05-08 00:00:00', 1),
 (15, 'Área de Relaciones Públicas y Comunicación', '2023-05-20 21:07:38', 0),
 (16, 'Área de Responsabilidad Social Corporativa', '2023-05-20 21:07:44', 0),
 (17, 'Área de Gestión de Proyectos', '2023-05-20 21:07:57', 0),
-(18, 'Área de Seguridad y Salud Laboral', '2023-05-20 21:08:03', 1),
+(18, 'Seguridad y Salud Laboral', '2023-05-20 21:08:03', 1),
 (19, 'Área de Investigación de Mercado', '2023-05-20 21:08:12', 0),
 (20, 'Área de Innovación y Desarrollo Tecnológico', '2023-05-20 21:08:19', 0),
 (21, 'Área de Planificación Estratégica', '2023-05-20 21:08:26', 0),
-(22, 'Área de Administración de Riesgos', '2023-05-20 21:08:31', 0),
+(22, 'Administración de Riesgos', '2023-05-20 21:08:31', 0),
 (23, 'Área de Desarrollo Sostenible y Medio Ambiente', '2023-05-20 21:08:36', 0),
-(24, 'Área de Contabilidad y Finanzas', '2023-05-20 21:08:42', 1),
-(25, 'Área de Desarrollo Organizacional', '2023-05-20 21:08:50', 1),
+(24, 'Contabilidad y Finanzas', '2023-05-20 21:08:42', 1),
+(25, 'Desarrollo Organizacional', '2023-05-20 21:08:50', 1),
 (26, 'Área de Gestión Ambiental y Sostenibilidad', '2023-05-20 21:08:56', 0),
 (27, 'Área de Relaciones Institucionales', '2023-05-20 21:09:03', 0),
-(28, 'Área de Cumplimiento y Legal', '2023-05-20 21:09:12', 1),
-(29, 'Área de Análisis de Datos y Business Intelligence', '2023-05-20 21:09:19', 1),
+(28, 'Cumplimiento y Legal', '2023-05-20 21:09:12', 1),
+(29, 'Datos y Business Intelligence', '2023-05-20 21:09:19', 1),
 (30, 'Área de Gestión del Cambio', '2023-05-20 21:09:27', 0),
-(31, 'Área de Control de Calidad', '2023-05-20 21:11:51', 1),
+(31, 'Control de Calidad', '2023-05-20 21:11:51', 1),
 (32, 'Área de Investigación de Mercados Internacionales', '2023-05-20 21:14:13', 0),
-(33, 'Área de Gestión de Almacenes', '2023-05-20 21:15:52', 1),
-(34, 'Área de Desarrollo de Productos y Servicios', '2023-05-20 21:17:16', 1);
+(33, 'Gestión de Almacenes', '2023-05-20 21:15:52', 1),
+(34, 'Desarrollo de Productos y Servicios', '2023-05-20 21:17:16', 1);
 
 -- --------------------------------------------------------
 
@@ -334,7 +334,11 @@ INSERT INTO `tbljob` (`JOBID`, `INFOJOB`, `COMPANYID`, `AREAID`, `OCUPACIONID`, 
 INSERT INTO `tbljob` (`JOBID`, `INFOJOB`, `COMPANYID`, `AREAID`, `OCUPACIONID`, `REQ_EMPLOYEES`, `SUELDO`, `WORKEXPERIENCE`, `JOBDESCRIPTION`, `BENEFICIOS`, `GENERO`, `TCONTRATOID`, `MODALIDAD`, `TIEMPO`, `JOBSTATUS`, `DATEPOSTED`, `DATE_INT`, `DATE_END`) VALUES
 (24, 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Colaborar con equipos multidisciplinarios, como diseño, producción y marketing, para garantizar el éxito del proyecto.<br>Diseñar prototipos y realizar pruebas para evaluar la viabilidad técnica y funcional de los productos.<br>Realizar análisis de costo y factibilidad para asegurar la rentabilidad del desarrollo.<br>Supervisar el proceso de fabricación y realizar mejoras continuas en el diseño y la calidad del producto.<br>Mantenerse actualizado sobre las tecnologías emergentes y las mejores prácticas de la industria.', 3, 4, 30, 2, 2300, 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Colaborar con equipos multidisciplinarios, como diseño, producción y marketing, para garantizar el éxito del proyecto.<br>Diseñar prototipos y realizar pruebas para evaluar la viabilidad técnica y funcional de los productos.<br>Realizar análisis de costo y factibilidad para asegurar la rentabilidad del desarrollo.<br>Supervisar el proceso de fabricación y realizar mejoras continuas en el diseño y la calidad del producto.<br>Mantenerse actualizado sobre las tecnologías emergentes y las mejores prácticas de la industria.', 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Colaborar con equipos multidisciplinarios, como diseño, producción y marketing, para garantizar el éxito del proyecto.<br>Diseñar prototipos y realizar pruebas para evaluar la viabilidad técnica y funcional de los productos.<br>Realizar análisis de costo y factibilidad para asegurar la rentabilidad del desarrollo.<br>Supervisar el proceso de fabricación y realizar mejoras continuas en el diseño y la calidad del producto.<br>Mantenerse actualizado sobre las tecnologías emergentes y las mejores prácticas de la industria.', 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Cola', 'Femenino', 2, 'Presencial/Remoto', 'Tiempo completo', 0, '2023-06-17', '2023-06-17', '2023-07-08'),
 (25, 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Colaborar con equipos multidisciplinarios, como diseño, producción y marketing, para garantizar el éxito del proyecto.<br>Diseñar prototipos y realizar pruebas para evaluar la viabilidad técnica y funcional de los productos.<br>Realizar análisis de costo y factibilidad para asegurar la rentabilidad del desarrollo.<br>Supervisar el proceso de fabricación y realizar mejoras continuas en el diseño y la calidad del producto.<br>Mantenerse actualizado sobre las tecnologías emergentes y las mejores prácticas de la industria.', 3, 4, 38, 2, 2333, 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Colaborar con equipos multidisciplinarios, como diseño, producción y marketing, para garantizar el éxito del proyecto.<br>Diseñar prototipos y realizar pruebas para evaluar la viabilidad técnica y funcional de los productos.<br>Realizar análisis de costo y factibilidad para asegurar la rentabilidad del desarrollo.<br>Supervisar el proceso de fabricación y realizar mejoras continuas en el diseño y la calidad del producto.<br>Mantenerse actualizado sobre las tecnologías emergentes y las mejores prácticas de la industria.', 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Colaborar con equipos multidisciplinarios, como diseño, producción y marketing, para garantizar el éxito del proyecto.<br>Diseñar prototipos y realizar pruebas para evaluar la viabilidad técnica y funcional de los productos.<br>Realizar análisis de costo y factibilidad para asegurar la rentabilidad del desarrollo.<br>Supervisar el proceso de fabricación y realizar mejoras continuas en el diseño y la calidad del producto.<br>Mantenerse actualizado sobre las tecnologías emergentes y las mejores prácticas de la industria.', 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Cola', 'Femenino', 2, 'Presencial', 'Medio tiempo', 0, '2023-06-17', '2023-06-17', '2023-07-08'),
-(26, 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Colaborar con equipos multidisciplinarios, como diseño, producción y marketing, para garantizar el éxito del proyecto.<br>Diseñar prototipos y realizar pruebas para evaluar la viabilidad técnica y funcional de los productos.<br>Realizar análisis de costo y factibilidad para asegurar la rentabilidad del desarrollo.<br>Supervisar el proceso de fabricación y realizar mejoras continuas en el diseño y la calidad del producto.<br>Mantenerse actualizado sobre las tecnologías emergentes y las mejores prácticas de la industria.', 2, 4, 39, 3, 3233, 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Colaborar con equipos multidisciplinarios, como diseño, producción y marketing, para garantizar el éxito del proyecto.<br>Diseñar prototipos y realizar pruebas para evaluar la viabilidad técnica y funcional de los productos.<br>Realizar análisis de costo y factibilidad para asegurar la rentabilidad del desarrollo.<br>Supervisar el proceso de fabricación y realizar mejoras continuas en el diseño y la calidad del producto.<br>Mantenerse actualizado sobre las tecnologías emergentes y las mejores prácticas de la industria.', 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Colaborar con equipos multidisciplinarios, como diseño, producción y marketing, para garantizar el éxito del proyecto.<br>Diseñar prototipos y realizar pruebas para evaluar la viabilidad técnica y funcional de los productos.<br>Realizar análisis de costo y factibilidad para asegurar la rentabilidad del desarrollo.<br>Supervisar el proceso de fabricación y realizar mejoras continuas en el diseño y la calidad del producto.<br>Mantenerse actualizado sobre las tecnologías emergentes y las mejores prácticas de la industria.', 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Cola', 'Femenino', 1, 'Remoto', 'Tiempo completo', 0, '2023-06-17', '2023-06-17', '2023-07-08');
+(26, 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Colaborar con equipos multidisciplinarios, como diseño, producción y marketing, para garantizar el éxito del proyecto.<br>Diseñar prototipos y realizar pruebas para evaluar la viabilidad técnica y funcional de los productos.<br>Realizar análisis de costo y factibilidad para asegurar la rentabilidad del desarrollo.<br>Supervisar el proceso de fabricación y realizar mejoras continuas en el diseño y la calidad del producto.<br>Mantenerse actualizado sobre las tecnologías emergentes y las mejores prácticas de la industria.', 2, 4, 39, 3, 3233, 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Colaborar con equipos multidisciplinarios, como diseño, producción y marketing, para garantizar el éxito del proyecto.<br>Diseñar prototipos y realizar pruebas para evaluar la viabilidad técnica y funcional de los productos.<br>Realizar análisis de costo y factibilidad para asegurar la rentabilidad del desarrollo.<br>Supervisar el proceso de fabricación y realizar mejoras continuas en el diseño y la calidad del producto.<br>Mantenerse actualizado sobre las tecnologías emergentes y las mejores prácticas de la industria.', 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Colaborar con equipos multidisciplinarios, como diseño, producción y marketing, para garantizar el éxito del proyecto.<br>Diseñar prototipos y realizar pruebas para evaluar la viabilidad técnica y funcional de los productos.<br>Realizar análisis de costo y factibilidad para asegurar la rentabilidad del desarrollo.<br>Supervisar el proceso de fabricación y realizar mejoras continuas en el diseño y la calidad del producto.<br>Mantenerse actualizado sobre las tecnologías emergentes y las mejores prácticas de la industria.', 'Investigar y comprender las necesidades y expectativas de los clientes y el mercado.<br>Liderar el desarrollo de productos desde la etapa conceptual hasta la implementación final.<br>Realizar investigaciones de mercado y análisis de la competencia para identificar oportunidades y tendencias.<br>Cola', 'Femenino', 1, 'Remoto', 'Tiempo completo', 0, '2023-06-17', '2023-06-17', '2023-07-08'),
+(27, '1', 2, 2, 29, 1, 1, '1', '1', '1', 'Maculino/Femenino', 2, 'Presencial', 'Tiempo coordinado', 0, '2023-06-18', '2023-06-18', '2023-06-30'),
+(28, '2', 1, 2, 21, 2, 2, '2', '2', '2', 'Masculino', 2, 'Remoto', 'Tiempo completo', 0, '2023-06-18', '2023-06-18', '2023-07-08'),
+(29, '1', 3, 9, 25, 1, 1, '1', '1', '1', 'Masculino', 2, 'Presencial/Remoto', 'Medio tiempo', 0, '2023-06-18', '2023-06-18', '2023-06-30'),
+(30, 'sd', 3, 11, 31, 2, 32323, 'sd', 'sd', 'sd', 'Femenino', 3, 'Presencial/Remoto', 'Tiempo completo', 0, '2023-06-18', '2023-06-18', '2023-07-07');
 
 -- --------------------------------------------------------
 
@@ -455,13 +459,13 @@ INSERT INTO `tblocupaciones` (`OCUPACIONID`, `OCUPACION`, `AREAID`, `FECHAREGIST
 (22, 'Agente de Seguridad Patrimonial', 8, '2023-05-05 00:00:00', 1),
 (23, 'Personal de Limpieza ', 10, '2023-05-05 00:00:00', 0),
 (24, 'Prevencionista de Seguridad Industrial Senior', 8, '2023-05-05 00:00:00', 1),
-(25, 'Conductor de Semitrailer', 9, '2023-05-05 00:00:00', 0),
+(25, 'Conductor de Semitrailer', 9, '2023-05-05 00:00:00', 1),
 (26, 'Reparador de Calderas', 4, '2023-05-05 00:00:00', 1),
 (27, 'Técnico en Mantenimiento de Maquinas', 4, '2023-05-05 00:00:00', 1),
 (28, 'Técnico electromecánico', 4, '2023-05-05 00:00:00', 1),
 (29, 'Ayudante/Operario para el área de Calidad', 2, '2023-05-05 00:00:00', 0),
 (30, 'Auxiliar de mantenimiento de campamento', 4, '2023-05-05 00:00:00', 1),
-(31, 'Auxiliar de atención al personal', 11, '2023-05-05 00:00:00', 0),
+(31, 'Auxiliar de atención al personal', 11, '2023-05-05 00:00:00', 1),
 (32, 'Operador del Centro de Monitoreo', 8, '2023-05-05 00:00:00', 1),
 (33, 'Operador de Montacargas', 12, '2023-05-05 00:00:00', 0),
 (34, 'Operador Apilador', 12, '2023-05-05 00:00:00', 0),
@@ -696,7 +700,7 @@ ALTER TABLE `tblindicacioneseva`
 -- AUTO_INCREMENT de la tabla `tbljob`
 --
 ALTER TABLE `tbljob`
-  MODIFY `JOBID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `JOBID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `tblkeywords`
