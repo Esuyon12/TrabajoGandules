@@ -2,7 +2,6 @@
     .fixed-col{
         top: 90px !important;
     }
-
 </style>
 <?php
 
@@ -141,7 +140,7 @@ $tiposContrato = array_unique($tiposContrato);
                                 </button>
                             </h2>
                             <div id="area" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
+                                <div class="accordion-body" style="height: 230px; overflow-y: overlay;">
                                     <?php
                                     foreach ($areas as $area) { ?>
                                         <a href="?are=<?php echo $area ?>" class="d-flex justify-content-between">
