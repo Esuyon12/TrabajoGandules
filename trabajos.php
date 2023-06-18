@@ -1,3 +1,9 @@
+<style>
+    .fixed-col{
+        top: 90px !important;
+    }
+
+</style>
 <?php
 
 $sql = "SELECT * 
@@ -93,8 +99,8 @@ $tiposContrato = array_unique($tiposContrato);
 <div class="container-md mt-5">
     <div class="row">
 
-        <div class="col-md-3">
-            <div class="card">
+        <div class="col-md-3 position-relative">
+            <div class="card fixed-col">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="card-title">Filtro</h5>

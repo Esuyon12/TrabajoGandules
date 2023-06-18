@@ -422,7 +422,7 @@ h6,
   color: var(--light);
 }
 
-.team-item .team-img .team-social { 
+.team-item .team-img .team-social {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -542,7 +542,7 @@ p {
   border: none !important;
 }
 
-.accordion-button:not(.collapsed){
+.accordion-button:not(.collapsed) {
   box-shadow: none !important;
 }
 
@@ -557,6 +557,12 @@ p {
   padding: 10px 0;
 }
 
-.accordion-body a:last-child{
+.accordion-body a:last-child {
   border-bottom: 0 !important;
+}
+
+.fixed-col {
+  transition: all 0.5s ease;
+  position: sticky;
+  top: 70px;
 }

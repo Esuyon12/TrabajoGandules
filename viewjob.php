@@ -92,13 +92,6 @@ foreach ($cur as $result) {
         margin: 0;
     }
 
-
-    .fixed-col {
-        transition: all .5s ease;
-        position: sticky;
-        top: 70px;
-    }
-
     .filepond {
         width: 100%;
         height: 80px;
