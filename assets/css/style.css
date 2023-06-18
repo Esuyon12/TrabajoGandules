@@ -566,3 +566,9 @@ p {
   position: sticky;
   top: 70px;
 }
+
+.card {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  font-family: "Poppins", sans-serif !important;
+}

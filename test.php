@@ -1,13 +1,15 @@
 <?php
+function reemplazarTexto($cadena, $patron, $reemplazo)
+{
+    $patron = "/" . $patron . ".*?&/";
+    $nueva_cadena = preg_replace($patron, $reemplazo, $cadena);
+    return $nueva_cadena;
+}
 
-require_once("include/initialize.php");
+$cadena = "localhost/index.php?pepe=papa&fecha=asc&num=4321";
+echo $cadena . "<br>";
+$patron = "&fecha=";
+$reemplazo = "&fecha=durmio&";
 
-global $mydb;
-
-$sql = "SELECT keyword FROM `tblkeywords` WHERE OCUPACIONID = 41";
-$mydb->setQuery($sql);
-$cur = $mydb->loadResultList();
-
-$keywords = array_column($cur, 'keyword');
-
-echo json_encode($keywords);
+$nueva_cadena = reemplazarTexto($cadena, $patron, $reemplazo);
+echo $nueva_cadena;

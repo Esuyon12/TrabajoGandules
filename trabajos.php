@@ -23,43 +23,50 @@ $mydb->setQuery($sql);
 $cur = $mydb->loadResultList();
 
 $sql2 = "SELECT * FROM 
-`tblcompany` c,
-`tblocupaciones` o, 
-`tbltipocontrato` t, 
-`tbljob` j, 
-`tblareas` a 
+    `tblcompany` c, 
+    `tblocupaciones` o, 
+    `tbltipocontrato` t, 
+    `tbljob` j, 
+    `tblareas` a 
 WHERE c.`COMPANYID`=j.`COMPANYID` 
-AND j.`AREAID`=a.`AREAID` 
-AND JOBSTATUS = 0 
-AND j.`OCUPACIONID`=o.`OCUPACIONID` 
-AND  j.`TCONTRATOID`=t.`TCONTRATOID` 
-AND c.`COMPANYSTATUS` = 1";
-
+    AND j.`AREAID`=a.`AREAID` 
+    AND JOBSTATUS = 0 
+    AND j.`OCUPACIONID`=o.`OCUPACIONID` 
+    AND j.`TCONTRATOID`=t.`TCONTRATOID` 
+    AND c.`COMPANYSTATUS` = 1";
 
 if (isset($_GET['area'])) {
-    $sql2 .= " AND AREA LIKE '%" . $_GET['area'] . "%'";
+    $area = $mydb->escape_value($_GET['area']);
+    $sql2 .= " AND AREA LIKE '%" . $area . "%'";
 }
 
 if (isset($_GET['ubicacion'])) {
-    $sql2 .= " AND COMPANYADDRESS LIKE '%" . $_GET['ubicacion'] . "%'";
+    $ubicacion = $mydb->escape_value($_GET['ubicacion']);
+    $sql2 .= " AND COMPANYADDRESS LIKE '%" . $ubicacion . "%'";
 }
 
 if (isset($_GET['contrato'])) {
-    $sql2 .= " AND TIPOCONTRATO LIKE '%" . $_GET['contrato'] . "%'";
+    $contrato = $mydb->escape_value($_GET['contrato']);
+    $sql2 .= " AND TIPOCONTRATO LIKE '%" . $contrato . "%'";
 }
 
-// Agregar condiciones del filtro
 if (isset($_GET['fecha'])) {
+    $url = $_SERVER['REQUEST_URI'];
+    $params = $_GET;
     $orderBy = ($_GET['fecha'] == "ASC") ? "ASC" : "DESC";
-    $sql2 .= " ORDER BY DATEPOSTED " . $orderBy;
+    $params['fecha'] = $orderBy;
+    $newUrl = strtok($url, '?') . '?' . http_build_query($params);
 }
-
-// echo $sql2;
 
 $mydb->setQuery($sql2);
 $cur2 = $mydb->loadResultList();
 
 // var_dump($cur2);
+
+// echo $_SERVER['REQUEST_URI'];
+
+$url = $_SERVER['REQUEST_URI'];
+$urlWithoutQuery = strstr($url, '&fecha', true);
 
 // Obtener las áreas
 $areas = array();
@@ -82,6 +89,17 @@ foreach ($cur as $result) {
 }
 $tiposContrato = array_unique($tiposContrato);
 
+function replacetxt($cadena, $patron, $reemplazo)
+{
+    if (strpos($cadena, $patron)) {
+        $patron = "/" . $patron . ".*?&/";
+        $nueva_cadena = preg_replace($patron, $reemplazo, $cadena);
+    } else {
+        $nueva_cadena = $cadena . $reemplazo;
+    }
+    return $nueva_cadena;
+}
+
 ?>
 
 <!-- Page Header Start -->
@@ -98,12 +116,10 @@ $tiposContrato = array_unique($tiposContrato);
 </div>
 <!-- Page Header End -->
 
-
 <div class="container-md mt-5">
     <div class="row">
-
         <div class="col-md-3 position-relative">
-            <div class="card fixed-col">
+            <div class="card fixed-col border-0">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="card-title">Filtro</h5>
@@ -123,12 +139,12 @@ $tiposContrato = array_unique($tiposContrato);
                             </h2>
                             <div id="fecha" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    <a href="index.php?q=trabajos&fecha=DESC" class="d-flex justify-content-between">
-                                        <p for="ant">Los más recientes</p>
+                                    <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&fecha=", "&fecha=DESC&") ?>" class="d-flex justify-content-between">
+                                        <p>Los más recientes</p>
                                         <input type="radio" class="form-check-input" id="ant" <?php if (isset($_GET['fecha']) && $_GET['fecha'] == 'DESC') echo 'checked'; ?> disabled />
                                     </a>
-                                    <a href="index.php?q=trabajos&fecha=ASC" class="d-flex justify-content-between">
-                                        <p for="ant">Los más antiguos</p>
+                                    <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&fecha=", "&fecha=ASC&") ?>" class="d-flex justify-content-between">
+                                        <p>Los más antiguos</p>
                                         <input type="radio" class="form-check-input" id="ant" <?php if (isset($_GET['fecha']) && $_GET['fecha'] == 'ASC') echo 'checked'; ?> disabled />
                                     </a>
                                 </div>
@@ -147,7 +163,7 @@ $tiposContrato = array_unique($tiposContrato);
                                 <div class="accordion-body" style="max-height: 230px; overflow-y: overlay;">
                                     <?php
                                     foreach ($areas as $area) { ?>
-                                        <a href="index.php?q=trabajos&area=<?php echo $area ?>" class="d-flex justify-content-between">
+                                        <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&area=", "&area=" . $area . "&") ?>" class="d-flex justify-content-between">
                                             <p><?php echo $area ?></p>
                                             <input type="radio" class="form-check-input" disabled>
                                         </a>
@@ -169,7 +185,7 @@ $tiposContrato = array_unique($tiposContrato);
                                 <div class="accordion-body" style="max-height: 230px; overflow-y: overlay;">
                                     <?php
                                     foreach ($companys as $company) { ?>
-                                        <a href="index.php?q=trabajos&ubicacion=<?php echo $company ?>" class="d-flex justify-content-between">
+                                        <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&ubicacion=", "&ubicacion=" . $company . "&") ?>" class="d-flex justify-content-between">
                                             <p><?php echo $company ?></p>
                                             <input type="radio" class="form-check-input" disabled />
                                         </a>
@@ -191,7 +207,7 @@ $tiposContrato = array_unique($tiposContrato);
                                 <div class="accordion-body" style="max-height: 230px; overflow-y: overlay;">
                                     <?php
                                     foreach ($tiposContrato as $tipoContrato) { ?>
-                                        <a href="index.php?q=trabajos&contrato=<?php echo $tipoContrato; ?>" class="d-flex justify-content-between">
+                                        <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&contrato=", "&contrato=" . $tipoContrato . "&") ?>" class="d-flex justify-content-between">
                                             <p><?php echo $tipoContrato; ?></p>
                                             <input type="radio" <?php if (isset($_GET['contrato']) && $_GET['contrato'] == $tipoContrato) echo 'checked'; ?> disabled />
                                         </a>
@@ -267,24 +283,3 @@ $tiposContrato = array_unique($tiposContrato);
         </div>
     </div>
 </div>
-
-
-
-
-
-
-<!--<a href="#collapseMod" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill" data-bs-toggle="collapse" role="button">
-                            <i class="bi bi-briefcase" style="color: green;"></i>
-                            <p style="margin-bottom: 0 !important;">Modalidad de trabajo</p>
-                        </a>
-                                            
-                        <div class="collapse" id="collapseMod">
-                            <div class="card card-body border-0">
-                                <p class="bg-light d-flex gap-2 mt-1 align-items-center p-1 rounded-pill">Presencial</p>
-                            </div>
-                        </div>
-
-                        <a href="#" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill">
-                            <i class="bi bi-gender-ambiguous" style="color: green;"></i>
-                            <p style="margin-bottom: 0 !important;">Genero</p>
-                        </a> -->
