@@ -632,6 +632,7 @@ p {
   height: 30px;
   font-size: 18px;
   border: 1px solid #2f8032;
+  transition: all .5s ease;
 }
 
 .pag-item:first-child, .pag-item:last-child{
@@ -639,8 +640,19 @@ p {
   height: 20px;
 }
 
-.pag-item.current{
+.pag-item.current, .pag-item:hover{
   width: 40px;
   height: 40px;
   background: #ebf4eb;
+}
+
+.pag-item:hover ~ .pag-item.current{
+  width: 30px !important;
+  height: 30px !important;
+  background: #2cc14e !important;
+}
+
+.item-des ion-icon{
+  font-size: 20px;
+  color: #2f8032 !important;
 }
