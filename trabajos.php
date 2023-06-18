@@ -1,5 +1,5 @@
 <style>
-    .fixed-col{
+    .fixed-col {
         top: 90px !important;
     }
 </style>
@@ -37,15 +37,15 @@ AND c.`COMPANYSTATUS` = 1";
 
 
 if (isset($_GET['area'])) {
-    // Aplicar la condición correspondiente a la opción de área seleccionada
+    $sql2 .= " AND AREA LIKE '%" . $_GET['area'] . "%'";
 }
 
 if (isset($_GET['ubicacion'])) {
-    $sql2 .= "AND COMPANYNAME LIKE '%" . $_GET['ubicacion'] . "%'";
+    $sql2 .= " AND COMPANYADDRESS LIKE '%" . $_GET['ubicacion'] . "%'";
 }
 
 if (isset($_GET['contrato'])) {
-    // Aplicar la condición correspondiente a la opción de tipo de contrato seleccionada
+    $sql2 .= " AND TIPOCONTRATO LIKE '%" . $_GET['contrato'] . "%'";
 }
 
 // Agregar condiciones del filtro
@@ -54,8 +54,12 @@ if (isset($_GET['fecha'])) {
     $sql2 .= " ORDER BY DATEPOSTED " . $orderBy;
 }
 
+// echo $sql2;
+
 $mydb->setQuery($sql2);
 $cur2 = $mydb->loadResultList();
+
+// var_dump($cur2);
 
 // Obtener las áreas
 $areas = array();
@@ -116,7 +120,7 @@ $tiposContrato = array_unique($tiposContrato);
                                         <p class="card-title">Fecha</p>
                                     </div>
                                 </button>
-                            </h2> 
+                            </h2>
                             <div id="fecha" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <a href="index.php?q=trabajos&fecha=DESC" class="d-flex justify-content-between">
@@ -140,11 +144,12 @@ $tiposContrato = array_unique($tiposContrato);
                                 </button>
                             </h2>
                             <div id="area" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                <div class="accordion-body" style="height: 230px; overflow-y: overlay;">
+                                <div class="accordion-body" style="max-height: 230px; overflow-y: overlay;">
                                     <?php
                                     foreach ($areas as $area) { ?>
-                                        <a href="?are=<?php echo $area ?>" class="d-flex justify-content-between">
-                                            <p for="ant"><?php echo $area ?></p>
+                                        <a href="index.php?q=trabajos&area=<?php echo $area ?>" class="d-flex justify-content-between">
+                                            <p><?php echo $area ?></p>
+                                            <input type="radio" class="form-check-input" disabled>
                                         </a>
                                     <?php }
                                     ?>
@@ -161,12 +166,12 @@ $tiposContrato = array_unique($tiposContrato);
                                 </button>
                             </h2>
                             <div id="location" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
+                                <div class="accordion-body" style="max-height: 230px; overflow-y: overlay;">
                                     <?php
                                     foreach ($companys as $company) { ?>
-                                        <a href="#" class="d-flex justify-content-between">
-                                            <p for="ant"><?php echo $company ?></p>
-                                            <input type="radio" id="ant" disabled />
+                                        <a href="index.php?q=trabajos&ubicacion=<?php echo $company ?>" class="d-flex justify-content-between">
+                                            <p><?php echo $company ?></p>
+                                            <input type="radio" class="form-check-input" disabled />
                                         </a>
                                     <?php }
                                     ?>
@@ -183,13 +188,12 @@ $tiposContrato = array_unique($tiposContrato);
                                 </button>
                             </h2>
                             <div id="contrato" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
+                                <div class="accordion-body" style="max-height: 230px; overflow-y: overlay;">
                                     <?php
-
                                     foreach ($tiposContrato as $tipoContrato) { ?>
-                                        <a href="#" class="d-flex justify-content-between">
-                                            <label for="ant"><?php echo $tipoContrato ?></label>
-                                            <input type="radio" id="ant" disabled />
+                                        <a href="index.php?q=trabajos&contrato=<?php echo $tipoContrato; ?>" class="d-flex justify-content-between">
+                                            <p><?php echo $tipoContrato; ?></p>
+                                            <input type="radio" <?php if (isset($_GET['contrato']) && $_GET['contrato'] == $tipoContrato) echo 'checked'; ?> disabled />
                                         </a>
                                     <?php }
                                     ?>
