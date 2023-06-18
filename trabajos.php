@@ -111,7 +111,7 @@ $tiposContrato = array_unique($tiposContrato);
                                         <p class="card-title">Fecha</p>
                                     </div>
                                 </button>
-                            </h2>
+                            </h2> 
                             <div id="fecha" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <a href="index.php?q=trabajos&fecha=DESC" class="d-flex justify-content-between">
