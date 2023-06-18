@@ -197,9 +197,9 @@ function generatePageUrl($page)
                                 <div class="accordion-body" style="max-height: 230px; overflow-y: overlay;">
                                     <?php
                                     foreach ($areas as $area) { ?>
-                                        <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&area=", "&area=" . $area . "&") ?>" class="d-flex justify-content-between">
+                                        <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&area=", "&area=" . $area . "&") ?>" class="d-flex justify-content-between position-relative">
                                             <p><?php echo $area ?></p>
-                                            <input type="radio" class="form-check-input" disabled>
+                                            <input type="radio" class="form-check-input position-absolute intra" <?php if (isset($_GET['area']) && $_GET['area'] == $area) echo 'checked'; ?> disabled>
                                         </a>
                                     <?php }
                                     ?>
@@ -221,7 +221,7 @@ function generatePageUrl($page)
                                     foreach ($companys as $company) { ?>
                                         <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&ubicacion=", "&ubicacion=" . $company . "&") ?>" class="d-flex justify-content-between">
                                             <p><?php echo $company ?></p>
-                                            <input type="radio" class="form-check-input" disabled />
+                                            <input type="radio" class="form-check-input" disabled <?php if (isset($_GET['ubicacion']) && $_GET['ubicacion'] == $company) echo 'checked'; ?>/>
                                         </a>
                                     <?php }
                                     ?>
@@ -241,9 +241,9 @@ function generatePageUrl($page)
                                 <div class="accordion-body" style="max-height: 230px; overflow-y: overlay;">
                                     <?php
                                     foreach ($tiposContrato as $tipoContrato) { ?>
-                                        <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&contrato=", "&contrato=" . $tipoContrato . "&") ?>" class="d-flex justify-content-between">
+                                        <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&contrato=", "&contrato=" . $tipoContrato . "&") ?>" class="d-flex justify-content-between position-relative">
                                             <p><?php echo $tipoContrato; ?></p>
-                                            <input type="radio" <?php if (isset($_GET['contrato']) && $_GET['contrato'] == $tipoContrato) echo 'checked'; ?> disabled />
+                                            <input type="radio" class="form-check-input position-absolute intra" <?php if (isset($_GET['contrato']) && $_GET['contrato'] == $tipoContrato) echo 'checked'; ?> disabled />
                                         </a>
                                     <?php }
                                     ?>
@@ -326,8 +326,8 @@ function generatePageUrl($page)
                 <?php if ($totalPages > 1) : ?>
                     <div class="d-flex justify-content-center align-items-center gap-2">
                         <?php if ($page > 1) : ?>
-                            <!-- <a href="<?php echo generatePageUrl(1) ?>" class="pag-item">&laquo;</a> -->
-                            <a href="<?php echo generatePageUrl($page - 1) ?>" class="pag-item"><ion-icon name="chevron-back-outline"></ion-icon></a>
+                            <a href="<?php echo generatePageUrl(1) ?>" class="pag-item">&laquo;</a>
+                            <!-- <a href="<?php echo generatePageUrl($page - 1) ?>" class="pag-item"><ion-icon name="chevron-back-outline"></ion-icon></a> -->
                         <?php endif; ?>
 
                         <?php
@@ -348,8 +348,8 @@ function generatePageUrl($page)
                         endfor; ?>
 
                         <?php if ($page < $totalPages) : ?>
-                            <a href="<?php echo generatePageUrl($page + 1) ?>" class="pag-item"><ion-icon name="chevron-forward-outline"></ion-icon></a>
-                            <!-- <a href="<?php echo generatePageUrl($totalPages) ?>" class="pag-item">&raquo;</a> -->
+                            <!-- <a href="<?php echo generatePageUrl($page + 1) ?>" class="pag-item"><ion-icon name="chevron-forward-outline"></ion-icon></a> -->
+                            <a href="<?php echo generatePageUrl($totalPages) ?>" class="pag-item">&raquo;</a>
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>

@@ -6,6 +6,19 @@
   --dark: #0f4229;
 }
 
+*::-webkit-scrollbar {
+  width: 10px; /* Ancho del scroll */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #ebf4eb; /* Color del thumb (la barra de desplazamiento) */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #d7fed7; /* Color del thumb al pasar el cursor */
+}
+
+
 .bg-success {
   background-color: #2cc14e !important;
 }
@@ -530,6 +543,7 @@ p {
   font-size: 14px;
   letter-spacing: 2px;
   text-transform: uppercase;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .accordion {
@@ -655,4 +669,9 @@ p {
 .item-des ion-icon{
   font-size: 20px;
   color: #2f8032 !important;
+}
+
+.intra{
+  right: 0;
+  top: 3px;
 }
