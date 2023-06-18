@@ -512,3 +512,51 @@ h6,
 .copyright a:hover {
   color: var(--primary);
 }
+
+.d-flex.fil ion-icon {
+  font-size: 30px;
+}
+
+p {
+  margin-bottom: 0 !important;
+}
+
+.listicon ion-icon {
+  font-size: 25px;
+}
+
+.listicon p {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.accordion {
+  --bs-accordion-btn-focus-box-shadow: transparent;
+  --bs-accordion-border-width: none;
+  --bs-accordion-inner-border-radius: 0;
+}
+
+.accordion-item {
+  border: none !important;
+}
+
+.accordion-button:not(.collapsed){
+  box-shadow: none !important;
+}
+
+.accordion-button:focus {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.accordion-body a {
+  text-decoration: none;
+  border-bottom: 1px solid #2f8032;
+  padding: 10px 0;
+}
+
+.accordion-body a:last-child{
+  border-bottom: 0 !important;
+}

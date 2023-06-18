@@ -1,15 +1,56 @@
 <?php
-if (isset($_GET['search'])) {
-    $COMPANYNAME = $_GET['search'];
-} else {
-    $COMPANYNAME = '';
-}
 
-$sql = "SELECT * FROM `tblcompany` c,`tblocupaciones` o, `tbltipocontrato` t, `tbljob` j, `tblareas` a WHERE c.`COMPANYID`=j.`COMPANYID` AND j.`AREAID`=a.`AREAID` AND JOBSTATUS = 0 AND j.`OCUPACIONID`=o.`OCUPACIONID` AND  j.`TCONTRATOID`=t.`TCONTRATOID` AND COMPANYNAME LIKE '%" . $COMPANYNAME . "%' AND c.`COMPANYSTATUS` = 1 ORDER BY DATEPOSTED DESC ";
+$sql = "SELECT * 
+FROM `tblcompany` c,
+`tblocupaciones` o, 
+`tbltipocontrato` t, 
+`tbljob` j, 
+`tblareas` a 
+WHERE c.`COMPANYID`=j.`COMPANYID` 
+AND j.`AREAID`=a.`AREAID` 
+AND JOBSTATUS = 0 
+AND j.`OCUPACIONID`=o.`OCUPACIONID` 
+AND  j.`TCONTRATOID`=t.`TCONTRATOID` 
+AND c.`COMPANYSTATUS` = 1 
+ORDER BY DATEPOSTED DESC";
 
 $mydb->setQuery($sql);
 $cur = $mydb->loadResultList();
 
+$sql2 = "SELECT * FROM 
+`tblcompany` c,
+`tblocupaciones` o, 
+`tbltipocontrato` t, 
+`tbljob` j, 
+`tblareas` a 
+WHERE c.`COMPANYID`=j.`COMPANYID` 
+AND j.`AREAID`=a.`AREAID` 
+AND JOBSTATUS = 0 
+AND j.`OCUPACIONID`=o.`OCUPACIONID` 
+AND  j.`TCONTRATOID`=t.`TCONTRATOID` 
+AND c.`COMPANYSTATUS` = 1";
+
+
+if (isset($_GET['area'])) {
+    // Aplicar la condición correspondiente a la opción de área seleccionada
+}
+
+if (isset($_GET['ubicacion'])) {
+    $sql2 .= "AND COMPANYNAME LIKE '%" . $_GET['ubicacion'] . "%'";
+}
+
+if (isset($_GET['contrato'])) {
+    // Aplicar la condición correspondiente a la opción de tipo de contrato seleccionada
+}
+
+// Agregar condiciones del filtro
+if (isset($_GET['fecha'])) {
+    $orderBy = ($_GET['fecha'] == "ASC") ? "ASC" : "DESC";
+    $sql2 .= " ORDER BY DATEPOSTED " . $orderBy;
+}
+
+$mydb->setQuery($sql2);
+$cur2 = $mydb->loadResultList();
 
 // Obtener las áreas
 $areas = array();
@@ -25,8 +66,14 @@ foreach ($cur as $result) {
 }
 $companys = array_unique($companys);
 
-?>
+// Obtener los tipos de contrato únicos de los resultados obtenidos
+$tiposContrato = array();
+foreach ($cur as $result) {
+    $tiposContrato[] = $result->TIPOCONTRATO;
+}
+$tiposContrato = array_unique($tiposContrato);
 
+?>
 
 <!-- Page Header Start -->
 <div class="container-fluid page-header py-5 mb-5">
@@ -45,101 +92,109 @@ $companys = array_unique($companys);
 
 <div class="container-md mt-5">
     <div class="row">
-        <div class="col-md-3 position-relative">
-            <div class="card border-0 shadow-sm fixed-col">
+
+        <div class="col-md-3">
+            <div class="card">
                 <div class="card-body">
-                    <div class="d-flex flex-column mb-2">
-                        <p class="text-muted"><b>Filtros</b></p>
-                    </div>
-
-                    <div id="filtro" class="">
-                      <a href="#collapsePubli" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill" data-bs-toggle="collapse" role="button">
-                        <i class="bi bi-calendar2-week" style="color: green;"></i>
-                          <p style="margin-bottom: 0 !important;">Fecha de publicación</p>
-                        </a>
-
-                        <div class="collapse" id="collapsePubli">
-    <div class="card card-body border-0">
-            <?php
-            $fechasPublicacion = array();
-            foreach ($cur as $result) {
-                $fechasPublicacion[] = $result->DATEPOSTED;
-            }
-            $fechasPublicacion = array_unique($fechasPublicacion);
-
-            foreach ($fechasPublicacion as $fechaPublicacion) {
-                echo '<p class="bg-light d-flex gap-2 mt-1 align-items-center p-1 rounded-pill"><a href="#" class="fecha.publicacion-filter">' . $fechaPublicacion . '</a></p>';
-            }
-            ?>
-    </div>
-</div>
-
-
-
-                        <a href="#collapseArea" data-bs-toggle="collapse" role="button" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill">
-            <i class="bi bi-box" style="color: green;"></i>
-            <p style="margin-bottom: 0 !important;">Área</p>
-        </a>
-
-        <div class="collapse" id="collapseArea">
-    <div class="card card-body border-0">
-        <ul class="list-unstyled">
-            <?php
-            foreach ($areas as $area) {
-                echo '<p class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill"><a href="#" class="area-filter">' . $area . '</a></p>';
-            }
-            ?>
-        </ul>
-    </div>
-</div>
-
-
-                        <a href="#collapseUbi" data-bs-toggle="collapse" role="button" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill">
-                            <i class="bi bi-geo-fill" style="color: green;"></i>
-                            <p style="margin-bottom: 0 !important;">Ubicación</p>
-                        </a>
-
-                        <div class="collapse" id="collapseUbi">
-                            <div class="card card-body  border-0">
-                            <?php
-            foreach ($companys as $company) {
-                echo '<p class="bg-light d-flex gap-2 mt-1 align-items-center p-1 rounded-pill"><a href="#" class="ubi-filter">' . $company . '</a></p>';
-            }
-            ?>                            </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title">Filtro</h5>
+                        <div class="d-flex fil">
+                            <ion-icon name="filter-circle-outline"></ion-icon>
                         </div>
-
-                        <a href="#collapseCon" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill" data-bs-toggle="collapse" role="button">
-                            <i class="bi bi-briefcase" style="color: green;"></i>
-                            <p style="margin-bottom: 0 !important;">Tipo de contrato</p>
-                        </a>
-
-                        <div class="collapse" id="collapseCon">
-    <div class="card card-body border-0">
-            <?php
-            // Obtener los tipos de contrato únicos de los resultados obtenidos
-            $tiposContrato = array();
-            foreach ($cur as $result) {
-                $tiposContrato[] = $result->TIPOCONTRATO;
-            }
-            $tiposContrato = array_unique($tiposContrato);
-
-            foreach ($tiposContrato as $tipoContrato) {
-                echo '<p class="bg-light d-flex gap-2 mt-1 align-items-center p-1 rounded-pill">' . $tipoContrato . '</a></p>';
-            }
-            ?>
-    </div>
-</div>
-
                     </div>
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fecha" aria-expanded="true" aria-controls="fecha">
+                                    <div class="d-flex listicon align-items-center gap-2">
+                                        <ion-icon name="calendar-outline"></ion-icon>
+                                        <p class="card-title">Fecha</p>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="fecha" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <a href="index.php?q=trabajos&fecha=DESC" class="d-flex justify-content-between">
+                                        <p for="ant">Los más recientes</p>
+                                        <input type="radio" class="form-check-input" id="ant" <?php if (isset($_GET['fecha']) && $_GET['fecha'] == 'DESC') echo 'checked'; ?> disabled />
+                                    </a>
+                                    <a href="index.php?q=trabajos&fecha=ASC" class="d-flex justify-content-between">
+                                        <p for="ant">Los más antiguos</p>
+                                        <input type="radio" class="form-check-input" id="ant" <?php if (isset($_GET['fecha']) && $_GET['fecha'] == 'ASC') echo 'checked'; ?> disabled />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#area" aria-expanded="false" aria-controls="area">
+                                    <div class="d-flex listicon align-items-center gap-2">
+                                        <ion-icon name="cube-outline"></ion-icon>
+                                        <p class="card-title">Area</p>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="area" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <?php
+                                    foreach ($areas as $area) { ?>
+                                        <a href="?are=<?php echo $area ?>" class="d-flex justify-content-between">
+                                            <p for="ant"><?php echo $area ?></p>
+                                        </a>
+                                    <?php }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#location" aria-expanded="false" aria-controls="location">
+                                    <div class="d-flex listicon align-items-center gap-2">
+                                        <ion-icon name="map-outline"></ion-icon>
+                                        <p class="card-title">Ubicacion</p>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="location" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <?php
+                                    foreach ($companys as $company) { ?>
+                                        <a href="#" class="d-flex justify-content-between">
+                                            <p for="ant"><?php echo $company ?></p>
+                                            <input type="radio" id="ant" disabled />
+                                        </a>
+                                    <?php }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contrato" aria-expanded="false" aria-controls="contrato">
+                                    <div class="d-flex listicon align-items-center gap-2">
+                                        <ion-icon name="file-tray-outline"></ion-icon>
+                                        <p class="card-title">Tipo de contrato</p>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="contrato" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <?php
 
-
+                                    foreach ($tiposContrato as $tipoContrato) { ?>
+                                        <a href="#" class="d-flex justify-content-between">
+                                            <label for="ant"><?php echo $tipoContrato ?></label>
+                                            <input type="radio" id="ant" disabled />
+                                        </a>
+                                    <?php }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-
             </div>
         </div>
-
-        
 
         <div class="col-md-9 mb-5">
             <?php
@@ -150,7 +205,7 @@ $companys = array_unique($companys);
             <p><b><?php echo $countVacantes; ?></b> vacantes disponibles</p>
             <div class="col-lg-12">
                 <?php if (!empty($cur)) { ?>
-                    <?php foreach ($cur as $result) { ?>
+                    <?php foreach ($cur2 as $result) { ?>
                         <?php if ($result->COMPANYSTATUS == 1) { ?>
                             <a class="card mb-3 border-0 shadow-sm mb-4" href="<?php echo web_root . 'index.php?q=viewjob&search=' . $result->JOBID; ?>">
                                 <div class="col-md-12 mb-4">
@@ -209,7 +264,7 @@ $companys = array_unique($companys);
 
 
 
-                    <!--<a href="#collapseMod" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill" data-bs-toggle="collapse" role="button">
+<!--<a href="#collapseMod" class="bg-light d-flex gap-2 mt-3 align-items-center p-2 rounded-pill" data-bs-toggle="collapse" role="button">
                             <i class="bi bi-briefcase" style="color: green;"></i>
                             <p style="margin-bottom: 0 !important;">Modalidad de trabajo</p>
                         </a>
