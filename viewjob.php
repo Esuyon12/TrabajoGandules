@@ -291,7 +291,7 @@ foreach ($cur as $result) {
 
                                 <label for="filepond" class="bg-light filepond mb-3">
                                     <div class="filepond-text">
-                                        <span>Escoja el CV </span>
+                                        <span>Adjuntar su curriculum vitae </span>
                                     </div>
                                     <input type="file" id="filepond" class="filepond-input" name="CVFILE" required>
                                     <div class="filepond-file-container gap-3">
@@ -345,7 +345,7 @@ foreach ($cur as $result) {
             } else {
                 fileContainer.classList.add('show');
                 fileContainer.classList.add('invalid');
-                fileNameElement.textContent = 'SE REQUIERE PDF';
+                fileNameElement.textContent = 'SE REQUIERE UN DOCUMENTO EN PDF';
                 fileExtElement.textContent = '';
                 submitButton.disabled = true;
             }
