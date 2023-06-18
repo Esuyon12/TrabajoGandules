@@ -300,7 +300,7 @@ CREATE TABLE `tbljob` (
   `MODALIDAD` varchar(100) NOT NULL,
   `TIEMPO` varchar(100) NOT NULL,
   `JOBSTATUS` int(11) NOT NULL DEFAULT 0,
-  `DATEPOSTED` date NOT NULL DEFAULT current_timestamp(),
+  `DATEPOSTED` timestamp NOT NULL DEFAULT current_timestamp(),
   `DATE_INT` datetime NOT NULL DEFAULT current_timestamp(),
   `DATE_END` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;

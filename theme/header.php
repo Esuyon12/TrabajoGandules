@@ -107,7 +107,7 @@
                             $area = $result->AREA;
                             $searchParam = isset($_GET['search']) ? $_GET['search'] : '';
                             $isActive = $searchParam === $area ? 'active' : '';
-                            $link = web_root . "index.php?q=searcharea&search=$area";
+                            $link = web_root . "index.php?q=trabajos&area=$area";
                         ?>
                             <li>
                                 <a href="<?= $link ?>" class="dropdown-item text-truncate <?= $isActive ?>"><?= $area ?></a>

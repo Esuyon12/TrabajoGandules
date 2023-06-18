@@ -56,7 +56,7 @@ if (isset($_GET['contrato'])) {
 
 if (isset($_GET['fecha'])) {
     $fecha = $mydb->escape_value($_GET['fecha']);
-    $sql2 .= " ORDER BY DATEPOSTED " . $fecha;
+    $sql2 .= " ORDER BY DATE_INT " . $fecha;
 }
 
 $mydb->setQuery($sql2);
@@ -155,7 +155,7 @@ function generatePageUrl($page)
                             } ?>
                             <div class="col-auto mb-1">
                                 <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&" . $key . "=", "&") ?>" class="text-start d-flex justify-content-between align-items-center badge text-bg-success">
-                                    <p class="text-wrap text-left"><?php echo ($value == "DESC" ? "Recientes" : ($value == "ASC" ? "Antiguos" : $value )) ?></p>
+                                    <p class="text-wrap text-left"><?php echo ($value == "DESC" ? "Recientes" : ($value == "ASC" ? "Antiguos" : $value)) ?></p>
                                     <ion-icon name="close-outline"></ion-icon>
                                 </a>
                             </div>
@@ -288,23 +288,28 @@ function generatePageUrl($page)
                                                 </div>
 
                                                 <div class="d-flex mb-2">
-                                                    <!-- <p> Descripcion</p> -->
-                                                    <p class="text-muted"><?php echo substr($result->INFOJOB, 0, 205) . '...'; ?></p>
-
+                                                    <p class="text-muted"><?php echo substr($result->INFOJOB, 0, 205) . "..."?> <span class="text-success">(Seguir leyendo)</span> </p>
                                                 </div>
 
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="d-flex">
-                                                        <p class="text-muted me-4">
-                                                            <i class="bi bi-building"></i> <?php echo $result->COMPANYNAME ?>
-                                                        </p>
-                                                        <p class="text-muted">
-                                                            <i class="bi bi-geo-alt-fill"></i> <?php echo $result->COMPANYADDRESS ?>
-                                                        </p>
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="d-flex justify-content-betwwen align-items-center w-100 gap-3">
+                                                            <div class="d-flex align-items-center gap-2 text-muted w-100 item-des">
+                                                                <ion-icon name="business-outline"></ion-icon>
+                                                                <p><?php echo $result->COMPANYNAME ?></p>
+                                                            </div>
+                                                            <div class="d-flex align-items-center gap-2 text-muted justify-content-end w-100 item-des">
+                                                                <p><?php echo $result->COMPANYADDRESS ?></p>
+                                                                <ion-icon name="map-outline"></ion-icon>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <p class="text-muted">
-                                                        <i class="bi bi-calendar3"></i> <?php echo time_ago($result->DATEPOSTED) ."<br>". $result->DATEPOSTED . "<br>" . date("Y-m-d H:i:s")  ?>
-                                                    </p>
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="d-flex justify-content-end align-items-center gap-2 item-des text-muted">
+                                                            <ion-icon name="calendar-outline"></ion-icon>
+                                                            <p><?php echo time_ago($result->DATE_INT) ?></p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -321,12 +326,12 @@ function generatePageUrl($page)
                 <?php if ($totalPages > 1) : ?>
                     <div class="d-flex justify-content-center align-items-center gap-2">
                         <?php if ($page > 1) : ?>
-                            <a href="<?php echo generatePageUrl(1) ?>" class="pag-item">&laquo;</a>
+                            <!-- <a href="<?php echo generatePageUrl(1) ?>" class="pag-item">&laquo;</a> -->
                             <a href="<?php echo generatePageUrl($page - 1) ?>" class="pag-item"><ion-icon name="chevron-back-outline"></ion-icon></a>
                         <?php endif; ?>
 
                         <?php
-                        $maxVisiblePages = 5;
+                        $maxVisiblePages = 3;
                         $startPage = max(1, $page - floor($maxVisiblePages / 2));
                         $endPage = min($startPage + $maxVisiblePages - 1, $totalPages);
 
@@ -344,12 +349,11 @@ function generatePageUrl($page)
 
                         <?php if ($page < $totalPages) : ?>
                             <a href="<?php echo generatePageUrl($page + 1) ?>" class="pag-item"><ion-icon name="chevron-forward-outline"></ion-icon></a>
-                            <a href="<?php echo generatePageUrl($totalPages) ?>" class="pag-item">&raquo;</a>
+                            <!-- <a href="<?php echo generatePageUrl($totalPages) ?>" class="pag-item">&raquo;</a> -->
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>
             </div>
-
         </div>
     </div>
 </div>
