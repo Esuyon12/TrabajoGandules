@@ -207,7 +207,7 @@ $tiposContrato = array_unique($tiposContrato);
 
         <div class="col-md-9 mb-5">
             <?php
-            $countVacantes = count(array_filter($cur, function ($result) {
+            $countVacantes = count(array_filter($cur2, function ($result) {
                 return $result->COMPANYSTATUS == 1;
             }));
             ?>
