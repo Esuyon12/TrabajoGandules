@@ -119,18 +119,18 @@ $cur = $mydb->loadResultList();
             ?>
 
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="service-item rounded d-flex flex-column h-100">
-                        <div class="service-img rounded flex-grow-1">
-                            <img class="img-fluid w-100 h-100" src="assets/images/hero/gren.png" alt="">
-                        </div>
-                        <div class="service-text rounded p-5">
-                            <div class="btn-square rounded-circle mx-auto mb-3">
-                                <img class="img-fluid" src="assets/images/logo-gandules.png" alt="Icon">
+                    <a href="<?php echo web_root . 'index.php?q=trabajos&area=' . $area->AREA; ?>">
+
+                        <div class="service-item rounded d-flex flex-column h-100">
+                            <div class="service-img rounded flex-grow-1">
+                                <img class="img-fluid w-100 h-100" src="assets/images/hero/gren.png" alt="">
                             </div>
-                            <h4 class="mb-3"><?php echo $area->AREA ?></h4>
-                            <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Ver vacantes</a>
+                            <div class="service-text rounded p-5">
+                                <h5 class="mb-3"><?php echo $area->AREA ?></h5>
+                                <a class="btn btn-sm" href="<?php echo web_root . 'index.php?q=trabajos&area=' . $area->AREA; ?>"><i class="fa fa-plus text-primary me-2"></i>Ver vacantes</a>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             <?php
             }
@@ -157,5 +157,5 @@ $cur = $mydb->loadResultList();
         <?php endif; ?>
     </div>
 </div>
-</div>
 <!-- Service End -->
+
