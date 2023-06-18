@@ -56,12 +56,12 @@ function doInsert()
 		}
 
 
-		$sql = "SELECT * FROM tbljob WHERE OCUPACIONID LIKE '%" . trim($_POST['OCUPACIONID']) . "%'";
+		$sql = "SELECT * FROM tbljob j, tblcompany c WHERE OCUPACIONID LIKE '%" . trim($_POST['OCUPACIONID']) . "%' AND j.COMPANYID=c.COMPANYID  AND c.COMPANYID =" . $_POST["COMPANYID"];
 		$mydb->setQuery($sql);
 		$cur = $mydb->executeQuery();
 
 		if ($cur->num_rows !== 0) {
-			throw new Exception("Ya existe una vacante para esta ocupación", 400);
+			throw new Exception("Ya Existe Una Vacante De Esta Ocupación En Esta Sede.", 400);
 		}
 
 
@@ -81,10 +81,10 @@ function doInsert()
 				$value = str_replace("\n", "<br>", $value);
 			}
 
-			$job->$key = $value;
+			@$job->$key = $value;
 		}
 
-		$job->create();
+		@$job->create();
 
 		http_response_code(200);
 
