@@ -99,23 +99,26 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
                         <?php
-                        $sql = "SELECT * FROM `tbljob` j, tblareas a WHERE j.AREAID = a.AREAID AND j.JOBSTATUS = 0 LIMIT 10";
+                        $sql = "SELECT DISTINCT a.AREA FROM `tbljob` j, tblareas a WHERE j.AREAID = a.AREAID AND j.JOBSTATUS = 0 AND a.ESTADO = 1 LIMIT 10";
                         $mydb->setQuery($sql);
                         $cur = $mydb->loadResultList();
-                        foreach ($cur as $result) {
+
+                        foreach ($cur as $key => $result) {
                             $area = $result->AREA;
                             $searchParam = isset($_GET['search']) ? $_GET['search'] : '';
                             $isActive = $searchParam === $area ? 'active' : '';
                             $link = web_root . "index.php?q=searcharea&search=$area";
-
-                            // Check if the area is active
-                            $areaIsActive = $result->ESTADO == 1;
-
-                            // Only display active areas
-                            if ($areaIsActive) {
                         ?>
+                            <li>
+                                <a href="<?= $link ?>" class="dropdown-item text-truncate <?= $isActive ?>"><?= $area ?></a>
+                            </li>
+                            <?php
+
+                            if ($key === count($cur) - 1) {
+                                $allAreasLink = web_root . "index.php?q=area";
+                            ?>
                                 <li>
-                                    <a href="<?= $link ?>" class="dropdown-item text-truncate <?= $isActive ?>"><?= $area ?></a>
+                                    <a href="<?= $allAreasLink ?>" class="dropdown-item">Ver todas las areas <i class="bi bi-arrow-right"></i></a>
                                 </li>
                         <?php
                             }
@@ -123,6 +126,7 @@
                         ?>
                     </ul>
                 </li>
+
 
 
                 <li class="nav-item">

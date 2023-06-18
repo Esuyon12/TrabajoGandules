@@ -97,3 +97,52 @@ $cur = $mydb->loadResultList();
         </div>
     </div>
 </div>
+
+
+
+<!-- Team Start -->
+<!-- <div class="container-xxl py-3">
+    <div class="container">
+        <?php
+        $sql = "SELECT DISTINCT AREA FROM tblareas a, tbljob j WHERE a.ESTADO = 1 AND a.AREAID = j.AREAID";
+        $mydb->setQuery($sql);
+        $cur = $mydb->loadResultList();
+        $countAreas = count($cur);
+        $areasPerPage = 12;
+        $totalPages = ceil($countAreas / $areasPerPage);
+        $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+        $start = ($currentPage - 1) * $areasPerPage;
+        $areasToShow = array_slice($cur, $start, $areasPerPage);
+        ?>
+        <div class="row g-4">
+            <?php
+            $i = 0;
+            foreach ($areasToShow as $area) {
+                $i++;
+            ?>
+                <div class="col-lg-4 col-md-6 wow fadeInUp">
+                    <a href="<?php echo web_root . 'index.php?q=searcharea&search=' . $area->AREA; ?>" class="card" style="border: none;">
+                        <div class="team-item rounded">
+                            <img class="img-fluid" src="assets/images/hero/gren.png" alt="">
+                            <div class="team-text">
+                                <h4 class="mb-0"><?php echo $area->AREA ?></h4>
+                                <p class="text-primary">Landscape Designer</p>
+                                <div class="team-social d-flex">
+                                    <a class="btn btn-square rounded-circle me-2" href=""><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-square rounded-circle me-2" href=""><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-square rounded-circle me-2" href=""><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <?php
+            }
+            ?>
+        </div>
+        <p><b><?php echo $i; ?></b> áreas mostradas de <b><?php echo $countAreas; ?></b> áreas disponibles</p>
+
+    </div>
+</div>
+</div> -->
+<!-- Team End -->
