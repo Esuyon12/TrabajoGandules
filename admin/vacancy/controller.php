@@ -89,7 +89,7 @@ function doInsert()
 		http_response_code(200);
 
 		header('Content-Type: application/json');
-		echo json_encode(array("status" => "success", "message" => "Categoría agregada correctamente"));
+		echo json_encode(array("status" => "success", "message" => "Vacante agregada correctamente"));
 	} catch (Exception $e) {
 		http_response_code(400);
 		header('Content-Type: application/json');

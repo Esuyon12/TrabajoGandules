@@ -33,7 +33,7 @@ $cur = $mydb->loadResultList();
 </div>
 
 
-<div class="container-md mt-5">
+<!-- <div class="container-md mt-5">
     <div class="row">
         <div class="col-md-12 mb-5">
             <?php
@@ -76,7 +76,6 @@ $cur = $mydb->loadResultList();
             </div>
             <p><b><?php echo $i; ?></b> áreas mostradas de <b><?php echo $countAreas; ?></b> áreas disponibles</p>
 
-            <!-- Paginación -->
             <?php if ($totalPages > 1) : ?>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
@@ -96,7 +95,7 @@ $cur = $mydb->loadResultList();
             <?php endif; ?>
         </div>
     </div>
-</div>
+</div> -->
 
 
 
@@ -146,3 +145,71 @@ $cur = $mydb->loadResultList();
 </div>
 </div> -->
 <!-- Team End -->
+
+
+<!-- Service Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <?php
+        $sql = "SELECT DISTINCT AREA FROM tblareas a, tbljob j WHERE a.ESTADO = 1 AND a.AREAID = j.AREAID";
+        $mydb->setQuery($sql);
+        $cur = $mydb->loadResultList();
+        $countAreas = count($cur);
+        $areasPerPage = 12;
+        $totalPages = ceil($countAreas / $areasPerPage);
+        $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+        $start = ($currentPage - 1) * $areasPerPage;
+        $areasToShow = array_slice($cur, $start, $areasPerPage);
+        ?>
+        <div class="row g-4">
+            <?php
+            $i = 0;
+            foreach ($areasToShow as $area) {
+                $i++;
+            ?>
+<div class="col-lg-4 col-md-6 wow fadeInUp" style="height: 200px; width: 500px;" data-wow-delay="0.5s">
+                    <a href="<?php echo web_root . 'index.php?q=searcharea&search=' . $area->AREA; ?>">
+
+                        <div class="service-item rounded d-flex h-100">
+                            <div class="service-img rounded">
+                                <img class="img-fluid" src="assets/images/hero/gren.png" alt="">
+                            </div>
+                            <div class="service-text rounded p-5">
+                                <div class="btn-square rounded-circle mx-auto mb-3">
+                                    <img class="img-fluid" src="assets/img/icon/icon-5.png" alt="Icon">
+                                </div>
+                                <h4 class="mb-3"><?php echo $area->AREA ?></h4>
+                                <p class="mb-4">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet.</p>
+                                <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <?php
+            }
+            ?>
+        </div>
+        <p><b><?php echo $i; ?></b> áreas mostradas de <b><?php echo $countAreas; ?></b> áreas disponibles</p>
+
+        <!-- Paginación -->
+        <?php if ($totalPages > 1) : ?>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <?php if ($currentPage > 1) : ?>
+                        <li class="page-item"><a class="page-link" href="?q=area&page=<?php echo ($currentPage - 1); ?>">Anterior</a></li>
+                    <?php endif; ?>
+
+                    <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                        <li class="page-item <?php if ($i == $currentPage) echo 'active'; ?>"><a class="page-link" href="?q=area&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                    <?php endfor; ?>
+
+                    <?php if ($currentPage < $totalPages) : ?>
+                        <li class="page-item"><a class="page-link" href="?q=area&page=<?php echo ($currentPage + 1); ?>"><i class="fas fa-arrow-right"></i></a></li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
+        <?php endif; ?>
+    </div>
+</div>
+</div>
+<!-- Service End -->
