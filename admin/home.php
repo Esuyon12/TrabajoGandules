@@ -186,7 +186,7 @@ $totalaplicantes = $mydb->loadSingleResult();
 
                                 foreach ($cur as $result) {
                                     $counter++;
-                                    if ($counter <= 6) {
+                                    if ($counter <= 5) {
                                 ?>
                                         <div class="col-lg-12">
                                             <div class="btn-gris">
