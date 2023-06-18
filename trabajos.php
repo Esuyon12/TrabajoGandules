@@ -54,6 +54,11 @@ if (isset($_GET['contrato'])) {
     $sql2 .= " AND TIPOCONTRATO LIKE '%" . $contrato . "%'";
 }
 
+if (isset($_GET['fecha'])) {
+    $fecha = $mydb->escape_value($_GET['fecha']);
+    $sql2 .= " ORDER BY DATEPOSTED " . $fecha;
+}
+
 $mydb->setQuery($sql2);
 $cur2 = $mydb->loadResultList();
 
@@ -66,7 +71,6 @@ $sql2 .= " LIMIT $offset, $perPage";
 
 $mydb->setQuery($sql2);
 $cur2 = $mydb->loadResultList();
-
 
 // Obtener las áreas
 $areas = array();
@@ -91,16 +95,21 @@ $tiposContrato = array_unique($tiposContrato);
 
 function replacetxt($cadena, $patron, $reemplazo)
 {
-    if (strpos($cadena, $patron)) {
+    if (strpos($cadena, $patron) !== false) {
         $patron = "/" . $patron . ".*?&/";
         $nueva_cadena = preg_replace($patron, $reemplazo, $cadena);
     } else {
         $nueva_cadena = $cadena . $reemplazo;
     }
+
+    $nueva_cadena = preg_replace('/&page=[^&]*/', '&', $nueva_cadena);
     $nueva_cadena = preg_replace('/&+/', '&', $nueva_cadena);
     // $nueva_cadena = rtrim($nueva_cadena, '&'); // Eliminar el carácter & al final de la URL
+
     return $nueva_cadena;
 }
+
+
 
 function generatePageUrl($page)
 {
@@ -145,8 +154,8 @@ function generatePageUrl($page)
                                 continue;
                             } ?>
                             <div class="col-auto mb-1">
-                                <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&" . $key . "=", "&") ?>" class="d-flex justify-content-between align-items-center badge text-bg-success">
-                                    <p><?php echo $value ?></p>
+                                <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&" . $key . "=", "&") ?>" class="text-start d-flex justify-content-between align-items-center badge text-bg-success">
+                                    <p class="text-wrap text-left"><?php echo ($value == "DESC" ? "Recientes" : ($value == "ASC" ? "Antiguos" : $value )) ?></p>
                                     <ion-icon name="close-outline"></ion-icon>
                                 </a>
                             </div>
@@ -294,7 +303,7 @@ function generatePageUrl($page)
                                                         </p>
                                                     </div>
                                                     <p class="text-muted">
-                                                        <i class="bi bi-calendar3"></i> <?php echo time_ago($result->DATEPOSTED) ?>
+                                                        <i class="bi bi-calendar3"></i> <?php echo time_ago($result->DATEPOSTED) ."<br>". $result->DATEPOSTED . "<br>" . date("Y-m-d H:i:s")  ?>
                                                     </p>
                                                 </div>
                                             </div>

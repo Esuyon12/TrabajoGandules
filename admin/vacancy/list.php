@@ -264,7 +264,7 @@ $cur = $mydb->loadResultList(); ?>
 						<div class="form-floating mb-4">
 							<div class="card-body">
 								<div class="form-group with-title mb-3">
-									<input type="date" name="DATE_INT" id="DATE_INT" class="form-control" placeholder="..." autocomplete="off">
+									<input type="datetime-local" name="DATE_INT" id="DATE_INT" class="form-control" placeholder="..." autocomplete="off">
 									<label>DATE_INT</label>
 								</div>
 							</div>
@@ -275,7 +275,7 @@ $cur = $mydb->loadResultList(); ?>
 						<div class="form-floating mb-4">
 							<div class="card-body">
 								<div class="form-group with-title mb-3">
-									<input type="date" name="DATE_END" id="DATE_END" class="form-control" placeholder="..." autocomplete="off">
+									<input type="datetime-local" name="DATE_END" id="DATE_END" class="form-control" placeholder="..." autocomplete="off">
 									<label>DATE_END </label>
 								</div>
 							</div>
