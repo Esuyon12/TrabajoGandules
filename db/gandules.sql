@@ -300,9 +300,9 @@ CREATE TABLE `tbljob` (
   `MODALIDAD` varchar(100) NOT NULL,
   `TIEMPO` varchar(100) NOT NULL,
   `JOBSTATUS` int(11) NOT NULL DEFAULT 0,
-  `DATEPOSTED` date NOT NULL DEFAULT current_timestamp(),
-  `DATE_INT` date NOT NULL DEFAULT current_timestamp(),
-  `DATE_END` date NOT NULL DEFAULT current_timestamp()
+  `DATEPOSTED` timestamp NOT NULL DEFAULT current_timestamp(),
+  `DATE_INT` datetime NOT NULL DEFAULT current_timestamp(),
+  `DATE_END` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -346,7 +346,7 @@ CREATE TABLE `tblkeywords` (
   `cod_keyword` int(11) NOT NULL,
   `OCUPACIONID` int(11) DEFAULT NULL,
   `keyword` varchar(50) DEFAULT NULL,
-  `fecha_registro` date DEFAULT current_timestamp()
+  `fecha_registro` timestamp DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -518,7 +518,7 @@ CREATE TABLE `tblusers` (
   `ROLE` varchar(30) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `FOTO` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   `ESTADO` int(1) NOT NULL DEFAULT 0,
-  `CREATEAT` date NOT NULL DEFAULT current_timestamp()
+  `CREATEAT` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
