@@ -55,7 +55,7 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
                                 </td>
 
                                 <td style="width: 5%;">
-                                    <a title="Edit" href="#" class="btn btn-grads btn-outline-light btn-xs" onclick='editArea(<?= json_encode($result) ?>)'><i class="bi bi-pencil-square"></i></a>
+                                    <a title="Edit" href="#" class="btn bg-success btn-outline-light btn-xs" onclick='editArea(<?= json_encode($result) ?>)'><i class="bi bi-pencil-square"></i></a>
                                 </td>
                             </tr>
                         <?php } ?>

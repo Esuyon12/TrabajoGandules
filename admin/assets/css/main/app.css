@@ -7840,8 +7840,8 @@ fieldset:disabled .btn {
   padding-right: 1rem !important;
 }
 .px-4 {
-  padding-left: 1.5rem !important;
-  padding-right: 1.5rem !important;
+  padding-left: 1.0rem !important;
+  padding-right: 1.0rem !important;
 }
 .px-5 {
   padding-left: 3rem !important;
@@ -16667,7 +16667,7 @@ body .bi:before {
 }
 .card {
   border: none;
-  margin-bottom: 2.2rem;
+  margin-bottom: 1.1rem;
 }
 .card.card-statistic {
   background: linear-gradient(180deg, #25a6f1, #54b9ff);

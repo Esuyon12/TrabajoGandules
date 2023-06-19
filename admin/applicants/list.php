@@ -19,15 +19,6 @@ $fechaHoraActual = date('Y-m-d H:i:s');
 
 ?>
 
-<!-- 
-<div class="page-title">
-	<div class="row">
-		<div class="col-12 col-md-6 order-md-1 order-last">
-			<h1>Aplicantes</h1>
-		</div>
-	</div>
-</div> -->
-
 
 <div class="page-heading">
 
@@ -37,7 +28,7 @@ $fechaHoraActual = date('Y-m-d H:i:s');
 			<div class="page-title">
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
-						<h1>Solicitudes</h1>
+						<h1>Aplicantes</h1>
 					</div>
 				</div>
 			</div>
@@ -50,51 +41,6 @@ $fechaHoraActual = date('Y-m-d H:i:s');
 		</div>
 	</div>
 </div>
-
-<!-- <div class="row d-flex align-items-center">
-	<div class="col-md-12">
-		<div class="card bg-white">
-			<div class="card-body">
-				<div class="row">
-					<div class="col-md-3">
-						<div class="form-floating mb-3">
-							<select class="form-select" id="areaSelect" onchange="valuechange(this,4)" aria-label="Floating label select example">
-								<option selected value="">Todos</option>
-								<?php foreach ($search_tblareas as $area) { ?>
-									<option value="<?php echo $area->AREA ?>"><?php echo $area->AREA ?></option>
-								<?php } ?>
-							</select>
-							<label for="areaSelect">Áreas</label>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="form-floating mb-3">
-							<select class="form-select" id="ocupacionSelect" onchange="valuechange(this,3)" aria-label="Floating label select example">
-								<option selected value="">Todos</option>
-								<?php foreach ($search_tblocupaciones as $ocupacion) { ?>
-									<option value="<?php echo $ocupacion->OCUPACION ?>"><?php echo $ocupacion->OCUPACION ?></option>
-								<?php } ?>
-							</select>
-							<label for="ocupacionSelect">Ocupación</label>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="form-floating mb-3">
-							<input type="date" id="dateFrom" class="form-control" onchange="filterTable()" placeholder="Fecha inicial">
-							<label for="dateFrom">Fecha inicial</label>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="form-floating mb-3">
-							<input type="date" id="dateTo" class="form-control" onchange="filterTable()" placeholder="Fecha final">
-							<label for="dateTo">Fecha final</label>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div> -->
 
 <div class="col-lg-12">
 	<div class="card">
@@ -118,10 +64,7 @@ $fechaHoraActual = date('Y-m-d H:i:s');
 						// print_r($result); exit;
 
 						$mydb->setQuery("SELECT * FROM `tblevaluaciones` WHERE APPLICANTID = " . $result->APPLICANTID . " AND OCUPACIONID = " . $result->OCUPACIONID);
-						// echo("SELECT * FROM `tblevaluaciones` WHERE APPLICANTID =". $result->APPLICANTID. " AND OCUPACIONID = ". $result->OCUPACIONID); exit;
 						$cur2 = $mydb->loadSingleResult();
-
-						// print_r($cur2);
 					?>
 
 						<tr>
