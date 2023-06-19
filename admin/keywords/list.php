@@ -18,20 +18,17 @@ $search = $mydb->loadResultList(); ?>
 	<div class="col-md-6">
 		<div class="row">
 			<div class="col-md-6">
-
 				<div class="form-floating shadow mb-3">
-				<select class="form-select" id="floatingSelect" onchange="valuechange(this)" aria-label="Floating label select example">
-					<option selected value="">Todos</option>
-					<?php foreach ($search as $key) {
-						if ($key->OCUPACIONSTATUS == 1) { ?>
-							<option value="<?php echo $key->OCUPACION ?>"><?php echo $key->OCUPACION ?></option>
-					<?php }
-					} ?>
-				</select>
-				<label for="floatingSelect"> <i class="bi bi-search"></i> Filtrar por ocupación</label>
-			</div>
-
-
+					<select class="form-select" id="floatingSelect" onchange="valuechange(this)" aria-label="Floating label select example">
+						<option selected value="">Todos</option>
+						<?php foreach ($search as $key) {
+							if ($key->OCUPACIONSTATUS == 1) { ?>
+								<option value="<?php echo $key->OCUPACION ?>"><?php echo $key->OCUPACION ?></option>
+						<?php }
+						} ?>
+					</select>
+					<label for="floatingSelect"> <i class="bi bi-search"></i> Filtrar por ocupación</label>
+				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-floating shadow mb-3">
@@ -39,7 +36,6 @@ $search = $mydb->loadResultList(); ?>
 					<label for="tableSearch"><i class="bi bi-search"></i> Buscar registros</label>
 				</div>
 			</div>
-
 		</div>
 	</div>
 </div>
@@ -49,34 +45,30 @@ $mydb->setQuery("SELECT * FROM `tblkeywords` o, `tblocupaciones` a WHERE o.`OCUP
 $cur = $mydb->loadResultList();
 ?>
 <?php
-	foreach ($cur as $result) { ?>
+foreach ($cur as $result) { ?>
 <?php } ?>
 
 <style>
 	.keyword {
-		background-image: linear-gradient(
-    to right,
-    #56ab2f 0%,
-    #61a80a 51%,
-    #56ab2f 100%
-  );
-  margin: 2px;
-  padding: 2px 5px;
-  text-align: center;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: white;
-  box-shadow: 0 0 20px #eee;
-  border-radius: 10px;
-  display: block;
-}
+		background-image: linear-gradient(to right,
+				#56ab2f 0%,
+				#61a80a 51%,
+				#56ab2f 100%);
+		margin: 2px;
+		padding: 2px 5px;
+		text-align: center;
+		transition: 0.5s;
+		background-size: 200% auto;
+		color: white;
+		box-shadow: 0 0 20px #eee;
+		border-radius: 10px;
+		display: block;
+	}
 
-.keyword-row {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-
+	.keyword-row {
+		display: flex;
+		flex-wrap: wrap;
+	}
 </style>
 <div class="col-lg-12 mt-5">
 
@@ -102,50 +94,32 @@ $cur = $mydb->loadResultList();
 				// Agregamos el keyword al array correspondiente a la ocupación
 				$ocupaciones[$ocupacion][] = $keywords->keyword;
 			}
+
+			$colors = array("primary", "secondary", "success", "danger", "warning");
 			?>
 			<?php foreach ($ocupaciones as $ocupacion => $keywords) { ?>
 
 				<div class="col-lg-4 col-md-6 col-12">
-					<div class="card shadow-sm">
+					<div class="card shadow-sm" style="height: 250px;">
 						<div class="card-header">
 							<div class="d-flex align-items-center w-100">
 								<h6 class="text-uppercase"><?php echo $ocupacion; ?></h6>
 								<a href="#" onclick="addKeyword()"><i class="bi bi-plus-lg"></i></a>
 								<a title="Edit" href="#" onclick='editKeyword(<?= json_encode($result) ?>)' style="margin-left: 10px;"><i class="bi bi-pencil"></i></a>
-
 							</div>
-
 						</div>
 						<div class="card-body">
-	<?php
-	$counter = 0; // Contador para controlar el número de keywords por fila
-	foreach ($keywords as $keyword) {
-		if ($counter % 3 == 0) {
-			// Iniciar una nueva fila de keywords
-			echo '<div class="keyword-row">';
-		}
-		?>
-		<p class="text-muted">
-			<?php
-			$keywords = explode(" ", $keyword); // Suponiendo que $keyword es una cadena con varias palabras separadas por espacio
-			foreach ($keywords as $kw) {
-				echo '<span class="keyword">' . $kw . '</span> ';
-			}
-			?>
-		</p>
-		<?php
-		$counter++;
-		if ($counter % 3 == 0) {
-			// Cerrar la fila de keywords
-			echo '</div>';
-		}
-	}
-	// Comprobar si la última fila no está cerrada
-	if ($counter % 3 != 0) {
-		echo '</div>';
-	}
-	?>
-</div>
+							<div class="keywords row" style="max-height: 150px; overflow:overlay;">
+								<?php
+								$counter = 0; // Contador para controlar el número de keywords por fila
+								foreach ($keywords as $keyword) { $randomColor = $colors[array_rand($colors)];?>
+									<div class="col-auto">
+										<p class="badge bg-<?php echo $randomColor ?> mb-2"><?php echo $keyword ?></p>
+									</div>
+								<?php }
+								?>
+							</div>
+						</div>
 
 					</div>
 				</div>
