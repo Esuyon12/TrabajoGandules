@@ -41,27 +41,29 @@
 
 
           <div class="col-lg-3 col-md-6">
-            <h4 class="text-white mb-4">Areas</h4>
-            <?php
-            $sql = "SELECT *
-          FROM `tblareas`
-          WHERE `ESTADO` = 1 AND `AREAID` IN (SELECT DISTINCT `AREAID` FROM `tbljob` WHERE `JOBSTATUS` = 'Disponible')
-          LIMIT 3";
-            $mydb->setQuery($sql);
-            $cur = $mydb->loadResultList();
+    <h4 class="text-white mb-4">Áreas</h4>
+    <?php
+    $sql = "SELECT *
+        FROM `tblareas`
+        WHERE `ESTADO` = 1 AND `AREAID` IN (SELECT DISTINCT `AREAID` FROM `tbljob` WHERE `JOBSTATUS` = 'Disponible')
+        LIMIT 3";
+    $mydb->setQuery($sql);
+    $areas = $mydb->loadResultList();
 
-            foreach ($cur as $result) {
-            ?>
-              <div class="single-grid wow fadeInUp w-100">
-                <a class="btn btn-link" href="<?php echo URL_WEB . web_root; ?>index.php?q=area&search=<?php echo $result->AREA ?>">
-                  <?php echo $result->AREA ?>
-                </a>
-              </div>
-            <?php
-            }
-            ?>
-            <a href="<?php echo URL_WEB . web_root; ?>index.php?q=area&search=<?php echo $result->AREA ?>" class="btn btn-link">Más detalles</a>
-          </div>
+    foreach ($areas as $area) {
+        $areaUrl = URL_WEB . web_root . 'index.php?q=trabajos&area=' . urlencode($area->AREA);
+    ?>
+        <div class="single-grid wow fadeInUp w-100">
+            <a class="btn btn-link" href="<?php echo $areaUrl; ?>">
+                <?php echo $area->AREA; ?>
+            </a>
+        </div>
+    <?php
+    }
+    ?>
+    <a href="<?php echo URL_WEB . web_root; ?>index.php?q=area" class="btn btn-link">Más detalles</a>
+</div>
+
 
 
         </div>

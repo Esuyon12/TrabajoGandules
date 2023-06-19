@@ -14,56 +14,54 @@ $cur = $mydb->loadResultList();
 <div class="container-md mt-5">
     <div class="row">
         <div class="col-md-12 mb-5">
-            <div class="col-lg-12">
-                <?php if (!empty($cur)) { ?>
-                    <?php foreach ($cur as $result) { ?>
-                        <div class="col-md-12 mb-4">
-                            <a href="<?php echo web_root . 'index.php?q=viewjob&search=' . $result->JOBID; ?>" class="card">
-                                <div class=" card-body">
-                                    <div class="d-flex align-items-center mb-6">
-                                        <div class="d-flex flex-column w-100">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <div class="d-flex align-items-center gap-4">
-                                                    <img src="<?php echo web_root ?>assets/images/logo-gandules.png" alt="Logo" class="img-fluid rounded-start" style="width:90px; height: 90px;">
-                                                    <div class="d-flex flex-column">
-                                                        <h4 class="text-uppercase"><?= $result->OCUPACION; ?></h4>
-                                                        <p class="text-muted"><?php echo $result->AREA ?></p>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex">
-                                                    <span class="badge bg-success"><?php echo $result->REQ_EMPLOYEES; ?> vacantes</span>
+            <?php if (!empty($cur)) { ?>
+                <?php foreach ($cur as $result) { ?>
+                    <div class="col-md-12 mb-4">
+                        <a href="<?php echo web_root . 'index.php?q=viewjob&search=' . $result->JOBID; ?>" class="card">
+                            <div class=" card-body">
+                                <div class="d-flex align-items-center mb-6">
+                                    <div class="d-flex flex-column w-100">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div class="d-flex align-items-center gap-4">
+                                                <img src="<?php echo web_root ?>assets/images/logo-gandules.png" alt="Logo" class="img-fluid rounded-start" style="width:90px; height: 90px;">
+                                                <div class="d-flex flex-column">
+                                                    <h4 class="text-uppercase"><?= $result->OCUPACION; ?></h4>
+                                                    <p class="text-muted"><?php echo $result->AREA ?></p>
                                                 </div>
                                             </div>
-
-                                            <div class="d-flex mb-4">
-                                                <p class="text-muted"><?php echo substr($result->INFOJOB, 0, 205) . '...'; ?></p>
-
+                                            <div class="d-flex">
+                                                <span class="badge bg-success"><?php echo $result->REQ_EMPLOYEES; ?> vacantes</span>
                                             </div>
+                                        </div>
 
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="d-flex">
-                                                    <p class="text-muted me-4">
-                                                        <i class="bi bi-building"></i> <?php echo $result->COMPANYNAME ?>
-                                                    </p>
-                                                    <p class="text-muted">
-                                                        <i class="bi bi-geo-alt-fill"></i> <?php echo $result->COMPANYADDRESS ?>
-                                                    </p>
-                                                </div>
+                                        <div class="d-flex mb-4">
+                                            <p class="text-muted"><?php echo substr($result->INFOJOB, 0, 205) . "..." ?> <span class="text-success">(Seguir leyendo)</span> </p>
+
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex">
+                                                <p class="text-muted me-4">
+                                                    <i class="bi bi-building"></i> <?php echo $result->COMPANYNAME ?>
+                                                </p>
                                                 <p class="text-muted">
-                                                    <i class="bi bi-calendar3"></i> <?php echo time_ago($result->DATEPOSTED) ?>
+                                                    <i class="bi bi-geo-alt-fill"></i> <?php echo $result->COMPANYADDRESS ?>
                                                 </p>
                                             </div>
+                                            <p class="text-muted">
+                                                <i class="bi bi-calendar3"></i> <?php echo time_ago($result->DATEPOSTED) ?>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
+                    </div>
 
-                    <?php } ?>
-                <?php } else { ?>
-                    <h2 class="text-center text-muted">No hay vacantes</h2>
                 <?php } ?>
-            </div>
+            <?php } else { ?>
+                <h2 class="text-center text-muted">No hay vacantes</h2>
+            <?php } ?>
         </div>
     </div>
 </div>

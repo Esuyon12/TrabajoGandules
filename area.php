@@ -30,104 +30,43 @@ $cur = $mydb->loadResultList();
     </div>
 </div>
 
-
-<!-- <div class="container-md mt-5">
-    <div class="row">
-        <div class="col-md-12 mb-5">
-            <?php
-            $sql = "SELECT DISTINCT AREA FROM tblareas a, tbljob j WHERE a.ESTADO = 1 AND a.AREAID = j.AREAID";
-            $mydb->setQuery($sql);
-            $cur = $mydb->loadResultList();
-            $countAreas = count($cur);
-            $areasPerPage = 12;
-            $totalPages = ceil($countAreas / $areasPerPage);
-            $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
-            $start = ($currentPage - 1) * $areasPerPage;
-            $areasToShow = array_slice($cur, $start, $areasPerPage);
-            ?>
-            <div class="row">
-                <?php
-                $i = 0;
-                foreach ($areasToShow as $area) {
-                    $i++;
-                ?>
-                    <div class="col-md-4 mb-4">
-                        <a href="<?php echo web_root . 'index.php?q=searcharea&search=' . $area->AREA; ?>" class="card" style="border: none;">
-                            <div class="card-body shadow-sm">
-                                <div class="d-flex align-items-center mb-6">
-                                    <div class="d-flex flex-column w-100">
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <div class="d-flex align-items-center gap-4">
-                                                <div class="d-flex flex-column">
-                                                    <h5 class="card-title text-left"><?php echo $area->AREA ?></h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                <?php
-                }
-                ?>
-            </div>
-            <p><b><?php echo $i; ?></b> áreas mostradas de <b><?php echo $countAreas; ?></b> áreas disponibles</p>
-
-            <?php if ($totalPages > 1) : ?>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <?php if ($currentPage > 1) : ?>
-                            <li class="page-item"><a class="page-link" href="?q=area&page=<?php echo ($currentPage - 1); ?>">Anterior</a></li>
-                        <?php endif; ?>
-
-                        <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
-                            <li class="page-item <?php if ($i == $currentPage) echo 'active'; ?>"><a class="page-link" href="?q=area&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
-                        <?php endfor; ?>
-
-                        <?php if ($currentPage < $totalPages) : ?>
-                            <li class="page-item"><a class="page-link" href="?q=area&page=<?php echo ($currentPage + 1); ?>"><i class="fas fa-arrow-right"></i></a></li>
-                        <?php endif; ?>
-                    </ul>
-                </nav>
-            <?php endif; ?>
-        </div>
-    </div>
-</div> -->
-
-
-
-<!-- Service Start -->
 <div class="container-xxl py-5">
-    <div class="container">
+    <div class="container-md mt-5">
         <?php
-        $sql = "SELECT DISTINCT AREA FROM tblareas a, tbljob j WHERE a.ESTADO = 1 AND a.AREAID = j.AREAID";
+        $sql = "SELECT a.AREA, COUNT(*) AS total_occupations
+            FROM tblareas a
+            INNER JOIN tblocupaciones o ON a.AREAID = o.AREAID
+            INNER JOIN tbljob j ON a.AREAID = j.AREAID AND o.OCUPACIONID = j.OCUPACIONID
+            WHERE a.ESTADO = 1
+            GROUP BY a.AREA";
         $mydb->setQuery($sql);
-        $cur = $mydb->loadResultList();
-        $countAreas = count($cur);
+        $occupations = $mydb->loadResultList();
+        $countAreas = count($occupations);
         $areasPerPage = 12;
         $totalPages = ceil($countAreas / $areasPerPage);
         $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
         $start = ($currentPage - 1) * $areasPerPage;
-        $areasToShow = array_slice($cur, $start, $areasPerPage);
+        $areasToShow = array_slice($occupations, $start, $areasPerPage);
         ?>
-        <div class="row g-4">
+        <div class="row">
             <?php
-            $i = 0;
             foreach ($areasToShow as $area) {
-                $i++;
             ?>
-
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <a href="<?php echo web_root . 'index.php?q=trabajos&area=' . $area->AREA; ?>">
-
-                        <div class="service-item rounded d-flex flex-column h-100">
-                            <div class="service-img rounded flex-grow-1">
-                                <img class="img-fluid w-100 h-100" src="assets/images/hero/gren.png" alt="">
-                            </div>
-                            <div class="service-text rounded p-5">
-                                <h5 class="mb-3"><?php echo $area->AREA ?></h5>
-                                <a class="btn btn-sm" href="<?php echo web_root . 'index.php?q=trabajos&area=' . $area->AREA; ?>"><i class="fa fa-plus text-primary me-2"></i>Ver vacantes</a>
+                <div class="col-md-4 mb-5">
+                    <a href="<?php echo web_root . 'index.php?q=trabajos&area=' . $area->AREA; ?>" class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-6">
+                                <div class="d-flex flex-column w-100">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div class="d-flex align-items-center gap-4">
+                                            <img src="<?php echo web_root ?>assets/images/logo-gandules.png" alt="Logo" class="img-fluid rounded-start" style="width:90px; height: 90px;">
+                                            <div class="d-flex flex-column">
+                                                <h5 class="text-uppercase"><?php echo $area->AREA ?></h5>
+                                                <p><span class="text-success"> <?php echo $area->total_occupations; ?> Ocupaciones activas</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </a>
@@ -136,26 +75,25 @@ $cur = $mydb->loadResultList();
             }
             ?>
         </div>
-        <p><b><?php echo $i; ?></b> áreas mostradas de <b><?php echo $countAreas; ?></b> áreas disponibles</p>
+
+        <p class="p mb-3"><b><?php echo count($areasToShow); ?></b> áreas mostradas de <b><?php echo $countAreas; ?></b> áreas disponibles</p>
 
         <?php if ($totalPages > 1) : ?>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <?php if ($currentPage > 1) : ?>
-                        <li class="page-item"><a class="page-link" href="?q=area&page=<?php echo ($currentPage - 1); ?>">Anterior</a></li>
-                    <?php endif; ?>
+            <div class="d-flex justify-content-center align-items-center gap-2">
+                <?php if ($currentPage > 1) : ?>
+                    <a class="pag-item" href="?q=area&page=<?php echo ($currentPage - 1); ?>">&laquo;</a>
+                <?php endif; ?>
 
-                    <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
-                        <li class="page-item <?php if ($i == $currentPage) echo 'active'; ?>"><a class="page-link" href="?q=area&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
-                    <?php endfor; ?>
+                <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                    <a class="pag-item <?php if ($i == $currentPage) echo 'current'; ?>" href="?q=area&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                <?php endfor; ?>
 
-                    <?php if ($currentPage < $totalPages) : ?>
-                        <li class="page-item"><a class="page-link" href="?q=area&page=<?php echo ($currentPage + 1); ?>"><i class="fas fa-arrow-right"></i></a></li>
-                    <?php endif; ?>
-                </ul>
-            </nav>
+                <?php if ($currentPage < $totalPages) : ?>
+                    <a class="pag-item" href="?q=area&page=<?php echo ($currentPage + 1); ?>">&raquo;</a>
+                <?php endif; ?>
+            </div>
         <?php endif; ?>
-    </div>
-</div>
-<!-- Service End -->
 
+    </div>
+
+</div>

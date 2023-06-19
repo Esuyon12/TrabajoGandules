@@ -78,15 +78,7 @@
               </a>
             </li>
 
-            <li class="sidebar-item">
-              <a href="<?= web_root ?>admin/modalidad/" class="sidebar-link">
-                <ion-icon name="send"></ion-icon>
-                <span>Modalidad</span>
-              </a>
-            </li>
-
-
-            <li class="sidebar-item">
+                    <li class="sidebar-item">
               <a href="<?= web_root ?>admin/indicaciones/" class="sidebar-link">
                 <ion-icon name="document-attach"></ion-icon>
                 <span>Indicaciones</span>

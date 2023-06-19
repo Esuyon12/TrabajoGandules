@@ -7,6 +7,7 @@
         font-size: 25px;
     }
 </style>
+
 <?php
 
 $sql = "SELECT * 
@@ -138,7 +139,7 @@ function generatePageUrl($page)
 <div class="container-fluid mt-5">
     <div class="row">
         <div class="col-md-12 col-sm-12 col-lg-3 col-xl-3 position-relative">
-            <div class="card fixed-col border-0">
+            <div class="card fixed-col border-0 shadow-sm">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="card-title">Filtro</h5>
@@ -221,7 +222,7 @@ function generatePageUrl($page)
                                     foreach ($companys as $company) { ?>
                                         <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&ubicacion=", "&ubicacion=" . $company . "&") ?>" class="d-flex justify-content-between">
                                             <p><?php echo $company ?></p>
-                                            <input type="radio" class="form-check-input" disabled <?php if (isset($_GET['ubicacion']) && $_GET['ubicacion'] == $company) echo 'checked'; ?>/>
+                                            <input type="radio" class="form-check-input" disabled <?php if (isset($_GET['ubicacion']) && $_GET['ubicacion'] == $company) echo 'checked'; ?> />
                                         </a>
                                     <?php }
                                     ?>
@@ -288,7 +289,7 @@ function generatePageUrl($page)
                                                 </div>
 
                                                 <div class="d-flex mb-2">
-                                                    <p class="text-muted"><?php echo substr($result->INFOJOB, 0, 205) . "..."?> <span class="text-success">(Seguir leyendo)</span> </p>
+                                                    <p class="text-muted"><?php echo substr($result->INFOJOB, 0, 205) . "..." ?> <span class="text-success">(Seguir leyendo)</span> </p>
                                                 </div>
 
                                                 <div class="row">
@@ -322,14 +323,13 @@ function generatePageUrl($page)
                     <h2 class="text-center text-muted">No hay vacantes disponibles</h2>
                 <?php } ?>
             </div>
+
             <div class="col-lg-12">
                 <?php if ($totalPages > 1) : ?>
                     <div class="d-flex justify-content-center align-items-center gap-2">
                         <?php if ($page > 1) : ?>
                             <a href="<?php echo generatePageUrl(1) ?>" class="pag-item">&laquo;</a>
-                            <!-- <a href="<?php echo generatePageUrl($page - 1) ?>" class="pag-item"><ion-icon name="chevron-back-outline"></ion-icon></a> -->
                         <?php endif; ?>
-
                         <?php
                         $maxVisiblePages = 3;
                         $startPage = max(1, $page - floor($maxVisiblePages / 2));
@@ -348,7 +348,6 @@ function generatePageUrl($page)
                         endfor; ?>
 
                         <?php if ($page < $totalPages) : ?>
-                            <!-- <a href="<?php echo generatePageUrl($page + 1) ?>" class="pag-item"><ion-icon name="chevron-forward-outline"></ion-icon></a> -->
                             <a href="<?php echo generatePageUrl($totalPages) ?>" class="pag-item">&raquo;</a>
                         <?php endif; ?>
                     </div>

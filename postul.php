@@ -98,7 +98,7 @@
         position: fixed;
         z-index: -1;
         background: rgb(0 0 0 / 0.6);
-        backdrop-filter: blur(20px); /*aca es >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+        backdrop-filter: blur(7px); /*aca es >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     }
 
     .timer {
@@ -256,7 +256,6 @@ if (count($search_corto) > 0) {
         echo '</div>';
         echo '<div class="tips">';
         echo '<p>Espera la respuesta de nuestro personal de reclutamiento.</p>';
-        echo '<p>Te recomendamos seguir navegando en la web.</p>';
         echo '<p><a href="index.php">Volver al inicio</a></p>';
         echo '</div>';
         echo '</div>';

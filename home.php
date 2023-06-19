@@ -170,8 +170,8 @@ $areas = $mydb->loadSingleResult();
 $mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblocupaciones WHERE OCUPACIONSTATUS = 1");
 $ocupaciones = $mydb->loadSingleResult();
 
-$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblemployees WHERE ESTADO = 1");
-$totalempleados = $mydb->loadSingleResult();
+$mydb->setQuery("SELECT COUNT(*) AS TOTAL FROM tblapplicants WHERE STATE = 0");
+$aplicantes = $mydb->loadSingleResult();
 
 
 ?>
@@ -211,12 +211,12 @@ $totalempleados = $mydb->loadSingleResult();
 
 
       <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.3s">
-        <?php if (isset($totalempleados->TOTAL)) : ?>
-          <h1 class="display-4 text-white" data-toggle="counter-up"><?php echo $totalempleados->TOTAL; ?></h1>
+        <?php if (isset($aplicantes->TOTAL)) : ?>
+          <h1 class="display-4 text-white" data-toggle="counter-up"><?php echo $aplicantes->TOTAL; ?></h1>
         <?php else : ?>
           <h1 class="display-4 text-white" data-toggle="counter-up">0</h1>
         <?php endif; ?>
-        <span class="fs-5 fw-semi-bold text-light">Empleados</span>
+        <span class="fs-5 fw-semi-bold text-light">Aplicantes</span>
       </div>
 
     </div>
@@ -227,8 +227,18 @@ $totalempleados = $mydb->loadSingleResult();
 <!-- Service Start -->
 <div class="container-xxl py-5">
   <div class="container">
-    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-      <h1 class="display-5 mb-5">Nuestras sedes</h1>
+
+    <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.1s">
+      <h1 class="display-5 mb-4"><?php echo strtoupper('Nuestras sedes'); ?></h1>
+      <p class="mb-5">
+        Descubre nuestras sedes distribuidas en diferentes ubicaciones alrededor del perú.
+        Cada sede ofrece un entorno de trabajo único, donde el trabajo en equipo, y el crecimiento son fundamentales.
+        <br>
+        ¡Explora nuestras sedes y encuentra el lugar perfecto para crecer y prosperar en el mundo profesional!
+        <a href="<?php echo web_root; ?>index.php?q=company" class="text-success">(Ver todas las sedes)</a>
+      </p>
+
+
     </div>
     <div class="row g-4">
 
@@ -272,15 +282,6 @@ $totalempleados = $mydb->loadSingleResult();
         </div>
       <?php } ?>
     </div>
-
-    <div style="display: flex; justify-content: center; align-items: center;">
-      <a class="center text-dark" href="<?php echo web_root; ?>index.php?q=company">
-        <br>
-        <p class="text-center"><b>¡Visita y explora más sobre nuestras sedes!</b> <i class="bi bi-arrow-right-circle-fill"></i></p>
-      </a>
-    </div>
-
-
   </div>
 </div>
 
@@ -378,51 +379,65 @@ $totalempleados = $mydb->loadSingleResult();
   </div>
 </div>
 
-
 <div class="container-xxl py-5">
   <div class="container">
-    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-      <h1 class="display-5 mb-5">Nuestras Areas</h1>
+    <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.1s">
+      <h1 class="display-5 mb-4"><?php echo strtoupper('Nuestras Areas'); ?></h1>
+      <p class="mb-4">
+        Descubre nuestras diversas áreas de trabajo. Cada una ofrece oportunidades para aquellos que buscan crecer y desarrollarse en el mundo profesional. Explora las diferentes áreas y encuentra la que se adapte mejor a tus intereses y habilidades. <br>
+        ¡Únete a nosotros en nuestro equipo mientras creamos un impacto positivo en el mundo laboral!
+        <a href="<?php echo URL_WEB . web_root; ?>index.php?q=area" class="text-success">(Ver todas las áreas)</a>
+      </p>
+
     </div>
 
-    <div class="row g-4">
-      <?php
-      $sql = "SELECT DISTINCT a.AREAID, a.AREA
-          FROM `tblareas` a
-          INNER JOIN `tbljob` j ON a.AREAID = j.AREAID
-          WHERE a.ESTADO = 1 AND j.JOBSTATUS = 'Activa'";
-      $mydb->setQuery($sql);
-      $cur = $mydb->loadResultList();
-      $counter = 0;
 
-      foreach ($cur as $result) {
-        $counter++;
-        if ($counter <= 9) {
-      ?>
+    <div class="container-md mt-5">
+      <div class="row">
+        <?php
+        $sql = "SELECT DISTINCT a.AREAID, a.AREA
+      FROM `tblareas` a
+      INNER JOIN `tbljob` j ON a.AREAID = j.AREAID
+      WHERE a.ESTADO = 1 AND j.JOBSTATUS = 'Activa'";
+        $mydb->setQuery($sql);
+        $cur = $mydb->loadResultList();
+        $counter = 0;
 
-          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="service-item rounded d-flex flex-column h-100">
-              <a href="<?php echo URL_WEB . web_root; ?>index.php?q=area&search=<?php echo $result->AREA ?>">
-                <div class="service-text rounded p-3">
-                  <p class="mb-4"><?php echo $result->AREA ?></p>
+        foreach ($cur as $result) {
+          $counter++;
+
+          // Consulta para obtener el número de ocupaciones activas en el área actual
+          $occupationsSql = "SELECT COUNT(*) AS total_occupations FROM `tblocupaciones` WHERE AREAID = '{$result->AREAID}'";
+          $mydb->setQuery($occupationsSql);
+          $occupationsResult = $mydb->loadSingleResult();
+
+          if ($counter <= 9) {
+        ?>
+
+            <div class="col-md-4 mb-5">
+              <a href="<?php echo URL_WEB . web_root; ?>index.php?q=trabajos&area=<?php echo $result->AREA ?>" class="card">
+                <div class="card-body">
+                  <div class="d-flex align-items-center mb-6">
+                    <div class="d-flex flex-column w-100">
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center gap-4">
+                          <img src="<?php echo web_root ?>assets/images/logo-gandules.png" alt="Logo" class="img-fluid rounded-start" style="width:90px; height: 90px;">
+                          <div class="d-flex flex-column">
+                            <h5 class="text-uppercase"><?php echo $result->AREA ?></h5>
+                            <p><?php echo $occupationsResult->total_occupations; ?> <span class="text-success">Ocupaciones activas</span></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </a>
             </div>
-          </div>
-
-      <?php
+        <?php
+          }
         }
-      }
-      ?>
-
+        ?>
+      </div>
     </div>
-
-    <div style="display: flex; justify-content: center; align-items: center;">
-      <a class="center text-dark" href="<?php echo URL_WEB . web_root; ?>index.php?q=area">
-        <br>
-        <p class="text-center"><b>¡Visita y explora más sobre nuestras áreas!</b> <i class="bi bi-arrow-right-circle-fill"></i></p>
-      </a>
-    </div>
-
   </div>
 </div>
