@@ -1,15 +1,67 @@
 <?php
-function reemplazarTexto($cadena, $patron, $reemplazo)
-{
-    $patron = "/" . $patron . ".*?&/";
-    $nueva_cadena = preg_replace($patron, $reemplazo, $cadena);
-    return $nueva_cadena;
+require "include/initialize.php";
+
+$sql = "SELECT o.*, a.* 
+FROM tblkeywords o, 
+tblocupaciones a 
+WHERE o.OCUPACIONID = a.OCUPACIONID 
+AND a.OCUPACIONSTATUS = 1 
+ORDER BY a.OCUPACIONID, a.OCUPACION";
+
+$mydb->setQuery($sql);
+$key = $mydb->loadResultList();
+
+$data = array();
+$currentOcupacionID = null;
+$currentOcupacion = null;
+$currentOcupacionStatus = null;
+$currentAreaId = null;
+$currentFecha = null;
+$datos = array();
+
+foreach ($key as $row) {
+    if ($currentOcupacionID !== $row->OCUPACIONID) {
+        if ($currentOcupacionID !== null) {
+            $obj = new stdClass();
+            $obj->OCUPACIONID = $currentOcupacionID;
+            $obj->OCUPACION = $currentOcupacion;
+            $obj->OCUPACIONSTATUS = $currentOcupacionStatus;
+            $obj->AREAID = $currentAreaId;
+            $obj->FECHAREGISTRO = $currentFecha;
+            $obj->KEYWORDS = $datos;
+            $data[] = $obj;
+        }
+
+        $currentOcupacionID = $row->OCUPACIONID;
+        $currentOcupacion = $row->OCUPACION;
+        $currentOcupacionStatus = $row->OCUPACIONSTATUS;
+        $currentAreaId = $row->AREAID;
+        $currentFecha = $row->FECHAREGISTRO;
+
+        $datos = array();
+    }
+
+    $obj = new stdClass();
+    $obj->cod_keyword = $row->cod_keyword;
+    $obj->keyword = $row->keyword;
+    $obj->fecha_registro = $row->fecha_registro;
+    $datos[] = $obj;
 }
 
-$cadena = "localhost/index.php?pepe=papa&fecha=asc&num=4321";
-echo $cadena . "<br>";
-$patron = "&fecha=";
-$reemplazo = "&fecha=durmio&";
+if ($currentOcupacionID !== null) {
+    $obj = new stdClass();
+    $obj->OCUPACIONID = $currentOcupacionID;
+    $obj->OCUPACION = $currentOcupacion;
+    $obj->OCUPACIONSTATUS = $currentOcupacionStatus;
+    $obj->AREAID = $currentAreaId;
+    $obj->FECHAREGISTRO = $currentFecha;
+    $obj->KEYWORDS = $datos;
+    $data[] = $obj;
+}
 
-$nueva_cadena = reemplazarTexto($cadena, $patron, $reemplazo);
-echo $nueva_cadena;
+// Convertir el arreglo a una cadena JSON
+// $jsonData = json_encode($data);
+echo json_encode($data);
+
+// Imprimir el resultado
+// echo $jsonData;

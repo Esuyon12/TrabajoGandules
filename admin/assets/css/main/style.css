@@ -169,3 +169,24 @@
 .keywords.row > *{
   padding-right: 0 !important;
 }
+
+.col-md-6.position-relative a{
+  position: absolute;
+  top: -5px;
+  right: 5px;
+  font-size: 26px;
+  background-color: rgb(218, 50, 50);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  box-shadow: 2px -3px 20px 0px rgb(239 76 76 / 36%);
+  transition: all .5s ease;
+}
+
+.col-md-6.position-relative a:hover{
+  background-color: rgb(196, 70, 70);
+  color: #fff !important;
+  box-shadow: none;
+}

@@ -48,82 +48,93 @@ $cur = $mydb->loadResultList();
 foreach ($cur as $result) { ?>
 <?php } ?>
 
-<style>
-	.keyword {
-		background-image: linear-gradient(to right,
-				#56ab2f 0%,
-				#61a80a 51%,
-				#56ab2f 100%);
-		margin: 2px;
-		padding: 2px 5px;
-		text-align: center;
-		transition: 0.5s;
-		background-size: 200% auto;
-		color: white;
-		box-shadow: 0 0 20px #eee;
-		border-radius: 10px;
-		display: block;
-	}
-
-	.keyword-row {
-		display: flex;
-		flex-wrap: wrap;
-	}
-</style>
 <div class="col-lg-12 mt-5">
-
 	<div class="container">
 		<div class="row">
 			<?php
-			$sql = "SELECT * FROM `tblkeywords`";
-			$mydb->setQuery("SELECT * FROM `tblkeywords` o, `tblocupaciones` a WHERE o.`OCUPACIONID` = a.`OCUPACIONID` AND a.`OCUPACIONSTATUS` = 1");
+			$sql = "SELECT o.*, a.* 
+					FROM tblkeywords o, 
+					tblocupaciones a 
+					WHERE o.OCUPACIONID = a.OCUPACIONID 
+					AND a.OCUPACIONSTATUS = 1 
+					ORDER BY a.OCUPACIONID, a.OCUPACION";
+
+			$mydb->setQuery($sql);
 			$key = $mydb->loadResultList();
 
-			// Creamos un array para almacenar las ocupaciones y sus keywords
-			$ocupaciones = array();
+			$data = array();
+			$currentOcupacionID = null;
+			$currentOcupacion = null;
+			$currentOcupacionStatus = null;
+			$currentAreaId = null;
+			$currentFecha = null;
+			$datos = array();
 
-			foreach ($key as $keywords) {
-				$ocupacion = $keywords->OCUPACION;
+			foreach ($key as $row) {
+				if ($currentOcupacionID !== $row->OCUPACIONID) {
+					if ($currentOcupacionID !== null) {
+						$obj = new stdClass();
+						$obj->OCUPACIONID = $currentOcupacionID;
+						$obj->OCUPACION = $currentOcupacion;
+						$obj->OCUPACIONSTATUS = $currentOcupacionStatus;
+						$obj->AREAID = $currentAreaId;
+						$obj->FECHAREGISTRO = $currentFecha;
+						$obj->KEYWORDS = $datos;
+						$data[] = $obj;
+					}
 
-				// Verificamos si la ocupación ya existe en el array
-				if (!isset($ocupaciones[$ocupacion])) {
-					// Si no existe, creamos un nuevo array para almacenar los keywords
-					$ocupaciones[$ocupacion] = array();
+					$currentOcupacionID = $row->OCUPACIONID;
+					$currentOcupacion = $row->OCUPACION;
+					$currentOcupacionStatus = $row->OCUPACIONSTATUS;
+					$currentAreaId = $row->AREAID;
+					$currentFecha = $row->FECHAREGISTRO;
+
+					$datos = array();
 				}
 
-				// Agregamos el keyword al array correspondiente a la ocupación
-				$ocupaciones[$ocupacion][] = $keywords->keyword;
+				$obj = new stdClass();
+				$obj->cod_keyword = $row->cod_keyword;
+				$obj->keyword = $row->keyword;
+				$obj->fecha_registro = $row->fecha_registro;
+				$datos[] = $obj;
 			}
 
+			if ($currentOcupacionID !== null) {
+				$obj = new stdClass();
+				$obj->OCUPACIONID = $currentOcupacionID;
+				$obj->OCUPACION = $currentOcupacion;
+				$obj->OCUPACIONSTATUS = $currentOcupacionStatus;
+				$obj->AREAID = $currentAreaId;
+				$obj->FECHAREGISTRO = $currentFecha;
+				$obj->KEYWORDS = $datos;
+				$data[] = $obj;
+			}
 			$colors = array("primary", "secondary", "success", "danger", "warning");
-			?>
-			<?php foreach ($ocupaciones as $ocupacion => $keywords) { ?>
 
+			foreach ($data as $a) { ?>
 				<div class="col-lg-4 col-md-6 col-12">
 					<div class="card shadow-sm" style="height: 250px;">
 						<div class="card-header">
 							<div class="d-flex align-items-center w-100">
-								<h6 class="text-uppercase"><?php echo $ocupacion; ?></h6>
-								<a href="#" onclick="addKeyword()"><i class="bi bi-plus-lg"></i></a>
-								<a title="Edit" href="#" onclick='editKeyword(<?= json_encode($result) ?>)' style="margin-left: 10px;"><i class="bi bi-pencil"></i></a>
+								<h6 class="text-uppercase"><?php echo $a->OCUPACION; ?></h6>
+								<a onclick='editKeyword(<?= json_encode($a) ?>)' style="margin-left: 10px; cursor: pointer;">
+									<i class="bi bi-pencil"></i>
+								</a>
 							</div>
 						</div>
 						<div class="card-body">
 							<div class="keywords row" style="max-height: 150px; overflow:overlay;">
-								<?php
-								$counter = 0; // Contador para controlar el número de keywords por fila
-								foreach ($keywords as $keyword) { $randomColor = $colors[array_rand($colors)];?>
+								<?php foreach ($a->KEYWORDS as $key) { ?>
 									<div class="col-auto">
-										<p class="badge bg-<?php echo $randomColor ?> mb-2"><?php echo $keyword ?></p>
+										<p class="badge bg-<?php echo $colors[array_rand($colors)] ?> mb-2"><?php echo $key->keyword ?></p>
 									</div>
-								<?php }
-								?>
+								<?php } ?>
 							</div>
 						</div>
-
 					</div>
 				</div>
-			<?php } ?>
+			<?php }
+			?>
 
 		</div>
 	</div>
@@ -136,80 +147,65 @@ foreach ($cur as $result) { ?>
 	const head = document.getElementById("headTitle")
 	const foot = document.getElementById("footer")
 
-	//FILTRO DE AREAS
-	function valuechange(e) {
-		var table = $('#myTable').DataTable();
-		// console.log(e);
-		table.column(1).search(e.value).draw();
-	}
-
 	function addKeyword() {
 		head.innerHTML = "AGREGAR KEYWORDS";
 		content.innerHTML = `
-			
-                <form id="addKeyword">
-                        <div class="form-floating mb-3">
-                        <input type="text" name="keyword" id="keyword" class="form-control" placeholder="..." autocomplete="off">
-                        <label for="keyword">Agregar keyword</label>
-                    </div>
-                    <div class="form-floating mb-4">
-					<select class="form-control" id="OCUPACIONID" name="OCUPACIONID">
-                        <option value="">Seleccionar ocupación</option>
-                        <?php
-						$mydb->setQuery("SELECT * FROM tblocupaciones WHERE OCUPACIONSTATUS = 1");
-						$ocupaciones = $mydb->loadResultList();
-						foreach ($ocupaciones as $ocupacion) {
-							echo '<option value="' . $ocupacion->OCUPACIONID . '">' . $ocupacion->OCUPACION . '</option>';
-						}
-						?>
-                    </select>
-                        <label for="floatingSelect">ocupacion</label>
-                    </div>
-                </form>
-			`;
+    <a id="btn-form">Agregar</a>
+    <form id="addKeyword">
+      <div class="form-floating mb-4">
+        <select class="form-control" id="OCUPACIONID" name="OCUPACIONID">
+          <option value="">Seleccionar ocupación</option>
+          <?php
+			$mydb->setQuery("SELECT * FROM tblocupaciones WHERE OCUPACIONSTATUS = 1");
+			$ocupaciones = $mydb->loadResultList();
+			foreach ($ocupaciones as $ocupacion) {
+				echo '<option value="' . $ocupacion->OCUPACIONID . '">' . $ocupacion->OCUPACION . '</option>';
+			}
+			?>
+        </select>
+        <label for="floatingSelect">ocupacion</label>
+      </div>
+      <h4>Keywords</h4>
+      <div class="row" id="keys">
+        <div class="col-md-6 position-relative">
+          <input class="form-control mb-3" type="text" name="keywords[]">
+        </div>
+      </div>
+    </form>
+    `;
 		foot.innerHTML = `
-		<button form="addKeyword" class="btn bg-success ml-1">
-			<span class="d-none d-sm-block text-white">Guardar</span>
-		</button>
-			`;
+    <button form="addKeyword" class="btn bg-success ml-1">
+      <span class="d-none d-sm-block text-white">Guardar</span>
+    </button>
+  `;
+
+		checkInputLimit();
+
 		myModal.show();
 
 		const form = document.getElementById("addKeyword");
-		const formFields = [
-			document.getElementById("keyword"),
-			document.getElementById("OCUPACIONID"),
-		];
-
-		function validateForm() {
-			let isFieldsEmpty = false;
-			formFields.forEach((field) => {
-				if (field.value.trim() === "") {
-					isFieldsEmpty = true;
-					field.style.borderColor = "red";
-				} else {
-					field.style.borderColor = "";
-				}
-			});
-			return !isFieldsEmpty;
-		}
 
 		form.addEventListener("submit", async function(e) {
 			e.preventDefault();
-			// const formData = new FormData(form);
 
-			if (!validateForm()) {
-				Swal.fire({
-					icon: "error",
-					title: "Todos los campos son obligatorios.",
-					showConfirmButton: false,
-					timer: 1000,
+			let inputs = form.querySelectorAll("input, select");
+
+			function validateForm() {
+				inputs.forEach((input) => {
+					if (input.value === "") {
+						input.style.borderColor = "red";
+						return false; // Indicar que la validación ha fallado
+					}
 				});
-				return;
+				return true; // Indicar que la validación ha sido exitosa
+			}
+
+			// Validar los inputs antes de enviar el formulario
+			if (!validateForm()) {
+				return; // Detener el envío del formulario si la validación ha fallado
 			}
 
 			const formData = new URLSearchParams(new FormData(form));
-
-
 
 			try {
 				let response = await fetch("<?php echo web_root ?>admin/keywords/controller.php?action=add", {
@@ -250,42 +246,93 @@ foreach ($cur as $result) { ?>
 	}
 
 
-
-	function editKeyword(a) {
+	function editKeyword(all) {
+		let input = ""
 
 		head.innerHTML = "Modificar palabras claves"
+		all.KEYWORDS.forEach(as => {
+			input += `
+			<div class="col-md-6 position-relative">
+				<input class="form-control mb-3" type="text" value="${as.keyword}" name="keywords[]">
+				<a href="#" onclick="deleteK(this)"><ion-icon name="remove-circle-outline"></ion-icon></a>
+			</div>
+			`
+		});
+
+
 		content.innerHTML = `
-		<form action="controller.php?action=edit&id=${a['cod_keyword']}" method="POST" id="editKeyword">
-	<div class="form-floating mb-3">
-		<input type="text" name="OCUPACION" id="OCUPACION" class="form-control" value="${a['OCUPACION']}" required>
-		<label for="OCUPACION">Ocupación</label>
-	</div>
-
-	<div class="form-floating mb-3">
-		<input type="text" name="keyword" id="keyword" class="form-control" value="${a['keyword']}" required>
-		<label for="keyword">keyword</label>
-	</div>
-
-</form>
-    `
+		<h3 class="card-title">${all.OCUPACION}</div>
+		<a id="btn-form">Agregar</a>
+		<form id="editKeyword">
+			<input type="hidden" name="OCUPACIONID" value="${all.OCUPACIONID}">
+			<div class="row mt-3" id="keys">
+				${input}
+			</div>
+		</form>
+		`
 		foot.innerHTML = `
-        <button form="editKeyword" class="btn btn-success ml-1" name="save" onclick="updateKeyword()">                    
+        <button form="editKeyword" class="btn btn-success ml-1" name="save">                    
             <span class="d-none d-sm-block">Actualizar</span>
         </button>
     `
+		checkInputLimit();
+
 		myModal.show();
+		document.getElementById("editKeyword").addEventListener("submit", updateKeys);
+
 	}
 
-	function updateKeyword() {
-		document.getElementById("editKeyword").submit();
+	async function updateKeys(e) {
+		e.preventDefault()
+		let response = await fetch("controller.php?action=edit", {
+			method: "POST",
+			body: new FormData(e.target)
+		})
 
-		Swal.fire({
-			title: " palabras claves actualizadas",
-			text: "La palabras claves actualizadas con éxito",
-			icon: "success",
-			confirmButtonText: "Aceptar",
-			timer: 5000,
-			timerProgressBar: true,
-		});
+		let data = await response.json()
+
+		if (data.status == "success") {
+			Swal.fire({
+				title: "Éxito!",
+				text: data.message,
+				icon: "success",
+				showConfirmButton: false,
+			});
+			setTimeout(() => {
+				location.reload();
+			}, 1000);
+		} else {
+			Swal.fire({
+				title: "Error!",
+				text: data.message || response.statusText,
+				icon: "error",
+				showConfirmButton: true,
+			});
+		}
+
+	}
+
+	function add() {
+		checkInputLimit();
+		document.getElementById("keys").innerHTML += `
+			<div class="col-md-6 position-relative">
+				<input class="form-control mb-3" type="text" name="keywords[]">
+				<a href="#" onclick="deleteK(this)"><ion-icon name="remove-circle-outline"></ion-icon></a>
+			</div>
+			`
+	}
+
+	function deleteK(element) {
+		element.parentNode.remove()
+	}
+
+	function checkInputLimit() {
+		let inputs = document.getElementById("keys").querySelectorAll(".form-control").length;
+
+		if (inputs < 9) {
+			document.getElementById("btn-form").addEventListener("click", add);
+		} else {
+			document.getElementById("btn-form").style.display = "none";
+		}
 	}
 </script>

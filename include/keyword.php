@@ -127,4 +127,20 @@ class Keyword
 
         if (!$mydb->executeQuery()) return false;
     }
+
+    public function deleteAlls($id = 0)
+    {
+        global $mydb;
+        $sql = "DELETE FROM " . self::$tblname;
+        $sql .= " WHERE OCUPACIONID =" . $id;
+        // $sql .= " LIMIT 1 ";
+        $mydb->setQuery($sql);
+    
+        if ($mydb->executeQuery()) {
+            return "Se elimino correctamente";
+        } else {
+            return "Ocurrio un error";
+        }
+    }
+    
 }
