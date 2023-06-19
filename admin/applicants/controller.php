@@ -64,7 +64,7 @@ function doSubmitApplication()
 
 		// echo json_encode(array("data" => $_POST)); die();
 
-		$applicant = new Applicants();
+		@$applicant = new Applicants();
 
 		foreach ($_POST as $key => $value) {
 			@$applicant->$key = $value;
@@ -72,7 +72,7 @@ function doSubmitApplication()
 
 		// echo json_encode($applicant); die();
 
-		$applicant->create();
+		@$applicant->create();
 		echo json_encode(array("status" => "success", "message" => "Se añadio corectamente"));
 	} catch (Exception $e) {
 		http_response_code(400);
