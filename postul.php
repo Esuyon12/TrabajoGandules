@@ -98,7 +98,7 @@
         position: fixed;
         z-index: -1;
         background: rgb(0 0 0 / 0.6);
-        filter: blur(20px);
+        backdrop-filter: blur(20px); /*aca es >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     }
 
     .timer {
