@@ -112,8 +112,6 @@
         // Cerrar la sesión CURL
         curl_close($ch);
 
-        
-
         $responseData = json_decode($response, true);
         $status = $responseData['status'];
         // $message = $responseData['message'];

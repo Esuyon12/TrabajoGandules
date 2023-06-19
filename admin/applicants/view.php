@@ -21,7 +21,6 @@ $cur2 = $mydb->loadSingleResult();
 
 $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
-
 ?>
 
 <style>
@@ -87,7 +86,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 						</div>
 					</div>
 					<div class="col-md-6">
-						<a class="d-flex px-5 py-2 justify-content-center rounded-3 btn btn-grad" onclick="mostrarPDF('<?php echo $appl->CVFILE; ?>')">
+						<a class="d-flex px-5 py-2 justify-content-center rounded-3 btn btn-grad" onclick="mostrarPDF()">
 							<p>Visualizar</p>
 						</a>
 					</div>
@@ -100,7 +99,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 					<div class="d-flex align-items-center justify-content-between">
 						<h4 class="card-title">Desarrolo de evaluación</h4>
 						<?php if ($cur2->MSG == 0) { ?>
-							<div onclick="evalua()" class="btn btn-primary d-flex flex-column justify-content-center align-items-center">
+							<div onclick="writeMSG()" class="btn btn-primary d-flex flex-column justify-content-center align-items-center">
 								<ion-icon style="height: 25px;width: 25px;" name="send-outline"></ion-icon>
 								<p style="font-size: 10px;">Enviar</p>
 							</div>
@@ -193,15 +192,18 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 		</div>
 	</div>
 </div>
+<script src="../assets/Knob/jquery.knob.min.js"></script>
+<link href="../assets/js/Quill/quill.snow.css" rel="stylesheet">
+<script src="../assets/js/Quill/quill.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Knob/1.2.13/jquery.knob.min.js"></script>
 <script>
 	const myModal = new bootstrap.Modal(document.getElementById('modal'))
 	const content = document.getElementById("content")
 	const head = document.getElementById("headTitle")
 	const Mhead = document.getElementById("MHead")
 	const foot = document.getElementById("footer")
+	var editor
+	var token = "<?php echo empty($cur2->TOKEN) ? "" : $cur2->TOKEN ?>"
 
 	// Obtener el switch
 	let toggleSwitch = document.querySelector("#toggle-dark");
@@ -272,10 +274,10 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 					${ata}
 				</div>
 			</div>
-		`
+			`
 			foot.innerHTML = `
 			<button class="btn btn-primary" id="calc">Calificar</button>
-		`;
+			`;
 
 
 
@@ -330,349 +332,141 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
 			content.innerHTML = `
 				<form id="addEvaluacion">
-				<input type="hidden" name="APPLICANTID" value="<?php echo $appl->APPLICANTID; ?>">
+					<input type="hidden" name="APPLICANTID" value="<?php echo $appl->APPLICANTID; ?>">
 
-				<input type="hidden" name="OCUPACIONID" value="<?php echo $appl->OCUPACIONID ?>">
-				<input type="hidden" name="AREAID" value="<?php echo $appl->AREAID ?>">
+					<input type="hidden" name="OCUPACIONID" value="<?php echo $appl->OCUPACIONID ?>">
+					<input type="hidden" name="AREAID" value="<?php echo $appl->AREAID ?>">
 
-				<div class="form-floating mb-4">
-					<select class="form-control" id="IDEVALUACIONCREA" name="IDEVALUACIONCREA">
-					<?php
-					// echo ("SELECT * FROM tblcreaevaluaciones WHERE ESTADO = " . 1 . " AND OCUPACIONID = " . $appl->OCUPACIONID);
-					// die();
-					$mydb->setQuery("SELECT * FROM tblcreaevaluaciones WHERE ESTADO = " . 1 . " AND OCUPACIONID = " . $appl->OCUPACIONID);
-					$evaluaciones = $mydb->loadResultList();
+					<div class="form-floating mb-4">
+						<select class="form-control" id="IDEVALUACIONCREA" name="IDEVALUACIONCREA">
+						<?php
+						// echo ("SELECT * FROM tblcreaevaluaciones WHERE ESTADO = " . 1 . " AND OCUPACIONID = " . $appl->OCUPACIONID);
+						// die();
+						$mydb->setQuery("SELECT * FROM tblcreaevaluaciones WHERE ESTADO = " . 1 . " AND OCUPACIONID = " . $appl->OCUPACIONID);
+						$evaluaciones = $mydb->loadResultList();
 
-					if (count($evaluaciones) == 0) {
-						echo '<option value="">No hay evaluaciones relacionadas</option>';
-					} else {
-						echo '<option value="">Seleccionar evaluacion</option>';
-						foreach ($evaluaciones as $evaluacion) {
-							echo '<option value="' . $evaluacion->IDEVALUACIONCREA . '">' . $evaluacion->TITULO . '</option>';
+						if (count($evaluaciones) == 0) {
+							echo '<option value="">No hay evaluaciones relacionadas</option>';
+						} else {
+							echo '<option value="">Seleccionar evaluacion</option>';
+							foreach ($evaluaciones as $evaluacion) {
+								echo '<option value="' . $evaluacion->IDEVALUACIONCREA . '">' . $evaluacion->TITULO . '</option>';
+							}
 						}
-					}
 
-					?>
-					</select>
-					<label for="floatingSelect">Evaluación</label>
-				</div>    
-				<div class="row">
-					<div class="col-md-6">
-					<div class="form-floating mb-4">
-						<input type="date" name="DATE_START" id="DATE_IN" min="3" class="form-control" placeholder="..." autocomplete="off">
-						<label for="DATE_IN"><i class="bi bi-person-lines-fill"></i>Fecha de inicio</label>
+						?>
+						</select>
+						<label for="floatingSelect">Evaluación</label>
+					</div>    
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-floating mb-4">
+								<input type="date" name="DATE_START" id="DATE_IN" min="3" class="form-control" placeholder="..." autocomplete="off">
+								<label for="DATE_IN"><i class="bi bi-person-lines-fill"></i>Fecha de inicio</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-floating mb-4">
+								<input type="date" name="DATE_OUT" id="DATE_END" min="3" class="form-control" placeholder="..." autocomplete="off">
+								<label for="DATE_END"><i class="bi bi-person-lines-fill"></i>Fecha final</label>
+							</div>
+						</div>	
 					</div>
-					</div>
-					<div class="col-md-6">
-					<div class="form-floating mb-4">
-						<input type="date" name="DATE_OUT" id="DATE_END" min="3" class="form-control" placeholder="..." autocomplete="off">
-						<label for="DATE_END"><i class="bi bi-person-lines-fill"></i>Fecha final</label>
-					</div>
-					</div>	
-				</div>
 				</form>
 			`;
 			foot.innerHTML = `
 				<button form="addEvaluacion" class="alert bg-success ml-1">
-				<span class="d-none d-sm-block text-white">Registrar</span>
+					<span class="d-none d-sm-block text-white">Registrar</span>
 				</button>
 			`;
 
 			modalDialog.classList.remove('modal-xl');
 			myModal.show();
 
-			evalua('addEvaluacion')
+			document.getElementById("addEvaluacion").addEventListener("submit", giveToken)
 
 		}, 400)
 	}
 
-	function evalua(id) {
+	async function giveToken(e) {
+		e.preventDefault()
+		let response = await fetch('<?php echo URL_WEB . web_root ?>admin/evaluaciones/controller.php?action=newtoken', {
+			method: 'POST',
+			body: new FormData(e.target)
+		});
 
-		<?php if (empty($cur2)) { ?>
-			document.getElementById(id).addEventListener('submit', async function(e) {
+		let data = await response.json();
 
-				e.preventDefault();
-				let evaluacion = document.getElementById('IDEVALUACIONCREA').value;
-				let dateStart = document.getElementById('DATE_IN').value;
-				let dateEnd = document.getElementById('DATE_END').value;
-
-				if (evaluacion === '' || dateStart === '' || dateEnd === '') {
-					// Marcar los campos vacíos en rojo
-					if (evaluacion === '') {
-						document.getElementById('IDEVALUACIONCREA').classList.add('is-invalid');
-					} else {
-						document.getElementById('IDEVALUACIONCREA').classList.remove('is-invalid');
-					}
-
-					if (dateStart === '') {
-						document.getElementById('DATE_IN').classList.add('is-invalid');
-					} else {
-						document.getElementById('DATE_IN').classList.remove('is-invalid');
-					}
-
-					if (dateEnd === '') {
-						document.getElementById('DATE_END').classList.add('is-invalid');
-					} else {
-						document.getElementById('DATE_END').classList.remove('is-invalid');
-					}
-
-					// Mostrar alerta de SweetAlert indicando que los campos son obligatorios
-					Swal.fire({
-						icon: 'warning',
-						title: 'Error de evaluación',
-						text: 'Es necesario completar todos los campos',
-					});
-					return;
-				}
-
-				let response = await fetch('<?php echo URL_WEB . web_root ?>admin/evaluaciones/controller.php?action=newtoken', {
-					method: 'POST',
-					body: new FormData(e.target)
-				});
-
-				let data = await response.json();
-
-				if (data.status === "success") {
-
-					myModal.hide();
-
-					// Restablecer la validación de los campos
-					document.getElementById('IDEVALUACIONCREA').classList.remove('is-invalid');
-					document.getElementById('DATE_IN').classList.remove('is-invalid');
-					document.getElementById('DATE_END').classList.remove('is-invalid');
-
-					setTimeout(function() {
-
-						// Aquí se incluye el código necesario para la acción programada
-						Mhead.innerHTML = "REDACTAR CORREO ELECTRONICO";
-
-						content.innerHTML = `
-							<form id="verMensaje">
-								<input type="hidden" name="EVALUACIONID" value="${data.id}">
-
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text">PARA</span>
-									</div>
-									<input readonly type="text" id="para" name="EMAIL" value="<?php echo $appl->EMAILADDRESS; ?>" class="form-control">
-									</div>
-
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text">ASUNTO</span>
-									</div>
-									<input type="text" id="asunto" name="ASUNTO" class="form-control" value="PROCESO DE EVALUACION GANDULES" placeholder="Asunto">
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="google-compose-body-container">
-										<div class="google-compose-body" id="editor"></div>
-									</div>
-								</div>
-
-							</form>
-						`;
-						foot.innerHTML = `
-							<div class="d-flex justify-content-between align-items-center">
-								<div>
-									<button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">Descartar</button>
-									<button form="verMensaje" id="load" class="btn btn-primary">Enviar</button>
-								</div>
-							</div>
-						`;
-
-						// Inicializar el editor Quill en el div correspondiente
-						var options = {
-							modules: {
-								toolbar: [
-									[{
-										'header': [1, 2, 3, false]
-									}],
-									['bold', 'italic', 'underline'],
-									['link'],
-									[{
-										'list': 'bullet'
-									}],
-									[{
-										'color': []
-									}, {
-										'background': []
-									}],
-								]
-							},
-							placeholder: 'Escribe aquí tu mensaje...',
-							theme: 'snow'
-						};
-						var editor = new Quill('#editor', options);
-						var text = `
-							<div class="form-floating mb-3">
-								Estimado/a <p class="text-uppercase mb-3"> <?= $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?></p>
-								Nos complace informarle que su solicitud de trabajo para el puesto de <a><?php echo $appl->OCUPACION; ?></b></a>
-								ha sido recibida y revisada por nuestro equipo de reclutamiento.</p>
-								<p>Le comunicamos que su Curriculum cumple con la gran mayoría de requisitos establecidos para el puesto y estamos interesados en continuar con el proceso de selección.
-								Para avanzar al siguiente paso del proceso, solicitamos que confirme su interés ingresando al siguiente enlace</p>
-								<a target="_blank" href="<?php echo URL_WEB . web_root ?>evaluaciones/?TOKEN=${data.message}">Dar evaluación</a>
-								<br>
-								<p>Si confirma su interés en el puesto, le brindaremos un nombre de usuario y token para que pueda realizar su evaluación de desempeño.</p>
-								<p>Si tiene alguna pregunta o inquietud, no dude en ponerse en contacto con nosotros.
-								Agradecemos su interés en nuestra empresa y esperamos tener la oportunidad de conocerlo/a en persona.</p>
-								<br>
-								<p>Att. <?php echo $appl->COMPANYNAME; ?></p>
-							</div>
-						`;
-						editor.clipboard.dangerouslyPasteHTML(text);
-
-						modalDialog.classList.remove('modal-lg');
-
-						// Mover las opciones del editor Quill a la parte inferior
-						var quillOptions = document.querySelector('.ql-toolbar');
-						var quillContainer = document.querySelector('.ql-container');
-						quillContainer.appendChild(quillOptions);
-
-						myModal.show();
-
-						var contenidoMSG = editor.root.innerHTML;
-
-						message('verMensaje', contenidoMSG)
-
-					}, 400)
-				}
-			})
-		<?php } else { ?>
-			// Aquí se incluye el código necesario para la acción programada
-			Mhead.innerHTML = "REDACTAR CORREO ELECTRONICO";
-
-			content.innerHTML = `
-				<form id="verMensaje">
-					<input type="hidden" name="EVALUACIONID" value="<?php echo $cur2->EVALUACIONID ?>">
-
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<span class="input-group-text">PARA</span>
-						</div>
-						<input readonly type="text" id="para" name="EMAIL" value="<?php echo $appl->EMAILADDRESS; ?>" class="form-control">
-						</div>
-
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<span class="input-group-text">ASUNTO</span>
-						</div>
-						<input type="text" id="asunto" name="ASUNTO" class="form-control" value="PROCESO DE EVALUACION GANDULES" placeholder="Asunto">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="google-compose-body-container">
-							<div class="google-compose-body" id="editor"></div>
-						</div>
-					</div>
-				</form>
-			`;
-			foot.innerHTML = `
-				<div class="d-flex justify-content-between align-items-center">
-					<div>
-						<button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">Descartar</button>
-						<button form="verMensaje" id="load" class="btn btn-primary">Enviar</button>
-					</div>
-				</div>
-			`;
-
-			// Inicializar el editor Quill en el div correspondiente
-			var options = {
-				modules: {
-					toolbar: [
-						[{
-							'header': [1, 2, 3, false]
-						}],
-						['bold', 'italic', 'underline'],
-						['link'],
-						[{
-							'list': 'bullet'
-						}],
-						[{
-							'color': []
-						}, {
-							'background': []
-						}],
-					]
-				},
-				placeholder: 'Escribe aquí tu mensaje...',
-				theme: 'snow'
-			};
-			var editor = new Quill('#editor', options);
-			var text = `
-				<div class="form-floating mb-3">
-					Estimado/a <p class="text-uppercase mb-3"> <?= $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?></p>
-					Nos complace informarle que su solicitud de trabajo para el puesto de <a><?php echo $appl->OCUPACION; ?></b></a>
-					ha sido recibida y revisada por nuestro equipo de reclutamiento.</p>
-					<p>Le comunicamos que su Curriculum cumple con la gran mayoría de requisitos establecidos para el puesto y estamos interesados en continuar con el proceso de selección.
-					Para avanzar al siguiente paso del proceso, solicitamos que confirme su interés ingresando al siguiente enlace</p>
-					<a target="_blank" href="<?php echo URL_WEB . web_root ?>evaluaciones/?TOKEN=<?php echo $cur2->TOKEN ?>">Dar evaluación</a>
-					<br>
-					<p>Si confirma su interés en el puesto, le brindaremos un nombre de usuario y token para que pueda realizar su evaluación de desempeño.</p>
-					<p>Si tiene alguna pregunta o inquietud, no dude en ponerse en contacto con nosotros.
-					Agradecemos su interés en nuestra empresa y esperamos tener la oportunidad de conocerlo/a en persona.</p>
-					<br>
-					<p>Att. <?php echo $appl->COMPANYNAME; ?></p>
-				</div>
-			`;
-			editor.clipboard.dangerouslyPasteHTML(text);
-
-			modalDialog.classList.remove('modal-lg');
-
-			// Mover las opciones del editor Quill a la parte inferior
-			var quillOptions = document.querySelector('.ql-toolbar');
-			var quillContainer = document.querySelector('.ql-container');
-			quillContainer.appendChild(quillOptions);
-
-			myModal.show();
-
-			var contenidoMSG = editor.root.innerHTML;
-
-			message('verMensaje', contenidoMSG)
-		<?php } ?>
+		if (data.status == "success") {
+			token = data.message
+			writeMSG()
+		} else {
+			console.log(data.message);
+		}
 
 	}
-	<?php if (isset($cur2->RESPUESTA)) { ?>
 
-		function messagesend() {
+	function writeMSG() {
+		myModal.hide();
+
+		<?php
+		$sql = "SELECT * FROM tblcorreo";
+		$mydb->setQuery($sql);
+		$cur = $mydb->loadResultList();
+		?>
+
+		setTimeout(() => {
+
+
 			Mhead.innerHTML = "REDACTAR CORREO ELECTRONICO";
+
 			content.innerHTML = `
-				<form id="verMensaje">
-					<input type="hidden" name="type" value="new">
-					<input type="hidden" name="APLICANTID" value="<?php echo $cur2->APPLICANTID ?>">
-					<input type="hidden" name="AREAID" value="<?php echo $cur2->AREAID ?>">
-					<input type="hidden" name="OCUPACIONID" value="<?php echo $cur2->OCUPACIONID ?>">
-					<input type="hidden" name="COMPANYID" value="<?php echo $cur2->COMPANYID ?>">
-
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<span class="input-group-text">PARA</span>
-						</div>
-						<input readonly type="text" id="para" name="EMAIL" value="<?php echo $appl->EMAILADDRESS; ?>" class="form-control">
-						</div>
-
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<span class="input-group-text">ASUNTO</span>
-						</div>
-						<input type="text" id="asunto" name="ASUNTO" class="form-control" value="Felicitaciones por aprobar exitosamente tu evaluación." placeholder="Asunto">
-						</div>
+			<form id="email">
+				<?php if (isset($cur2->EVALUACIONID)) { ?>
+				<input type="hidden" name="EVALUACIONID" value="${<?php echo !empty($cur2->EVALUACIONID) ? $cur2->EVALUACIONID : "" ?>}" >
+				<?php } else { ?>
+					<input type="hidden" name="type" value="new" >
+				<?php } ?>
+				<select class="form-select mb-3" id="emailSelect">
+					<option selected disabled>Open this select menu</option>
+					<?php foreach ($cur as $key) { ?>
+						<option value="<?php echo $key->CONTENIDO ?>"><?php echo $key->ASUNTO ?></option>
+					<?php } ?>
+				</select>
+				
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">PARA</span>
 					</div>
-					<div class="form-group">
-						<div class="google-compose-body-container">
-							<div class="google-compose-body" id="mail"></div>
-						</div>
+					<input readonly type="text" id="para" name="EMAIL" value="<?php echo $appl->EMAILADDRESS; ?>" class="form-control">
+				</div>
+					
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">ASUNTO</span>
 					</div>
-				</form>
-			`;
-			foot.innerHTML = `
-				<div class="d-flex justify-content-between align-items-center">
-					<div>
-						<button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">Descartar</button>
-						<button form="verMensaje" id="load" class="btn btn-primary">Enviar</button>
+					<input type="text" id="ASUNTO" name="ASUNTO" class="form-control" placeholder="Asunto">
+				</div>
+
+				<div class="form-group">
+					<div class="google-compose-body-container">
+						<div class="google-compose-body" id="editor"></div>
 					</div>
 				</div>
+			</form>
 			`;
+
+			foot.innerHTML = `
+			<div class="d-flex justify-content-between align-items-center">
+				<div>
+					<button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">Descartar</button>
+					<button form="email" id="load" class="btn btn-primary">Enviar</button>
+				</div>
+			</div>
+			`;
+
+			document.getElementById("email").addEventListener("submit", sendMSG);
+			document.getElementById("emailSelect").addEventListener("change", editMsg);
 
 			var options = {
 				modules: {
@@ -695,104 +489,101 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 				placeholder: 'Escribe aquí tu mensaje...',
 				theme: 'snow'
 			};
-			var editor = new Quill('#mail', options);
-			var text = `
-				<div class="form-floating mb-3">
-					<p>Estimado/a <?php echo $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?>,</p>
-					<p>Me complace informarte que has superado con éxito el examen que realizaste como parte del proceso de selección para el puesto de <a><?php echo $appl->OCUPACION; ?></a> en nuestra empresa. </p>
-					<p>¡Felicitaciones! Tus resultados demuestran un alto nivel de conocimiento y habilidades en el área, lo cual nos ha impresionado positivamente.</p>
-					<p>Queremos destacar que tu desempeño fue excelente y cumples con los requisitos necesarios para seguir avanzando en el proceso de selección.</p>
-					<p>En este sentido, nos gustaría invitarte a una entrevista personal en nuestras instalaciones, donde tendrás la oportunidad de conocer más sobre nuestra empresa, equipo de trabajo y los detalles específicos del puesto al que estás aplicando.</p>
-					<p>Te proponemos las siguientes fechas y horarios disponibles para tu presentación:</p>
-					<p>Fecha: [Fecha de la presentación] </p>
-					<p>Hora: [Hora de la presentación] </p>
-					<p>Lugar: [Dirección de nuestra empresa] </p>
-					<p>Si tienes alguna pregunta o necesitas más información, no dudes en contactarnos. </p>
-					<p><strong>¡Nos vemos pronto y te esperamos!</strong></p>
-				</div>
-			`;
-
-			editor.clipboard.dangerouslyPasteHTML(text);
-			// Mover las opciones del editor Quill a la parte inferior
+			editor = new Quill('#editor', options);
 			var quillOptions = document.querySelector('.ql-toolbar');
 			var quillContainer = document.querySelector('.ql-container');
 			quillContainer.appendChild(quillOptions);
 
 			myModal.show();
+		}, 500);
+	}
 
-			var contenidoMSG = editor.root.innerHTML;
+	function editMsg(e) {
+		var selectedOption = e.target.options[e.target.selectedIndex];
+		document.getElementById("ASUNTO").value = selectedOption.textContent;
 
-			message('verMensaje', contenidoMSG)
+		var placeholders = ["[Nombre del solicitante]", "[Nombre del aplicante]"];
+		let ocup = "[Nombre de la ocupación]"
+		let comp = "[Nombre de la empresa]"
+		let eva = "[Enlace de evaluación]"
+
+		var content = selectedOption.value;
+
+		var palabraEncontrada = "";
+
+		if (content.includes(placeholders[0])) {
+			palabraEncontrada = placeholders[0];
+		} else if (content.includes(placeholders[1])) {
+			palabraEncontrada = placeholders[1];
 		}
-	<?php } ?>
 
-	function message(id, contenidoMSG) {
+		if (palabraEncontrada !== "") {
+			content = content.replace(palabraEncontrada, "<?php echo $appl->FNAME . ' ' . $appl->LNAME . ' ' . $appl->MNAME; ?>")
+		}
 
-		document.getElementById(id).addEventListener('submit', async function(e) {
-			e.preventDefault();
+		content = content.replace(ocup, "<b><?php echo $appl->OCUPACION; ?></b>")
+		content = content.replace(comp, "<?php echo $appl->COMPANYNAME; ?>")
+		content = content.replace(eva, `<a href="<?php echo URL_WEB . web_root ?>evaluaciones/?TOKEN=${token}">Ver evaluación</a>`)
 
-			// Obtener el contenido del editor Quill y convertirlo a formato JSON
+		selectedOption.value = content;
+		editor.clipboard.dangerouslyPasteHTML(selectedOption.value);
+	}
 
-			// Crear un objeto FormData y agregar el contenido a él
-			var formData = new FormData(e.target);
-			formData.append('MESSAGE', contenidoMSG);
+	async function sendMSG(e) {
+		e.preventDefault()
+		var formData = new FormData(e.target);
 
-			let load = document.getElementById('load');
-			load.disabled = true;
-			load.innerHTML = `
+		formData.append('MESSAGE', editor.root.innerHTML);
+
+		let load = document.getElementById('load');
+		load.disabled = true;
+		load.innerHTML = `
 			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 			Procesando...
-			`;
+		`;
 
-			try {
-				let response = await fetch('<?php echo URL_WEB . web_root ?>admin/evaluaciones/controller.php?action=evalua', {
-					method: 'POST',
-					body: formData
+		try {
+			let response = await fetch('<?php echo URL_WEB . web_root ?>admin/evaluaciones/controller.php?action=evalua', {
+				method: 'POST',
+				body: formData
+			});
+
+			let data = await response.json();
+
+			if (data.status === "success") {
+				load.disabled = true;
+				load.innerHTML = "Enviado"
+				Swal.fire({
+					icon: 'success',
+					title: 'Correo enviado',
+					text: 'El correo electrónico ha sido enviado con éxito',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						location.reload();
+					}
 				});
-
-				let data = await response.json();
-
-				if (data.status === "success") {
-					load.disabled = true;
-					load.innerHTML = `
-										Enviado
-									`;
-					Swal.fire({
-						icon: 'success',
-						title: 'Correo enviado',
-						text: 'El correo electrónico ha sido enviado con éxito',
-					}).then((result) => {
-						if (result.isConfirmed) {
-							location.reload();
-						}
-					});
-				} else {
-					load.disabled = false;
-					load.innerHTML = `
-										Enviar
-									`;
-					Swal.fire({
-						icon: 'error',
-						title: 'Error al enviar el correo',
-						text: 'Ha ocurrido un error al enviar el correo electrónico. Por favor, inténtelo de nuevo.',
-					});
-				}
-			} catch (error) {
+			} else {
 				load.disabled = false;
-				load.innerHTML = `
-									Enviar
-								`;
+				load.innerHTML = "Enviar";
 				Swal.fire({
 					icon: 'error',
-					title: 'Error al enviar la solicitud',
-					text: 'Ha ocurrido un error al enviar la solicitud. Por favor, inténtelo de nuevo.',
+					title: 'Error al enviar el correo',
+					text: 'Ha ocurrido un error al enviar el correo electrónico. Por favor, inténtelo de nuevo.',
 				});
 			}
-		})
-
+		} catch (error) {
+			load.disabled = false;
+			load.innerHTML = "Enviar"
+			Swal.fire({
+				icon: 'error',
+				title: 'Error al enviar la solicitud',
+				text: 'Ha ocurrido un error al enviar la solicitud. Por favor, inténtelo de nuevo.',
+			});
+		}
 	}
 
-	function mostrarPDF(nombre_archivo) {
+	function mostrarPDF() {
+		let nombre_archivo = "<?php echo $appl->CVFILE ?>"
 		// Cargar el archivo PDF utilizando PDF.js
 		pdfjsLib.getDocument('cv/' + nombre_archivo).promise.then(function(pdf) {
 			// Obtener el objeto canvas donde se mostrará el PDF
@@ -841,3 +632,6 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 		});
 	}
 </script>
+
+<?php // print_r($appl)
+?>
