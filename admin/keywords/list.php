@@ -126,7 +126,7 @@ foreach ($cur as $result) { ?>
 							<div class="keywords row" style="max-height: 150px; overflow:overlay;">
 								<?php foreach ($a->KEYWORDS as $key) { ?>
 									<div class="col-auto">
-										<p class="badge bg-<?php echo $colors[array_rand($colors)] ?> mb-2"><?php echo $key->keyword ?></p>
+										<p class="badge bg-light-<?php echo $colors[array_rand($colors)] ?> mb-2"><?php echo $key->keyword ?></p>
 									</div>
 								<?php } ?>
 							</div>
