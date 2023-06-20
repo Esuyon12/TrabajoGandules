@@ -1,6 +1,6 @@
 <?php
 
-$debug = true;
+$debug = false;
 
 defined('server') ? null : define("server", "localhost");
 if ($debug) {
