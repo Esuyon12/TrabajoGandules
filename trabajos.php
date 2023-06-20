@@ -320,7 +320,7 @@ function generatePageUrl($page)
                         <?php } ?>
                     <?php } ?>
                 <?php } else { ?>
-                    <div class="d-flex justify-content-center align-items-center">
+                    <div class="d-flex justify-content-center align-items-center" style="width: 100%;">
                         <h2 class="text-center text-muted">No hay vacantes disponibles</h2>
                     </div>
                 <?php } ?>
