@@ -13,7 +13,7 @@
 // $user = new User();
 // $singleuser = $user->single_user($USERID);
 
-$mydb->setQuery("SELECT * FROM tblusers");
+$mydb->setQuery("SELECT * FROM tblusers WHERE ESTADO = 0");
 $users = $mydb->loadResultList();
 
 // echo json_encode($_SESSION); die;
@@ -452,43 +452,43 @@ function fecha_en_texto($fecha_actual)
         canvasTitle.innerHTML = 'Agregar Usuario'
 
         canvas.innerHTML = `
-    <form  id="addUser" enctype='multipart/form-data'>
-      <div class="d-flex align-items-center justify-content-center mb-3">
-        <label class="button-file bg-body" id="imagenPreview">
-          <span class="button-file-label">Seleccionar imagen</span>
-          <input type="file" onchange="cargarImagen(event)" name="FOTO" id="imgBackup">
-        </label>
-      </div>
-      <div class="form-floating mb-3">
-        <input
-          type="text"
-          name="USERNAME"
-          id="USERNAME"
-          class="form-control"
-          placeholder="Nombre"
-        />
-        <label for="name">Nombre de Usuario</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="number" name="DNI" placeholder="DNI" class="form-control">
-        <label for="dni">DNI</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="email" class="form-control" placeholder="CORREO" id="CORREO" name="CORREO">
-        <label for="email">Email</label>
-      </div>
-      <div class="form-floating mb-3">
-        <select class="form-select" id="floatingSelect" name="ROLE" aria-label="Floating label select example">
-          <option selected disabled></option>
-          <option value="Administrador">Administrador</option>
-          <option value="Usuario">Usuario</option>
-        </select>
-        <label for="floatingSelect">Tipo de usuario</label>
-      </div>
+            <form  id="addUser" enctype='multipart/form-data'>
+            <div class="d-flex align-items-center justify-content-center mb-3">
+                <label class="button-file bg-body" id="imagenPreview">
+                <span class="button-file-label">Seleccionar imagen</span>
+                <input type="file" onchange="cargarImagen(event)" name="FOTO" id="imgBackup">
+                </label>
+            </div>
+            <div class="form-floating mb-3">
+                <input
+                type="text"
+                name="USERNAME"
+                id="USERNAME"
+                class="form-control"
+                placeholder="Nombre"
+                />
+                <label for="name">Nombre de Usuario</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="number" name="DNI" placeholder="DNI" class="form-control">
+                <label for="dni">DNI</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" placeholder="CORREO" id="CORREO" name="CORREO">
+                <label for="email">Email</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select class="form-select" id="floatingSelect" name="ROLE" aria-label="Floating label select example">
+                <option selected disabled></option>
+                <option value="Administrador">Administrador</option>
+                <option value="Usuario">Usuario</option>
+                </select>
+                <label for="floatingSelect">Tipo de usuario</label>
+            </div>
 
-      <button class="btn btn-success w-100">Agregar</button>
-    </form>
-  `;
+            <button class="btn btn-success w-100">Agregar</button>
+            </form>
+        `;
 
         const form = document.getElementById("addUser");
         const formFields = Array.from(form.querySelectorAll("input, select"));
@@ -560,20 +560,50 @@ function fecha_en_texto($fecha_actual)
         bsOffcanvas.toggle();
     });
 
+    let text
 
     function deleteUser(code, name) {
-        let controller = new DeleteController('#detailsmodal')
+        head.innerHTML = "ELIMINAR USUARIO";
 
-        controller.set_modal_content = () => {
-            controller.form_id = 'deleteuser'
-
-            controller.modal_body_element.innerHTML = `
-        <form id="deleteuser">
-        <input type="number" class="d-none" value="${code}" name="cod_proye">
-        <h6>Â¿Estas seguro que deseas eliminar <span class="text-muted">${name}</span> del sistema?</h6>
-        </form>
+        content.innerHTML = `
+            <form id="deleteuser">
+                <input type="number" class="d-none" value="${code}" name="iduser">
+                <h6 id="text">¿Estas seguro que deseas eliminar <span class="text-muted">${name}</span> del sistema?</h6>
+            </form>
         `
+        foot.innerHTML = `
+            <button form="deleteuser" class="btn btn-danger ml-1">
+            <span class="d-none d-sm-block text-white">Eliminar</span>
+            </button>
+        `;
+
+        document.getElementById("deleteuser").addEventListener("submit", postDelete)
+        text = document.getElementById("text")
+        myModal.show();
+
+    }
+
+    async function postDelete(e) {
+        try {
+            e.preventDefault();
+
+            let response = await fetch('<?php echo URL_WEB . web_root ?>admin/user/controller.php?action=delete', {
+                method: "POST",
+                body: new FormData(e.target)
+            });
+
+            let data = await response.json();
+
+            if (data.success) {
+                text.innerHTML = data.message;
+                setTimeout(() => {
+                   location.reload() 
+                }, 2000);
+            } else {
+                text.innerHTML = data.message;
+            }
+        } catch (error) {
+            console.error("Error al realizar la solicitud:", error);
         }
-        controller.execute('/api/users/delete/' + code)
     }
 </script>

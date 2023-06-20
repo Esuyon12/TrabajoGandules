@@ -100,12 +100,12 @@ function doEdit()
 
 	if (empty(trim($_POST["PASS"]))) {
 		unset($_POST["PASS"]);
-	}else {
+	} else {
 		$_POST['PASS'] = password_hash($_POST['PASS'], PASSWORD_DEFAULT);
 	}
 
 	try {
-		
+
 		if (isset($_FILES)) {
 
 			if (!empty($_FILES['FOTO']["full_path"])) {
@@ -121,7 +121,6 @@ function doEdit()
 				// Agregar nueva imagen
 				$picture = UploadImage();
 			}
-
 		}
 
 		// print_r($_POST); die;
@@ -142,21 +141,27 @@ function doEdit()
 	} catch (Exception $e) {
 		echo json_encode(array("status" => "error", "message" => $e->getMessage()));
 	}
+	die;
 }
 
 
 
 function doDelete()
 {
+	try {
+		@$user = new User();
+		@$user->ESTADO = 1;
+		@$user->update($_POST['iduser']);
 
-	$id = 	$_GET['id'];
+		$response = array('success' => true, 'message' => 'El usuario ha sido actualizado correctamente.');
+	} catch (Exception $e) {
+		$response = array('success' => false, 'message' => 'Error al actualizar el usuario: ' . $e->getMessage());
+	}
 
-	$user = new User();
-	$user->delete($id);
-
-	message("User has been deleted!", "info");
-	redirect('index.php');
+	header('Content-Type: application/json');
+	echo json_encode($response);
 }
+
 
 function doupdateimage()
 {
