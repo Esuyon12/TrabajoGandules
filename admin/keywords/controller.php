@@ -28,7 +28,6 @@ function doInsert()
     global $mydb;
     try {
 
-        // print_r($_POST); die;
         foreach ($_POST['keywords'] as $key) {
             if ($key == "") {
                 throw new Exception("El resgitro está vacío", 400);
@@ -41,7 +40,7 @@ function doInsert()
             $cur = $mydb->executeQuery();
 
             if ($cur->num_rows !== 0) {
-                throw new Exception("Ya existe este Keyword " . $key, 400);
+                throw new Exception("Ya existe la palabra clave " . $key, 400);
             }
         }
 
@@ -55,7 +54,7 @@ function doInsert()
         http_response_code(200);
 
         header('Content-Type: application/json');
-        echo json_encode(array("status" => "success", "message" => "Ocupación agregada correctamente"));
+        echo json_encode(array("status" => "success", "message" => "Palabra clave agregada correctamente"));
     } catch (Exception $e) {
         http_response_code(400);
         header('Content-Type: application/json');
