@@ -10,10 +10,10 @@ $search = $mydb->loadResultList(); ?>
 
 <div class="row d-flex align-items-center">
 	<div class="col-md-6">
-		<div class="d-flex  align-items-center w-100">
+		<div class="d-flex  align-items-center mb-3 w-100">
 			<h1 class="page-header">Palabras claves</h1>
-			<a href="#" onclick="addKeyword()"><i class="bi bi-plus-lg"></i></a>
 		</div>
+		<a href="#" onclick="addKeyword()"><i class="bi bi-plus-lg"></i>Nuevas palabras claves</a>
 	</div>
 	<div class="col-md-6">
 		<div class="row">
@@ -148,9 +148,8 @@ foreach ($cur as $result) { ?>
 	const foot = document.getElementById("footer")
 
 	function addKeyword() {
-		head.innerHTML = "AGREGAR KEYWORDS";
+		head.innerHTML = "AGREGAR PALABRAS CLAVES";
 		content.innerHTML = `
-    <a id="btn-form">Agregar</a>
     <form id="addKeyword">
       <div class="form-floating mb-4">
         <select class="form-control" id="OCUPACIONID" name="OCUPACIONID">
@@ -163,10 +162,12 @@ foreach ($cur as $result) { ?>
 			}
 			?>
         </select>
-        <label for="floatingSelect">ocupacion</label>
+        <label for="floatingSelect">Ocupación</label>
       </div>
-      <h4>Keywords</h4>
-      <div class="row" id="keys">
+
+      <h4>Palabras claves</h4>
+	  <a id="btn-form"><i class="bi bi-plus-lg"></i> Agregar</a>
+      <div class="row mt-2" id="keys">
         <div class="col-md-6 position-relative">
           <input class="form-control mb-3" type="text" name="keywords[]">
         </div>
@@ -174,7 +175,7 @@ foreach ($cur as $result) { ?>
     </form>
     `;
 		foot.innerHTML = `
-    <button form="addKeyword" class="btn bg-success ml-1">
+    <button form="addKeyword" class="btn btn-grad ml-1">
       <span class="d-none d-sm-block text-white">Guardar</span>
     </button>
   `;
@@ -261,8 +262,8 @@ foreach ($cur as $result) { ?>
 
 
 		content.innerHTML = `
-		<h3 class="card-title">${all.OCUPACION}</div>
-		<a id="btn-form">Agregar</a>
+		<h3 class="card-title">${all.OCUPACION}</div> <br>
+		<a id="btn-form"><i class="bi bi-plus-lg"></i> Agregar</a>
 		<form id="editKeyword">
 			<input type="hidden" name="OCUPACIONID" value="${all.OCUPACIONID}">
 			<div class="row mt-3" id="keys">
