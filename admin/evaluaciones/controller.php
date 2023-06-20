@@ -37,12 +37,13 @@ switch ($action) {
 		break;
 }
 
-function sendResponse(){
+function sendResponse()
+{
 
-	
+
 	try {
 		$evacre = new Evaluaciones();
-		
+
 		if (isset($_POST['mood'])) {
 			$fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 			$fechaHoraAtras = date('Y-m-d H:i:s', strtotime('-1 hour')); // Sumar una hora a la fecha y hora actual
@@ -61,7 +62,6 @@ function sendResponse(){
 		echo json_encode(array("status" => "error", "message" => $e->getMessage()));
 		die();
 	}
-
 }
 
 
@@ -138,39 +138,40 @@ function evalua()
 {
 
 	try {
-		// print_r($_POST); die();
-		
-		if (isset($_POST['EVALUACIONID'])) {
-			$result = sendMessage($_POST['EMAIL'], $_POST['ASUNTO'], 'PRUEBA', $_POST['MESSAGE']);
-			$evacre = new Evaluaciones();
-			@$evacre->MSG = 1;
-			@$evacre->update($_POST['EVALUACIONID']);
-		}else if ($_POST['type'] == "new") {
+		// print_r($_POST);
+		// die();
+
+		if ($_POST['type'] == "new") {
 			$result = sendMessage($_POST['EMAIL'], $_POST['ASUNTO'], 'PRUEBA', $_POST['MESSAGE']);
 			$id = $_POST['APLICANTID'];
 			unset($_POST['type']);
 			unset($_POST['MESSAGE']);
 			unset($_POST['EMAIL']);
 			unset($_POST['ASUNTO']);
-			// print_r($_POST); die;
+			// print_r($_POST);
+			// die;
 			$emp = new Employee();
 			foreach ($_POST as $key => $value) {
 				@$emp->$key = $value;
 			}
-			
+
 			unset($_POST['APLICANTID']);
 
-			$emp->create();
+			@$emp->create();
 
-			$applicant = new Applicants();
+			@$applicant = new Applicants();
 			@$applicant->STATE = 1;
 
 			@$applicant->update($id);
-
+		} else if (isset($_POST['EVALUACIONID'])) {
+			$result = sendMessage($_POST['EMAIL'], $_POST['ASUNTO'], 'PRUEBA', $_POST['MESSAGE']);
+			$evacre = new Evaluaciones();
+			@$evacre->MSG = 1;
+			@$evacre->update($_POST['EVALUACIONID']);
 		} else {
 			$result = sendMessage($_POST['EMAIL'], $_POST['ASUNTO'], 'PRUEBA', $_POST['MESSAGE']);
 		}
-		
+
 		echo json_encode(array("status" => "success", "message" => $result));
 		die();
 	} catch (Exception $e) {

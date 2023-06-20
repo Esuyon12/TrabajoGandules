@@ -105,7 +105,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 							</div>
 							<?php } else if (!empty($cur2->RESULT)) {
 							if ($cur2->RESULT >= 16) { ?>
-								<div onclick="messagesend()" class="btn btn-success d-flex flex-column justify-content-center align-items-center">
+								<div onclick="writeMSG()" class="btn btn-success d-flex flex-column justify-content-center align-items-center">
 									<ion-icon style="height: 25px;width: 25px;" name="send-outline"></ion-icon>
 									<p style="font-size: 10px;">Enviar</p>
 								</div>
@@ -203,7 +203,11 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 	const Mhead = document.getElementById("MHead")
 	const foot = document.getElementById("footer")
 	var editor
-	var token = "<?php echo empty($cur2->TOKEN) ? "" : $cur2->TOKEN ?>"
+	var give = {
+		id: "<?php echo empty($cur2->EVALUACIONID) ? "" : $cur2->EVALUACIONID ?>",
+		token: "<?php echo empty($cur2->TOKEN) ? "" : $cur2->TOKEN ?>",
+		type: "<?php echo (@$cur2->RESULT >= "16") ? "new" : "" ?>"
+	}
 
 	// Obtener el switch
 	let toggleSwitch = document.querySelector("#toggle-dark");
@@ -398,7 +402,10 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 		let data = await response.json();
 
 		if (data.status == "success") {
-			token = data.message
+			give = {
+				id: data.id,
+				token: data.message
+			}
 			writeMSG()
 		} else {
 			console.log(data.message);
@@ -422,10 +429,16 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
 			content.innerHTML = `
 			<form id="email">
-				<?php if (isset($cur2->EVALUACIONID)) { ?>
-				<input type="hidden" name="EVALUACIONID" value="${<?php echo !empty($cur2->EVALUACIONID) ? $cur2->EVALUACIONID : "" ?>}" >
-				<?php } else { ?>
-					<input type="hidden" name="type" value="new" >
+
+				<input type="hidden" name="EVALUACIONID" value="${give.id}" >
+
+				<input type="hidden" name="type" value="${give.type}" >
+				<?php if (@$cur2->RESULT >= "16") {?>
+				<input type="hidden" name="APLICANTID" value="<?php echo $appl->APPLICANTID; ?>">
+				<input type="hidden" name="OCUPACIONID" value="<?php echo $appl->OCUPACIONID; ?>">
+				<input type="hidden" name="CONTRATO" value="<?php echo $appl->TCONTRATOID; ?>">
+				<input type="hidden" name="COMPANYID" value="<?php echo $appl->COMPANYID; ?>">
+				<input type="hidden" name="AREAID" value="<?php echo $appl->AREAID; ?>">
 				<?php } ?>
 				<select class="form-select mb-3" id="emailSelect">
 					<option selected disabled>Open this select menu</option>
@@ -523,7 +536,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
 		content = content.replace(ocup, "<b><?php echo $appl->OCUPACION; ?></b>")
 		content = content.replace(comp, "<?php echo $appl->COMPANYNAME; ?>")
-		content = content.replace(eva, `<a href="<?php echo URL_WEB . web_root ?>evaluaciones/?TOKEN=${token}">Ver evaluación</a>`)
+		content = content.replace(eva, `<a href="<?php echo URL_WEB . web_root ?>evaluaciones/?TOKEN=${give.token}">Ver evaluación</a>`)
 
 		selectedOption.value = content;
 		editor.clipboard.dangerouslyPasteHTML(selectedOption.value);
@@ -633,5 +646,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 	}
 </script>
 
-<?php // print_r($appl)
+<?php
+// echo "<pre>";
+// print_r($appl)
 ?>
