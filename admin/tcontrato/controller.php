@@ -14,7 +14,7 @@ switch ($action) {
         doInsert();
         break;
 
-    case 'update':
+    case 'edit':
         doEdit();
         break;
 
@@ -78,6 +78,9 @@ function doInsert()
 
 function doEdit()
 {
+
+    // print_r($_POST); die;
+
     $cod = $_POST['TCONTRATOID'];
     unset($_POST['TCONTRATOID']);
 
@@ -85,11 +88,12 @@ function doEdit()
         $contrato = new Contrato();
 
         foreach ($_POST as $key => $value) {
-            $contrato->$key = $value;
+            @$contrato->$key = $value;
         }
 
-        $contrato->update($cod);
+        @$contrato->update($cod);
         echo json_encode(array("status" => "success", "message" => "Se actualizo"));
+		redirect("index.php");
     } catch (Exception $e) {
         echo json_encode(array("status" => "error", "message" => $e->getMessage()));
     }

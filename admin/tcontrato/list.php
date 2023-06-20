@@ -230,11 +230,12 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
         function editContrato(a) {
             head.innerHTML = "Detalles de contrato";
             content.innerHTML = `
-            <form action="controller.php?action=edit&id=${a['TCONTRATOID']}" method="POST" id="editContrato">
+            <form action="controller.php?action=edit" method="POST" id="editContrato">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                         <span class="input-group-text">TITULO</span>
                         </div>
+                        <input type="hidden" name="TCONTRATOID" value="${a['TCONTRATOID']}">
                         <input type="text" id="TIPOCONTRATO" name="TIPOCONTRATO" class="form-control" value="${a['TIPOCONTRATO']}">
                     </div>
                     
@@ -248,7 +249,7 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
                 </form>
             `;
             foot.innerHTML = `
-                <button form="editContrato" class="btn bg-success text-white ml-1" name="save" onclick="updateContrato()">
+                <button form="editContrato" class="btn bg-success text-white ml-1" onclick="updateContrato()">
                 <span class="d-none d-sm-block">Guardar</span>
                 </button>
             `;
