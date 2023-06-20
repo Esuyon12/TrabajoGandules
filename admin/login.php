@@ -245,7 +245,7 @@ try {
       e.preventDefault();
       let form = new FormData(document.getElementById("login"));
 
-      let response = await fetch("<?php echo web_root ?>/admin/login.php", {
+      let response = await fetch("<?php echo URL_WEB.web_root ?>/admin/login.php", {
         method: 'POST',
         body: form
       });
