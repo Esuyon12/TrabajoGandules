@@ -24,20 +24,20 @@ switch ($action) {
 		doupdateimage();
 		break;
 
-		case 'state':
-			updatestate();
-			break;
-	}
-	
-	
-	function updatestate()
-	{
-		$user = new User();
-		$user->ESTADO = $_GET['code'];
-		$user->update($_GET['id']);
-		echo json_encode(array("status" => "success", "msge" => "Cambio de estado", "location" => "index.php"));
-	}
-	
+	case 'state':
+		updatestate();
+		break;
+}
+
+
+function updatestate()
+{
+	$user = new User();
+	$user->ESTADO = $_GET['code'];
+	$user->update($_GET['id']);
+	echo json_encode(array("status" => "success", "msge" => "Cambio de estado", "location" => "index.php"));
+}
+
 
 function doInsert()
 {
@@ -100,29 +100,39 @@ function doEdit()
 
 	if (empty(trim($_POST["PASS"]))) {
 		unset($_POST["PASS"]);
+	} else {
+		$_POST['PASS'] = password_hash($_POST['PASS'], PASSWORD_DEFAULT);
 	}
 
 	try {
 
-		if (!empty($_FILES['FOTO']["full_path"])) {
-			$mydb->setQuery("SELECT FOTO FROM `tblusers` WHERE USERID = " . $id);
-			$namefoto = $mydb->loadSingleResult();
-			$oldFilePath = __DIR__ . "/photos/" . $namefoto->FOTO;
+		if (isset($_FILES)) {
 
-			if (file_exists($oldFilePath)) {
-				// Eliminar la imagen anterior
-				unlink($oldFilePath);
+			if (!empty($_FILES['FOTO']["full_path"])) {
+				$mydb->setQuery("SELECT FOTO FROM `tblusers` WHERE USERID = " . $id);
+				$namefoto = $mydb->loadSingleResult();
+				$oldFilePath = __DIR__ . "/photos/" . $namefoto->FOTO;
+
+				if (file_exists($oldFilePath)) {
+					// Eliminar la imagen anterior
+					unlink($oldFilePath);
+				}
+
+				// Agregar nueva imagen
+				$picture = UploadImage();
 			}
-
-			// Agregar nueva imagen
-			$picture = UploadImage();
 		}
+
+		// print_r($_POST); die;
 
 		foreach ($_POST as $key => $value) {
 			@$user->$key = $value;
 		}
 
-		$_SESSION['ADMIN_FOTO'] = $_POST['FOTO'];
+		$_SESSION['ADMIN_FOTO'] = isset($_POST['FOTO']) ? $_POST['FOTO'] : $_SESSION['ADMIN_FOTO'];
+		$_SESSION['ADMIN_CORREO'] = isset($_POST['email']) ? $_POST['email'] : $_SESSION['ADMIN_CORREO'];
+		$_SESSION['ADMIN_TELF'] = isset($_POST['TELEFONO']) ? $_POST['TELEFONO'] : $_SESSION['ADMIN_TELF'];
+		$_SESSION['ADMIN_USERNAME'] = isset($_POST['fullname']) ? $_POST['fullname'] : $_SESSION['ADMIN_USERNAME'];
 
 		// print_r($user); die;
 
@@ -131,21 +141,27 @@ function doEdit()
 	} catch (Exception $e) {
 		echo json_encode(array("status" => "error", "message" => $e->getMessage()));
 	}
+	die;
 }
 
 
 
 function doDelete()
 {
+	try {
+		@$user = new User();
+		@$user->ESTADO = 1;
+		@$user->update($_POST['iduser']);
 
-	$id = 	$_GET['id'];
+		$response = array('success' => true, 'message' => 'El usuario ha sido actualizado correctamente.');
+	} catch (Exception $e) {
+		$response = array('success' => false, 'message' => 'Error al actualizar el usuario: ' . $e->getMessage());
+	}
 
-	$user = new User();
-	$user->delete($id);
-
-	message("User has been deleted!", "info");
-	redirect('index.php');
+	header('Content-Type: application/json');
+	echo json_encode($response);
 }
+
 
 function doupdateimage()
 {

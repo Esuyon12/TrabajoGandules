@@ -5248,7 +5248,7 @@ body.theme-dark .modal-content {
   width: 100%;
 }
 body.theme-dark .modal-backdrop {
-  --bs-backdrop-zindex: 1040;
+  --bs-backdrop-zindex: 1045;
   --bs-backdrop-bg: #000;
   --bs-backdrop-opacity: 0.5;
   background-color: var(--bs-backdrop-bg);
