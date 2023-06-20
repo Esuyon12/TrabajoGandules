@@ -24,20 +24,20 @@ switch ($action) {
 		doupdateimage();
 		break;
 
-		case 'state':
-			updatestate();
-			break;
-	}
-	
-	
-	function updatestate()
-	{
-		$user = new User();
-		$user->ESTADO = $_GET['code'];
-		$user->update($_GET['id']);
-		echo json_encode(array("status" => "success", "msge" => "Cambio de estado", "location" => "index.php"));
-	}
-	
+	case 'state':
+		updatestate();
+		break;
+}
+
+
+function updatestate()
+{
+	$user = new User();
+	$user->ESTADO = $_GET['code'];
+	$user->update($_GET['id']);
+	echo json_encode(array("status" => "success", "msge" => "Cambio de estado", "location" => "index.php"));
+}
+
 
 function doInsert()
 {
@@ -103,26 +103,35 @@ function doEdit()
 	}
 
 	try {
+		
+		if (isset($_FILES)) {
 
-		if (!empty($_FILES['FOTO']["full_path"])) {
-			$mydb->setQuery("SELECT FOTO FROM `tblusers` WHERE USERID = " . $id);
-			$namefoto = $mydb->loadSingleResult();
-			$oldFilePath = __DIR__ . "/photos/" . $namefoto->FOTO;
+			if (!empty($_FILES['FOTO']["full_path"])) {
+				$mydb->setQuery("SELECT FOTO FROM `tblusers` WHERE USERID = " . $id);
+				$namefoto = $mydb->loadSingleResult();
+				$oldFilePath = __DIR__ . "/photos/" . $namefoto->FOTO;
 
-			if (file_exists($oldFilePath)) {
-				// Eliminar la imagen anterior
-				unlink($oldFilePath);
+				if (file_exists($oldFilePath)) {
+					// Eliminar la imagen anterior
+					unlink($oldFilePath);
+				}
+
+				// Agregar nueva imagen
+				$picture = UploadImage();
 			}
 
-			// Agregar nueva imagen
-			$picture = UploadImage();
 		}
+
+		// print_r($_POST); die;
 
 		foreach ($_POST as $key => $value) {
 			@$user->$key = $value;
 		}
 
-		$_SESSION['ADMIN_FOTO'] = $_POST['FOTO'];
+		$_SESSION['ADMIN_FOTO'] = isset($_POST['FOTO']) ? $_POST['FOTO'] : $_SESSION['ADMIN_FOTO'];
+		$_SESSION['ADMIN_CORREO'] = isset($_POST['email']) ? $_POST['email'] : $_SESSION['ADMIN_CORREO'];
+		$_SESSION['ADMIN_TELF'] = isset($_POST['TELEFONO']) ? $_POST['TELEFONO'] : $_SESSION['ADMIN_TELF'];
+		$_SESSION['ADMIN_USERNAME'] = isset($_POST['fullname']) ? $_POST['fullname'] : $_SESSION['ADMIN_USERNAME'];
 
 		// print_r($user); die;
 

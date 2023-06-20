@@ -378,7 +378,7 @@ function fecha_en_texto($fecha_actual)
 
         canvasTitle.innerHTML = 'Editar'
 
-        console.log(user)
+        // console.log(user)
         canvas.innerHTML = `
             <form  id="editUser" enctype="multipart/form-data">
                 <input type="hidden" name="USERID" value="${user.ADMIN_USERID}">
@@ -433,9 +433,13 @@ function fecha_en_texto($fecha_actual)
                 body: form,
             })
 
-            let data = await response.text()
+            let data = await response.json()
             console.log(data)
-            // showSweetAlert(response, 'aÃ±adido con exito')
+            if (data.status == "success") {
+                location.reload()
+            } else {
+                console.log(data.message);
+            }
         }
 
         bsOffcanvas.toggle()
@@ -527,7 +531,7 @@ function fecha_en_texto($fecha_actual)
             });
 
             let data = await response.json();
-            console.log(data);
+            // console.log(data);
 
             if (data.status === "success") {
                 // Mostrar alerta de confirmación
