@@ -100,6 +100,8 @@ function doEdit()
 
 	if (empty(trim($_POST["PASS"]))) {
 		unset($_POST["PASS"]);
+	}else {
+		$_POST['PASS'] = password_hash($_POST['PASS'], PASSWORD_DEFAULT);
 	}
 
 	try {
