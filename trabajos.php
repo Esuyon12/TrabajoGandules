@@ -266,7 +266,7 @@ function generatePageUrl($page)
                 <p class="text-right"><b><?php echo $countVacantes; ?></b> vacantes disponibles</p>
 
             </div>
-            <div class="col-lg-12" style="min-height: 200px;">
+            <div class="col-lg-12" style="min-height: 250px;">
                 <?php if (!empty($cur)) { ?>
                     <?php foreach ($cur2 as $result) { ?>
                         <?php if ($result->COMPANYSTATUS == 1) { ?>
@@ -320,7 +320,7 @@ function generatePageUrl($page)
                         <?php } ?>
                     <?php } ?>
                 <?php } else { ?>
-                    <div class="d-flex justify-content-center align-items-center" style="width: 100%;">
+                    <div class="d-flex justify-content-end align-items-center" style="height: 250px;">
                         <h2 class="text-center text-muted">No hay vacantes disponibles</h2>
                     </div>
                 <?php } ?>
