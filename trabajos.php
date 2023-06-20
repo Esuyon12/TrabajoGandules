@@ -263,8 +263,7 @@ function generatePageUrl($page)
             }));
             ?>
             <div class="d-flex align-items-center justify-content-end w-100 mb-3">
-                <p class="text-right"><b><?php echo $countVacantes; ?></b> vacantes disponibles</p>
-
+                <p class="text-right"><b><?php echo count($cur2); ?></b> vacantes mostradas de <b><?php echo $countVacantes; ?></b> disponibles</p>
             </div>
             <div class="col-lg-12">
                 <?php if (!empty($cur)) { ?>
@@ -354,5 +353,6 @@ function generatePageUrl($page)
                 <?php endif; ?>
             </div>
         </div>
+
     </div>
 </div>
