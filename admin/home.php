@@ -191,9 +191,10 @@ $totalaplicantes = $mydb->loadSingleResult();
                                 <div class="recent-message d-flex px-4 py-3">
                                     <div class="name ms-4">
                                         <h6 class="mb-1"><?php echo $applicant->FNAME . ' ' . $applicant->LNAME; ?></h6>
-                                        <h6 class="text-muted mb-0"><?php echo $applicant->OCUPACION; ?></h6>
-                                        <p>
-                                            <img src="assets/images/icon/pdf.png" alt="Icono PDF" class="pdf-icon"> <?php echo $applicant->CVFILE; ?>
+                                        <h6 class="text-muted mb-1"><?php echo $applicant->OCUPACION; ?></h6>
+                                        <p class="d-flex gap-2 align-items-center" >
+                                            <i class="far fa-file-pdf fa-lg" style="color: #a32424;"></i>
+                                            <?php echo $applicant->CVFILE; ?>
                                         </p>
                                     </div>
                                 </div>
