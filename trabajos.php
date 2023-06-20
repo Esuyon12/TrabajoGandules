@@ -263,9 +263,10 @@ function generatePageUrl($page)
             }));
             ?>
             <div class="d-flex align-items-center justify-content-end w-100 mb-3">
-                <p class="text-right"><b><?php echo count($cur2); ?></b> vacantes mostradas de <b><?php echo $countVacantes; ?></b> disponibles</p>
+                <p class="text-right"><b><?php echo $countVacantes; ?></b> vacantes disponibles</p>
+
             </div>
-            <div class="col-lg-12" style="min-height: 250px;">
+            <div class="col-lg-12">
                 <?php if (!empty($cur)) { ?>
                     <?php foreach ($cur2 as $result) { ?>
                         <?php if ($result->COMPANYSTATUS == 1) { ?>
@@ -319,9 +320,7 @@ function generatePageUrl($page)
                         <?php } ?>
                     <?php } ?>
                 <?php } else { ?>
-                    <div class="d-flex justify-content-center align-items-end" style="height: 250px;">
-                        <h2 class="text-center text-muted">No hay vacantes disponibles</h2>
-                    </div>
+                    <h2 class="text-center text-muted">No hay vacantes disponibles</h2>
                 <?php } ?>
             </div>
 
@@ -355,6 +354,5 @@ function generatePageUrl($page)
                 <?php endif; ?>
             </div>
         </div>
-
     </div>
 </div>
