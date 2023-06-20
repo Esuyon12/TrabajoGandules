@@ -1,8 +1,18 @@
 <?php
+
+$debug = true;
+
 defined('server') ? null : define("server", "localhost");
-defined('user') ? null : define("user", "root");
-defined('pass') ? null : define("pass", "");
-defined('database_name') ? null : define("database_name", "gandules");
+if ($debug) {
+    defined('user') ? null : define("user", "root");
+    defined('pass') ? null : define("pass", "");
+    defined('database_name') ? null : define("database_name", "gandules");
+} else {
+    defined('user') ? null : define("user", "u292896214_gals");
+    defined('pass') ? null : define("pass", "W2u0$52qUz/$");
+    defined('database_name') ? null : define("database_name", "u292896214_gals");
+}
+
 
 $this_file = str_replace('\\', '/', __File__);
 $doc_root = $_SERVER['DOCUMENT_ROOT'];
