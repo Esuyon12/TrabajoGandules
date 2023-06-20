@@ -34,7 +34,7 @@ class User
 			throw new Exception('Los campos están vacíos');
 		}
 	
-		$mydb->setQuery("SELECT * FROM `tblusers` WHERE `USERNAME` = '$username'");
+		$mydb->setQuery("SELECT * FROM `tblusers` WHERE `USERNAME` = '$username' AND ESTADO = 0");
 		$cur = $mydb->executeQuery();
 	
 		if ($cur == false) {
