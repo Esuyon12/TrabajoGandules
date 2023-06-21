@@ -37,7 +37,7 @@
             ?>
 
             <?php foreach ($comp as $company) {
-                $companyUrl = web_root . 'index.php?q=trabajos&ubicacion=' . $company->COMPANYNAME;
+                $companyUrl = web_root . 'index.php?q=trabajos&ubicacion=' . $company->COMPANYADDRESS;
 
                 $status = $company->COMPANYSTATUS;
                 if ($status == '0') {
