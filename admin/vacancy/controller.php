@@ -64,9 +64,10 @@ function doInsert()
 			throw new Exception("Ya Existe Una Vacante De Esta Ocupación En Esta Sede.", 400);
 		}
 
-
-
 		$fechaHoraActual = date('Y-m-d H:i:s');
+
+		echo $_POST['DATE_INT'] . ">" . $fechaHoraActual;
+		die;
 
 		if ($_POST['DATE_INT'] > $fechaHoraActual) {
 			$_POST['JOBSTATUS'] = 1;
