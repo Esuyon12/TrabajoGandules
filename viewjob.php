@@ -261,7 +261,7 @@ function jump($texto){
                             </div>
                             <div class="d-flex flex-column mb-4">
                                 <h4 class="title-sub">Funciones</h4>
-                                <p class="text-muted"><?php echo nl2br($result->JOBDESCRIPTIO) ?></p>
+                                <p class="text-muted"><?php echo nl2br($result->JOBDESCRIPTION) ?></p>
                             </div>
                             <div class="d-flex flex-column mb-4">
                                 <h4 class="title-sub">Beneficios</h4>
