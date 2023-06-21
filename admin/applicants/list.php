@@ -76,7 +76,7 @@ $fechaHoraActual = date('Y-m-d H:i:s');
 							<td class="text-center">
 								<?php if (!empty($cur2)) { ?>
 									<?php if ($cur2->MSG == 0) { ?>
-										<span class="badge bg-danger text-uppercase">Enviar correo</span>
+										<span class="badge bg-primary text-uppercase">Enviar correo</span>
 									<?php } elseif (!empty($cur2->RESULT) && $cur2->RESULT >= 16) { ?>
 										<span class="badge bg-success text-uppercase">enviar correo aprobatorio</span>
 									<?php } elseif (!empty($cur2->DATE_END) && $fechaHoraActual > $cur2->DATE_END) { ?>

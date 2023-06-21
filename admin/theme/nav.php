@@ -3,7 +3,6 @@
     $mydb->setQuery("SELECT COUNT(*) AS total FROM tblapplicants WHERE STATE = 0");
     $count = $mydb->loadSingleResult();
 
-    // print_r($count); die();
     ?>
 
     <div id="sidebar" class="active">
@@ -28,16 +27,8 @@
 
             <li class="sidebar-item">
               <a href="<?= web_root ?>admin/mantenimiento/" class="sidebar-link">
-                <i class="bi bi-grid-fill"></i>
-                <span>Mantenimiento</span>
-              </a>
-            </li>
-
-
-
-            <li class="sidebar-item">
-              <a href="<?= web_root ?>admin/user/" class="sidebar-link">
-                <i class="bi bi-person-fill"></i> <span>Usuarios</span>
+                <i class="bi bi-pentagon-fill"></i>
+                <span>Atajos</span>
               </a>
             </li>
 
@@ -69,21 +60,7 @@
 
         <div class="sidebar-menu">
           <ul class="menu">
-            <li class="sidebar-title">Mantenimiento </li>
-
-            <li class="sidebar-item">
-              <a href="<?= web_root ?>admin/correo/" class="sidebar-link">
-                <ion-icon name="send"></ion-icon>
-                <span>Correos</span>
-              </a>
-            </li>
-
-                    <li class="sidebar-item">
-              <a href="<?= web_root ?>admin/indicaciones/" class="sidebar-link">
-                <ion-icon name="document-attach"></ion-icon>
-                <span>Indicaciones</span>
-              </a>
-            </li>
+            <li class="sidebar-title">Contenido </li>
 
             <li class="sidebar-item">
               <a href="<?= web_root ?>admin/company/" class="sidebar-link">
@@ -111,18 +88,46 @@
                 <span>Evaluaciones</span>
               </a>
             </li>
-
             <li class="sidebar-item">
               <a href="<?= web_root ?>admin/tcontrato/" class="sidebar-link">
                 <i class="bi bi-file-check-fill"></i><span>Contrato</span>
               </a>
             </li>
+
             <li class="sidebar-item">
               <a href="<?= web_root ?>admin/keywords/" class="sidebar-link">
                 <i class="bi bi-key-fill"></i>
                 <span>Palabras claves</span>
               </a>
             </li>
+
+
+            <li class="sidebar-item">
+              <a href="<?= web_root ?>admin/user/" class="sidebar-link">
+                <i class="bi bi-person-fill"></i> <span>Usuarios</span>
+              </a>
+            </li>
+
+
+            <li class="sidebar-item has-sub">
+              <a href="#" class="sidebar-link">
+              <i class="bi bi-puzzle"></i>
+                <span>Extras</span>
+              </a>
+
+              <ul class="submenu">
+                <li class="submenu-item">
+                  <a href="<?= web_root ?>admin/correo/" class="submenu-link">Correos</a>
+                </li>
+
+                <li class="submenu-item">
+                  <a href="<?= web_root ?>admin/indicaciones/" class="submenu-link">Indicaciones</a>
+                </li>
+              
+              </ul>
+            </li>
+
+
           </ul>
         </div>
       </div>

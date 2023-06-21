@@ -305,6 +305,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 			});
 
 
+			modalDialog.classList.add('modal-xl');
 
 			myModal.show()
 
@@ -433,7 +434,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 				<input type="hidden" name="EVALUACIONID" value="${give.id}" >
 
 				<input type="hidden" name="type" value="${give.type}" >
-				<?php if (@$cur2->RESULT >= "16") {?>
+				<?php if (@$cur2->RESULT >= "16") { ?>
 				<input type="hidden" name="APLICANTID" value="<?php echo $appl->APPLICANTID; ?>">
 				<input type="hidden" name="OCUPACIONID" value="<?php echo $appl->OCUPACIONID; ?>">
 				<input type="hidden" name="CONTRATO" value="<?php echo $appl->TCONTRATOID; ?>">
@@ -441,7 +442,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 				<input type="hidden" name="AREAID" value="<?php echo $appl->AREAID; ?>">
 				<?php } ?>
 				<select class="form-select mb-3" id="emailSelect">
-					<option selected disabled>Open this select menu</option>
+					<option selected disabled>SELECIONAR CORREO</option>
 					<?php foreach ($cur as $key) { ?>
 						<option value="<?php echo $key->CONTENIDO ?>"><?php echo $key->ASUNTO ?></option>
 					<?php } ?>

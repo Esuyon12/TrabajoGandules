@@ -94,7 +94,7 @@ $cur = $mydb->loadResultList(); ?>
                 <div class="input-group-prepend">
                     <span class="input-group-text">ASUNTO</span>
                 </div>
-                <input type="text" id="ASUNTO" name="ASUNTO" class="form-control" placeholder="...">
+                <input type="text" id="ASUNTO" name="ASUNTO" class="form-control" placeholder="..." autocomplete="off">
             </div>
         </div>
 
