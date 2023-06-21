@@ -187,10 +187,13 @@ foreach ($cur as $result) {
 
 <?php
 
-function jump($texto){
+function jump($texto) {
     $texto_formateado = str_replace(". -", ".<br>-", $texto);
+    $texto_formateado = rtrim($texto_formateado, "<br>-");
+    $texto_formateado = rtrim($texto_formateado, ">");
     return $texto_formateado;
 }
+
 ?>
 
 <!-- Features Start -->
@@ -257,7 +260,7 @@ function jump($texto){
                             </div>
                             <div class="d-flex flex-column mb-4">
                                 <h4 class="title-sub">Requisitos</h4>
-                                <p class="text-muted"><?php echo nl2br($result->WORKEXPERIENCE) ?></p>
+                                <p class="text-muted"><?php echo jump($result->WORKEXPERIENCE) ?></p>
                             </div>
                             <div class="d-flex flex-column mb-4">
                                 <h4 class="title-sub">Funciones</h4>
