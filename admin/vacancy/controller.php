@@ -66,10 +66,16 @@ function doInsert()
 
 		$fechaHoraActual = date('Y-m-d H:i:s');
 
-		echo $_POST['DATE_INT'] . ">" . $fechaHoraActual;
-		die;
+		// echo $_POST['DATE_INT'] . ">" . $fechaHoraActual;
+		// die;
 
-		if ($_POST['DATE_INT'] > $fechaHoraActual) {
+		// if ($_POST['DATE_INT'] > $fechaHoraActual) {
+		// }
+		
+		$fecha1 = new DateTime($_POST['DATE_INT']);
+		$fecha2 = new DateTime($fechaHoraActual);
+		
+		if ($fecha1 > $fecha2) {
 			$_POST['JOBSTATUS'] = 1;
 		}
 
