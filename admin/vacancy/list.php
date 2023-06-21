@@ -549,7 +549,7 @@ $cur = $mydb->loadResultList(); ?>
 					<div class="form-floating mb-4">
 						<div class="card-body">
 							<div class="form-group with-title mb-3">
-								<input type="date" name="DATE_INT" id="DATE_INT" class="form-control" value="${a['DATE_INT']}">
+								<input type="date-timelocal" name="DATE_INT" id="DATE_INT" class="form-control" value="${a['DATE_INT']}">
 								<label>Fecha de publicación</label>
 							</div>
 						</div>
@@ -560,7 +560,7 @@ $cur = $mydb->loadResultList(); ?>
 					<div class="form-floating mb-4">
 						<div class="card-body">
 							<div class="form-group with-title mb-3">
-								<input type="date" name="DATE_END" id="DATE_END" class="form-control" value="${a['DATE_END']}">
+								<input type="datetime-local" name="DATE_END" id="DATE_END" class="form-control" value="${a['DATE_END']}">
 								<label>Fecha de finalización </label>
 							</div>
 						</div>
