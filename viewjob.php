@@ -189,7 +189,6 @@ foreach ($cur as $result) {
 
 function jump($texto){
     $texto_formateado = str_replace(". -", ".<br>-", $texto);
-
     return $texto_formateado;
 }
 ?>
