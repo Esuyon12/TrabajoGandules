@@ -250,7 +250,7 @@ function jump($texto){
                         <div class="container-fluid">
                             <div class="d-flex align-items-center justify-content-between mb-3 mt-5 title-a">
                                 <h4 class="title-sub"><small> Descripcion Del Trabajo</small></h4>
-                                <h6><span class="text-muted"><?php echo time_ago($result->DATEPOSTED) ?></span></h6>
+                                <h6><span class="text-muted"><?php echo time_ago($result->DATE_INT) ?></span></h6>
                             </div>
                             <div class="d-flex mb-4">
                                 <p class="text-left text-muted">
