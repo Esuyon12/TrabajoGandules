@@ -185,6 +185,14 @@ foreach ($cur as $result) {
     }
 </style>
 
+<?php
+
+function jump($texto){
+    $texto_formateado = str_replace(". -", ".<br>-", $texto);
+    return $texto_formateado;
+}
+?>
+
 <!-- Features Start -->
 <div class="container-xxl py-4">
     <div class="container-md">
@@ -253,11 +261,11 @@ foreach ($cur as $result) {
                             </div>
                             <div class="d-flex flex-column mb-4">
                                 <h4 class="title-sub">Funciones</h4>
-                                <p class="text-muted"><?php echo $result->JOBDESCRIPTION ?></p>
+                                <p class="text-muted"><?php echo jump($result->JOBDESCRIPTIO) ?></p>
                             </div>
                             <div class="d-flex flex-column mb-4">
                                 <h4 class="title-sub">Beneficios</h4>
-                                <p class="text-muted"><?php echo $result->BENEFICIOS ?></p>
+                                <p class="text-muted"><?php echo jump($result->BENEFICIOS) ?></p>
                             </div>
                         </div>
                     </div>
