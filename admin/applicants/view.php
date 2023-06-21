@@ -240,7 +240,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 		height: 140,
 		draw: function() {
 			let v = parseInt(this.i[0].value);
-			document.getElementById('value').innerHTML = v
+			document.getElementById('value').innerHTML = `${v}%`
 			if (v <= 10) this.o.fgColor = "#F44336";
 			else if (v <= 20) this.o.fgColor = "#FF5252";
 			else if (v <= 30) this.o.fgColor = "#E64A19";
