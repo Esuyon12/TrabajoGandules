@@ -308,7 +308,7 @@ function generatePageUrl($page)
                                                     <div class="col-md-6 mb-3">
                                                         <div class="d-flex justify-content-end align-items-center gap-2 item-des text-muted">
                                                             <ion-icon name="calendar-outline"></ion-icon>
-                                                            <p><?php echo time_ago($result->DATE_INT) ?></p>
+                                                            <p><?php echo time_ago($result->DATE_INT) . "-" . $result->DATE_INT ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
