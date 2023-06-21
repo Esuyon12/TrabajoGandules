@@ -11,14 +11,18 @@ $cur = $mydb->loadResultList();
 
 
 $appl = $cur[0];
-// print_r($appl); return;
+// echo "<pre>";
+// print_r($appl); 
 
+$mydb->setQuery("SELECT keyword FROM tblkeywords WHERE OCUPACIONID =". $appl->OCUPACIONID);
+$keys = count($mydb->loadResultList());
 
 $mydb->setQuery("SELECT * FROM `tblevaluaciones` e, `tblapplicants` a, `tblcreaevaluaciones` c WHERE e.`APPLICANTID` = a.`APPLICANTID` AND e.`IDEVALUACIONCREA` = c.`IDEVALUACIONCREA` AND a.`APPLICANTID` = " . $_GET['id'] . " AND e.`OCUPACIONID` = " . $appl->OCUPACIONID . " AND e.`AREAID` = " . $appl->AREAID);
 $cur2 = $mydb->loadSingleResult();
 
-// print_r($cur2); exit;
-
+// print_r($keys); 
+// exit;
+// echo $keys; die;
 $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
 ?>
@@ -184,7 +188,7 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 			</div>
 			<div class="card-body d-flex justify-content-center">
 				<div class="demo" style="position: relative;display: flex;justify-content: center;align-items: center;">
-					<input readonly class="knob" data-angleOffset=-90 data-angleArc=180 data-fgColor="#2cc14e" data-rotation="clockwise" value="<?php echo $appl->POINTS; ?>">
+					<input readonly class="knob" data-angleOffset=-90 data-angleArc=180 data-fgColor="#2cc14e" data-rotation="clockwise" value="<?php echo ($appl->POINTS / $keys) * 100  ?>">
 					<div class="value text-center" id="value" style="position: absolute;top: 60px;font-size: 30px; font-weight: bold;"></div>
 				</div>
 			</div>
@@ -646,8 +650,3 @@ $fechaHoraActual = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 		});
 	}
 </script>
-
-<?php
-// echo "<pre>";
-// print_r($appl)
-?>

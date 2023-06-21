@@ -206,6 +206,4 @@ function time_ago($timestamp)
 		}
 	}
 };
-
-
 ?>
