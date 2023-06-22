@@ -283,18 +283,18 @@ function jump($texto){
                             </div>
                             <form action="postul.php" method="POST" id="aplicant" enctype="multipart/form-data" onsubmit="return validateForm()">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control bg-light" id="DNI" name="DNI" placeholder="...">
+                                    <input type="text" class="form-control bg-light" id="DNI" name="DNI" placeholder="..." autocomplete="off">
                                     <label for="DNI">DNI</label>
                                     <div class="invalid-feedback" id="dni-error"></div>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="number" class="form-control bg-light" id="CONTACTNO" name="CONTACTNO" placeholder="...">
+                                    <input type="number" class="form-control bg-light" id="CONTACTNO" name="CONTACTNO" placeholder="..." autocomplete="off">
                                     <label for="CONTACTNO">Telefono</label>
                                     <div class="invalid-feedback" id="contactno-error"></div>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control bg-light" id="EMAILADDRESS" name="EMAILADDRESS" placeholder="...">
+                                    <input type="email" class="form-control bg-light" id="EMAILADDRESS" name="EMAILADDRESS" placeholder="..." autocomplete="off">
                                     <label for="EMAILADDRESS">Correo electrónico</label>
                                     <div class="invalid-feedback" id="email-error"></div>
                                 </div>
