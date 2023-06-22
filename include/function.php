@@ -226,15 +226,16 @@ function updateAllsVacancy()
 		$job = new Jobs();
 		
 		if ($fechaActual >= $fechaInicio && $fechaActual <= $fechaFin) {
-			$t++;
 			if ($key->JOBSTATUS != 0) {
+				$t++;
 				@$job->JOBSTATUS = 0;
-				$messageVac = "Activas ". $i++;
+				$messageVac = "Activas". $t;
 			}
 		} else {
 			if ($key->JOBSTATUS != 1) {
+				$o++
 				@$job->JOBSTATUS = 1;
-				$messageVac = "Inactivas ".$o++;
+				$messageVac = "Inactivas ". $o;
 			}
 		}
 
