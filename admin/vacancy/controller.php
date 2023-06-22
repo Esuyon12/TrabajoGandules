@@ -10,7 +10,6 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
 	exit;
 }
 
-
 $action = (isset($_GET['action']) && $_GET['action'] != '') ? $_GET['action'] : '';
 
 switch ($action) {
@@ -38,11 +37,16 @@ switch ($action) {
 
 function updatestate()
 {
+	global $mydb;
 	// echo json_encode($_GET);
-	$job = new Jobs();
-	$job->JOBSTATUS = $_GET['code'];
-	$job->update($_GET['id']);
-	echo json_encode(array("status" => "success", "msge" => "Cambio de estado", "location" => "index.php"));
+
+	if (isset($_GET['id'])) {
+		@$job = new Jobs();
+		@$job->JOBSTATUS = $_GET['code'];
+		@$job->update($_GET['id']);
+		echo json_encode(array("status" => "success", "message" => "Se completo la solicitud", "location" => "index.php"));
+		die;
+	}
 }
 
 function doInsert()
@@ -71,10 +75,10 @@ function doInsert()
 
 		// if ($_POST['DATE_INT'] > $fechaHoraActual) {
 		// }
-		
+
 		$fecha1 = new DateTime($_POST['DATE_INT']);
 		$fecha2 = new DateTime($fechaHoraActual);
-		
+
 		if ($fecha1 > $fecha2) {
 			$_POST['JOBSTATUS'] = 1;
 		}
@@ -120,10 +124,10 @@ function doEdit()
 
 		$job = new Jobs();
 		foreach ($_POST as $key => $value) {
-			$job->$key = $value;
+			@$job->$key = $value;
 		}
 
-		$job->update($_GET['id']);
+		@$job->update($_GET['id']);
 		http_response_code(200);
 
 		header('Content-Type: application/json');

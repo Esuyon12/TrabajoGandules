@@ -206,4 +206,44 @@ function time_ago($timestamp)
 		}
 	}
 };
-?>
+
+function updateAllsVacancy()
+{
+	global $mydb;
+	$mydb->setQuery("SELECT JOBID, COMPANYID, AREAID, OCUPACIONID, DATEPOSTED, DATE_INT, DATE_END, JOBSTATUS FROM tbljob");
+	$cur = $mydb->loadResultList();
+	$fechaHoraActual = date('Y-m-d H:i:s');
+	$fechaActual = new DateTime($fechaHoraActual);
+
+	$messageVac = "";
+
+	$i = 0;
+	$o = 0;
+	$t = 0;
+	foreach ($cur as $key) {
+		$fechaInicio = new DateTime($key->DATE_INT);
+		$fechaFin = new DateTime($key->DATE_END);
+		$job = new Jobs();
+		
+		if ($fechaActual >= $fechaInicio && $fechaActual <= $fechaFin) {
+			$t++;
+			if ($key->JOBSTATUS != 0) {
+				@$job->JOBSTATUS = 0;
+				$messageVac = "Activas ". $i++;
+			}
+		} else {
+			if ($key->JOBSTATUS != 1) {
+				@$job->JOBSTATUS = 1;
+				$messageVac = "Inactivas ".$o++;
+			}
+		}
+
+		if (isset($job->JOBSTATUS)) {
+			$job->update($key->JOBID);
+		}
+	}
+
+	$messageVac = !empty($messageVac) ? "Vacantes". $messageVac .", Total - " . $t : "";
+
+	return $messageVac;
+}
