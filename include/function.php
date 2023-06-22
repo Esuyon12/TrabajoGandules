@@ -233,7 +233,7 @@ function updateAllsVacancy()
 			}
 		} else {
 			if ($key->JOBSTATUS != 1) {
-				$o++
+				$o++;
 				@$job->JOBSTATUS = 1;
 				$messageVac = "Inactivas ". $o;
 			}
