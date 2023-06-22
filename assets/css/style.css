@@ -527,7 +527,7 @@ h6,
   color: var(--primary);
 }
 
-.d-flex.fil ion-icon {
+.d-flex.fil ion-icon, .d-lg-flex.fil ion-icon  {
   font-size: 30px;
 }
 

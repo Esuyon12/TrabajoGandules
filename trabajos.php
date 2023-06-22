@@ -143,7 +143,10 @@ function generatePageUrl($page)
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="card-title">Filtro</h5>
-                        <div class="d-flex fil">
+                        <div class="d-lg-none d-flex fil" class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                            <ion-icon name="filter-circle-outline"></ion-icon>
+                        </div>
+                        <div class="d-lg-flex d-none fil" class="btn btn-primary">
                             <ion-icon name="filter-circle-outline"></ion-icon>
                         </div>
                     </div>
@@ -309,7 +312,8 @@ function generatePageUrl($page)
                                                         <div class="d-flex justify-content-end align-items-center gap-2 item-des text-muted">
                                                             <ion-icon name="calendar-outline"></ion-icon>
                                                             <p><?php echo time_ago($result->DATE_INT)
-                                                            // . "-" . $result->DATE_INT ?></p>
+                                                                // . "-" . $result->DATE_INT 
+                                                                ?></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -353,6 +357,120 @@ function generatePageUrl($page)
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filtro</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row">
+            <?php $i = 0;
+            foreach ($_GET as $key => $value) {
+                $i++;
+                if ($i == 1 || $key == "page") {
+                    continue;
+                } ?>
+                <div class="col-auto mb-1">
+                    <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&" . $key . "=", "&") ?>" class="text-start d-flex justify-content-between align-items-center badge text-bg-success">
+                        <p class="text-wrap text-left"><?php echo ($value == "DESC" ? "Recientes" : ($value == "ASC" ? "Antiguos" : $value)) ?></p>
+                        <ion-icon name="close-outline"></ion-icon>
+                    </a>
+                </div>
+            <?php } ?>
+        </div>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fecha" aria-expanded="true" aria-controls="fecha">
+                        <div class="d-flex listicon align-items-center gap-2">
+                            <ion-icon name="calendar-outline"></ion-icon>
+                            <p class="card-title">Fecha</p>
+                        </div>
+                    </button>
+                </h2>
+                <div id="fecha" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&fecha=", "&fecha=DESC&") ?>" class="d-flex justify-content-between">
+                            <p>Los más recientes</p>
+                            <input type="radio" class="form-check-input" id="ant" <?php if (isset($_GET['fecha']) && $_GET['fecha'] == 'DESC') echo 'checked'; ?> disabled />
+                        </a>
+                        <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&fecha=", "&fecha=ASC&") ?>" class="d-flex justify-content-between">
+                            <p>Los más antiguos</p>
+                            <input type="radio" class="form-check-input" id="ant" <?php if (isset($_GET['fecha']) && $_GET['fecha'] == 'ASC') echo 'checked'; ?> disabled />
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#area" aria-expanded="false" aria-controls="area">
+                        <div class="d-flex listicon align-items-center gap-2">
+                            <ion-icon name="cube-outline"></ion-icon>
+                            <p class="card-title">Area</p>
+                        </div>
+                    </button>
+                </h2>
+                <div id="area" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body" style="max-height: 230px; overflow-y: overlay;">
+                        <?php
+                        foreach ($areas as $area) { ?>
+                            <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&area=", "&area=" . $area . "&") ?>" class="d-flex justify-content-between position-relative">
+                                <p><?php echo $area ?></p>
+                                <input type="radio" class="form-check-input position-absolute intra" <?php if (isset($_GET['area']) && $_GET['area'] == $area) echo 'checked'; ?> disabled>
+                            </a>
+                        <?php }
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#location" aria-expanded="false" aria-controls="location">
+                        <div class="d-flex listicon align-items-center gap-2">
+                            <ion-icon name="map-outline"></ion-icon>
+                            <p class="card-title">Ubicacion</p>
+                        </div>
+                    </button>
+                </h2>
+                <div id="location" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body" style="max-height: 230px; overflow-y: overlay;">
+                        <?php
+                        foreach ($companys as $company) { ?>
+                            <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&ubicacion=", "&ubicacion=" . $company . "&") ?>" class="d-flex justify-content-between">
+                                <p><?php echo $company ?></p>
+                                <input type="radio" class="form-check-input" disabled <?php if (isset($_GET['ubicacion']) && $_GET['ubicacion'] == $company) echo 'checked'; ?> />
+                            </a>
+                        <?php }
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contrato" aria-expanded="false" aria-controls="contrato">
+                        <div class="d-flex listicon align-items-center gap-2">
+                            <ion-icon name="file-tray-outline"></ion-icon>
+                            <p class="card-title">Tipo de contrato</p>
+                        </div>
+                    </button>
+                </h2>
+                <div id="contrato" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body" style="max-height: 230px; overflow-y: overlay;">
+                        <?php
+                        foreach ($tiposContrato as $tipoContrato) { ?>
+                            <a href="<?php echo replacetxt($_SERVER['REQUEST_URI'], "&contrato=", "&contrato=" . $tipoContrato . "&") ?>" class="d-flex justify-content-between position-relative">
+                                <p><?php echo $tipoContrato; ?></p>
+                                <input type="radio" class="form-check-input position-absolute intra" <?php if (isset($_GET['contrato']) && $_GET['contrato'] == $tipoContrato) echo 'checked'; ?> disabled />
+                            </a>
+                        <?php }
+                        ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
