@@ -32,4 +32,4 @@
       <?php echo $messageVac ?>
     </div>
   </div>
-</div>
+</div> 

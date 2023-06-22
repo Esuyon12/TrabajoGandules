@@ -45,4 +45,4 @@ require_once(LIB_PATH . DS . '../vendor/autoload.php');
 
 require_once(LIB_PATH . DS . "database.php");
 
-$messageVac = updateAllsVacancy();
+$messageVac = updateAllsVacancy(); 

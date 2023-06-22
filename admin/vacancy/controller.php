@@ -136,7 +136,7 @@ function doEdit()
 		http_response_code(400);
 		header('Content-Type: application/json');
 		echo json_encode(array("status" => "error", "message" => $e->getMessage()));
-	}
+	} 
 }
 
 
